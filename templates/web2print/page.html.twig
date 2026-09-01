@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    {{ opendxp_head_title() }}
+
+    <style>
+        @page {
+            size: A4 portrait;
+            background: white;
+            margin: 0;
+            padding: 0;
+            @top-left {
+                content: element(header);
+            }
+            @bottom-left {
+                content: element(footer);
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            font-size: 9.5pt;
+            color: black;
+            hyphens: auto;
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            word-break: break-word;
+            -ms-word-break: break-all;
+            word-wrap: break-word;
+        }
+
+        .site {
+            width: 21cm;
+            height: 29.7cm;
+        {%  if editmode %}
+            -webkit-box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 4px 4px rgba(0, 0, 0, 0.2);
+        {%  endif %}
+            background: white;
+            position: relative;
+        }
+
+        .opendxp_area_dropzone, .opendxp_editable_droptarget_upload, .opendxp_editable_wysiwyg .opendxp_editable_droptarget {
+            display: none;
+        }
+
+        .site .opendxp_editable:not(.opendxp_editable_areablock) {
+            border: solid 1px transparent;
+        }
+    </style>
+
+    {% if printermarks is defined and printermarks == true %}
+        <link rel="stylesheet" type="text/css" href="/bundles/opendxpadmin/css/print/print-printermarks.css" media="print"/>
+    {% endif %}
+
+    {% if not editmode %}
+        <script src="/bundles/sylphendatabridge/vendor/pagedjs/paged.polyfill.js"></script>
+    {% endif %}
+
+    <base href="{{ hostUrl }}/">
+</head>
+
+<body>
+{% if editmode %}
+    {{ opendxp_relations(elementsField, {reload: true})|raw }}
+    <br><br>
+{% endif %}
+
+<div class="site">
+    {% block content %}
+        {{ opendxp_areablock('content', {controlsTrigger: 'click', allowed: ["dataDirectorWysiwygAreaBrick","dataDirectorImageAreaBrick","dataDirectorCodeAreaBrick"]}) }}
+    {% endblock %}
+</div>
+
+</body>
+</html>

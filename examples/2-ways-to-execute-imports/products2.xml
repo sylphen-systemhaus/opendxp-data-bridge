@@ -1,0 +1,12 @@
+<Products>
+  <Product articleNumber="1236">
+    <Name>Tri-Tra-Trekky</Name>
+    <Manufacturer>Lime</Manufacturer>
+    <Main_Category>Trekking Bikes</Main_Category>
+  </Product>
+  <Product articleNumber="1235">
+    <Name>Dirt Flyer 2020</Name>
+    <Manufacturer>Jumpy</Manufacturer>
+    <Main_Category>Dirt Bikes</Main_Category>
+  </Product>
+</Products>

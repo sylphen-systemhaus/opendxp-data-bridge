@@ -1,0 +1,42 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "8",
+        "name": "Headless App: Increase counter",
+        "description": "",
+        "sourcetype": "json",
+        "sourceconfig": "a:7:{s:4:\"file\";s:0:\"\";s:10:\"autoImport\";b:0;s:11:\"assetSource\";s:1:\"\/\";s:13:\"archiveFolder\";s:0:\"\";s:14:\"item-json-path\";s:1:\".\";s:9:\"hasHeader\";b:0;s:6:\"fields\";a:1:{s:7:\"field_1\";a:1:{s:9:\"json-path\";s:2:\"id\";}}}",
+        "targetconfig": "a:10:{s:4:\"mode\";s:1:\"2\";s:9:\"itemClass\";s:10:\"cs_product\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "8",
+            "fieldName": "clicks",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:5:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "return $params['currentValue'] + 1;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "8",
+            "fieldName": "id",
+            "locale": "",
+            "fieldNo": "1",
+            "keyMapping": "1",
+            "format": "a:5:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "8",
+            "fieldNo": "1",
+            "name": "id",
+            "priority": "0"
+        }
+    ]
+}

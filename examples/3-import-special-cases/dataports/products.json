@@ -1,0 +1,110 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "8",
+        "name": "Products",
+        "description": "",
+        "sourcetype": "csv",
+        "sourceconfig": "a:8:{s:4:\"file\";s:36:\"\/import\/products-with-categories.csv\";s:10:\"autoImport\";b:0;s:11:\"assetSource\";s:1:\"\/\";s:13:\"archiveFolder\";s:0:\"\";s:9:\"hasHeader\";b:1;s:9:\"separator\";s:1:\";\";s:5:\"quote\";s:1:\"\"\";s:6:\"fields\";a:5:{s:7:\"field_4\";a:1:{s:6:\"column\";s:10:\"Categories\";}s:7:\"field_5\";a:1:{s:6:\"column\";s:3:\"SKU\";}s:7:\"field_6\";a:1:{s:6:\"column\";s:12:\"Product Name\";}s:7:\"field_7\";a:1:{s:6:\"column\";s:11:\"Description\";}s:7:\"field_8\";a:1:{s:6:\"column\";s:6:\"Weight\";}}}",
+        "targetconfig": "a:10:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:10:\"cs_product\";s:10:\"itemFolder\";s:9:\"\/Products\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "8",
+            "fieldName": "categories",
+            "locale": "",
+            "fieldNo": "4",
+            "keyMapping": "0",
+            "format": "a:3:{s:10:\"purgeitems\";b:0;s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "$return = [];\n\n$categories = explode(',', $params['value']);\nforeach($categories as $item) {\n  $return[] = 'CoreShopCategory:path:\/Categories\/'.$item;\n}\n        \nreturn $return;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "8",
+            "fieldName": "description",
+            "locale": "en",
+            "fieldNo": "7",
+            "keyMapping": "0",
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "8",
+            "fieldName": "key",
+            "locale": "",
+            "fieldNo": "6",
+            "keyMapping": "0",
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "8",
+            "fieldName": "name",
+            "locale": "en",
+            "fieldNo": "6",
+            "keyMapping": "0",
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "8",
+            "fieldName": "sku",
+            "locale": "",
+            "fieldNo": "5",
+            "keyMapping": "1",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "8",
+            "fieldName": "weight",
+            "locale": "",
+            "fieldNo": "8",
+            "keyMapping": "0",
+            "format": "a:3:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "8",
+            "fieldNo": "4",
+            "name": "Categories",
+            "priority": "0"
+        },
+        {
+            "dataportId": "8",
+            "fieldNo": "5",
+            "name": "SKU",
+            "priority": "1"
+        },
+        {
+            "dataportId": "8",
+            "fieldNo": "6",
+            "name": "Product Name",
+            "priority": "2"
+        },
+        {
+            "dataportId": "8",
+            "fieldNo": "7",
+            "name": "Description",
+            "priority": "3"
+        },
+        {
+            "dataportId": "8",
+            "fieldNo": "8",
+            "name": "Weight",
+            "priority": "4"
+        }
+    ]
+}

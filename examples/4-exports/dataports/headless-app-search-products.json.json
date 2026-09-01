@@ -1,0 +1,43 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "7",
+        "name": "Headless App: Search Products.json",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:5:{s:11:\"sourceClass\";s:10:\"cs_product\";s:4:\"file\";s:0:\"\";s:10:\"autoImport\";b:1;s:9:\"hasHeader\";b:0;s:6:\"fields\";a:3:{s:7:\"field_1\";a:2:{s:10:\"parameters\";s:7:\"name#en\";s:9:\"exportKey\";b:0;}s:7:\"field_2\";a:2:{s:10:\"parameters\";s:2:\"id\";s:9:\"exportKey\";b:1;}s:7:\"field_3\";a:2:{s:10:\"parameters\";s:6:\"clicks\";s:9:\"exportKey\";b:0;}}}",
+        "targetconfig": "a:10:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:1:\"0\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "7",
+            "fieldName": "__result_callback",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:1:{s:14:\"writeProtected\";b:0;}",
+            "calculation": "if(!isset($params['transfer']->resultData)) {\n    $params['response']->headers->set('Content-Type', 'application\/json');\n    $params['transfer']->resultData = [];\n}\n\n$item = array_filter(\n    $params['rawItemData'],\n    function($key) {\n        return strpos($key, 'field_') === false;\n    }, ARRAY_FILTER_USE_KEY\n);\n\n$data = array_map(function($field) {\n    $value = $field['value'];\n    $decodedValue = json_decode($value);\n    if (json_last_error() === \\JSON_ERROR_NONE) {\n        $value = $decodedValue;\n    }\n    return $value;\n}, $item);\n\nif($data) {\n  $params['transfer']->resultData[] = $data;\n}\n\nif($params['lastCall']) {\n    return json_encode($params['transfer']->resultData);\n}",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "7",
+            "fieldNo": "1",
+            "name": "name",
+            "priority": "0"
+        },
+        {
+            "dataportId": "7",
+            "fieldNo": "2",
+            "name": "id",
+            "priority": "1"
+        },
+        {
+            "dataportId": "7",
+            "fieldNo": "3",
+            "name": "clicked",
+            "priority": "2"
+        }
+    ]
+}

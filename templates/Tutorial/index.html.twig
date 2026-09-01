@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Tutorial: Headless Application</title>
+    <style>
+        li {
+            cursor: pointer;
+        }
+        li:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+<input type="text" id="search_term"> <input type="submit" id="submit">
+<ul id="results"></ul>
+
+<script>
+  document.getElementById('submit').addEventListener('click', function () {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/webservice/SylphenDataBridge/rest/export/Headless+App%253A+Search+Products.json?apikey=TODO_EXPL_4_11&locale=en&query=' + encodeURIComponent('name LIKE "%' + document.getElementById('search_term').value + '%"'))
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        var items = JSON.parse(xhr.responseText)
+
+        var resultList = document.getElementById('results');
+        resultList.innerHTML = '';
+        for (var i = 0; i < items.length; i++) {
+          var li = document.createElement('li')
+          li.innerHTML = items[i].name+', clicked '+(items[i].clicked || 0)+'x';
+
+          li.addEventListener('click', function (itemIndex) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/webservice/SylphenDataBridge/rest/import/Headless+App%253A+Increase+counter?apikey=TODO_EXPL_4_11')
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onload = function () {
+              if (xhr.status === 200) {
+                document.getElementById('submit').click();
+              }
+            };
+
+            xhr.send(JSON.stringify({id: items[itemIndex].id }));
+          }.bind(this, i));
+
+          resultList.append(li);
+        }
+      } else {
+        alert('Request failed.  Returned status of ' + xhr.status)
+      }
+    }
+    xhr.send()
+  })
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+doctrine:
+  dbal:
+    mapping_types:
+      enum: string
+
+twig:
+  paths:
+    '%kernel.project_dir%/vendor/sylphen/opendxp-data-bridge/templates': SylphenDataBridge
+
+opendxp:
+  context:
+    dummy_to_not_get_array_index_0: # see https://github.com/pimcore/pimcore/pull/8913
+      routes: ~
+    webservice:
+      routes:
+        - { path: ^/api/rest/(import|export|status) }
+        - { route: ^dataport_ }
+        - { path: ^/webservice(/.*)?$ }
+  objects:
+    tree_paging_limit: 500
+    class_definitions:
+      data:
+        map:
+          dataBridgeInputWithPlaceholders: \Sylphen\DataBridgeBundle\lib\Pim\FieldType\InputWithPlaceholders
+          dataBridgeTextareaWithPlaceholders: \Sylphen\DataBridgeBundle\lib\Pim\FieldType\TextareaWithPlaceholders
+          dataBridgeWysiwygWithPlaceholders: \Sylphen\DataBridgeBundle\lib\Pim\FieldType\WysiwygWithPlaceholders
+          dataBridgeCalculatedValueDataQuerySelector: \Sylphen\DataBridgeBundle\lib\Pim\FieldType\CalculatedValueDataQuerySelector
+      layout:
+        map:
+          dd_htmlContainer: \Sylphen\DataBridgeBundle\lib\Pim\FieldType\HtmlContainer
+          dd_button: \Sylphen\DataBridgeBundle\lib\Pim\FieldType\Button
+  assets:
+    tree_paging_limit: 500
+  documents:
+    tree_paging_limit: 500
+
+sylphen_data_bridge:
+  queue_processing:
+    automatic_start: true
+  text_generation:
+    openai_api_key: ~
+  admin_style:
+    tooltip: 'grid-fields'
+
+parameters:
+  # Interval to cleanup importstatus table in days
+  sylphen_data_bridge.importstatus.cleanup_interval: 14
+  # Imports get aborted when this amount of seconds gets exceeded while processing a raw data item
+  sylphen_data_bridge.importstatus.abortion_threshold: 3600
+  # When true then ignore-import hash is based on the objectId, when false, ignore-import hash is based on the object path (default)
+  sylphen_data_bridge.import_ignore.use_object_id: false
+  sylphen_data_bridge.application_logger_log_level: 'warning'
+  sylphen_data_bridge.raw_item_logger.ignore_log_levels:
+    - 'debug'
+    - 'info'
+  sylphen_data_bridge.deepl_api_key: ''
+  sylphen_data_bridge.aws_translate_access_key: ''
+  sylphen_data_bridge.aws_translate_secret_key: ''
+  sylphen_data_bridge.skip_translation_tag: 'x'
+  data_bridge.security.firewalls.webservice_documentation:
+    pattern: ^/webservice/(SylphenDataBridge)/rest/documentation/(.*)$
+    anonymous: ~
+    stateless: true
+    provider: opendxp_admin
+    logout:
+      path: /admin/logout
+      target: /admin/login
+      success_handler: OpenDxp\Bundle\AdminBundle\Security\LogoutSuccessHandler
+    guard:
+      entry_point: OpenDxp\Bundle\AdminBundle\Security\Guard\AdminAuthenticator
+      authenticators:
+        - OpenDxp\Bundle\AdminBundle\Security\Guard\AdminAuthenticator
+    two_factor:
+      auth_form_path: /admin/login/2fa                   # Path or route name of the two-factor form
+      check_path: /admin/login/2fa-verify                # Path or route name of the two-factor code check
+      default_target_path: /admin            # Where to redirect by default after successful authentication
+      always_use_default_target_path: false  # If it should always redirect to default_target_path
+      auth_code_parameter_name: _auth_code   # Name of the parameter for the two-factor authentication code
+      trusted_parameter_name: _trusted       # Name of the parameter for the trusted device option
+      multi_factor: false                    # If ALL active two-factor methods need to be fulfilled (multi-factor authentication)
+
+  # do not delete following configs as they are refered to in some project-specific configurations (from a time when DD used Symfony firewall für the REST API)
+  data_bridge.security.firewalls.webservice:
+    pattern: ^/webservice(/.*)?$
+    stateless: true
+    provider: opendxp_admin
+    guard:
+      entry_point: Sylphen\DataBridgeBundle\lib\Pim\Security\Guard\RestApiAuthenticator
+      authenticators:
+        - Sylphen\DataBridgeBundle\lib\Pim\Security\Guard\RestApiAuthenticator
+
+  data_bridge.security.firewalls.webservice_short_urls:
+    pattern: ^/api/rest/(import|export|status)
+    stateless: true
+    provider: opendxp_admin
+    guard:
+      entry_point: Sylphen\DataBridgeBundle\lib\Pim\Security\Guard\RestApiAuthenticator
+      authenticators:
+        - Sylphen\DataBridgeBundle\lib\Pim\Security\Guard\RestApiAuthenticator
+
+  data_bridge.security.access_control.rest_endpoints:
+    path: ^/api/rest/(import|export|status)
+    roles: ROLE_OPENDXP_USER
+
+  data_bridge.security.access_control.legacy_rest_endpoints:
+    path: ^/webservice/(SylphenDataBridge)/rest/(import|export|status)
+    roles: ROLE_OPENDXP_USER

@@ -1,0 +1,626 @@
+# AdminerController
+data_bridge_adminer:
+  path: /admin/SylphenDataBridgeBundle/adminer
+  controller: Sylphen\DataBridgeBundle\Controller\AdminerController::adminerAction
+
+sylphen_databridge_adminer_proxy:
+  path: /admin/SylphenDataBridgeBundle/adminer/static/{path}
+  controller: Sylphen\DataBridgeBundle\Controller\AdminerController::proxyAction
+
+sylphen_databridge_adminer_proxy_1:
+  path: /admin/SylphenDataBridgeBundle/externals/{path}
+  controller: Sylphen\DataBridgeBundle\Controller\AdminerController::proxyAction
+
+# FieldTypeController
+sylphen_databridge_fieldtype_getresolvedvalue:
+  path: /admin/SylphenDataBridge/field/resolve
+  controller: Sylphen\DataBridgeBundle\Controller\FieldTypeController::getResolvedValueAction
+
+# ImportController
+sylphen_databridge_import_deleterawdata:
+  path: /admin/{bundle}/import/delete-rawdata
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::deleteRawdataAction
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_getstatus:
+  path: /admin/{bundle}/import/get-status/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::getStatusAction
+  defaults: { bundle: SylphenDataBridge, dataportId: null }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_manualimport:
+  path: /admin/{bundle}/import/manual-import
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::manualImportAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_manualpimimport:
+  path: /admin/{bundle}/import/manual-pim-import
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::manualPimImportAction
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_cancelimport:
+  path: /admin/{bundle}/import/cancel/{statusKey}
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::cancelImportAction
+  methods: [ DELETE ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_getelementids:
+  path: /admin/{bundle}/import/get-element-ids/{rawItemId}
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::getElementIds
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_doexport:
+  path: /admin/{bundle}/import/do-export
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::doExportAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_doexportgeneric:
+  path: /admin/{bundle}/import/do-nothing
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::doExportGenericAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_gridImportPrepare:
+  path: /admin/{bundle}/import/grid-import-prepare
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::gridImportPrepareAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+start-queue-processor:
+  path: /admin/{bundle}/import/start-queue-processing
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::startQueueProcessingAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_queueprocessormonitor:
+  path: /admin/{bundle}/import/queue-processor-monitor
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::queueProcessorMonitorAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_queueprocessormonitorajax:
+  path: /admin/{bundle}/import/queue-processor-monitor-ajax
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::queueProcessorMonitorAjaxAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_haselementchanged:
+  path: /admin/{bundle}/import/has-element-changed
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::hasElementChangedAction
+  methods: [ GET, POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_genericgridexport:
+  path: /admin/{bundle}/import/generic-grid-export
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::genericGridExportAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_objectwizardlayout:
+  path: /admin/{bundle}/import/object-wizard-layout/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::objectWizardLayoutAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_getchangedelements:
+  path: /admin/{bundle}/import/get-changed-elements/{statusKey}
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::getChangedElementsAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+data_bridge_object_preview:
+  path: /admin/{bundle}/import/object-preview
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::objectPreviewAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+data_bridge_dependency_visualization:
+  path: /admin/{bundle}/import/dependency-visualization
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::dependencyVisualizationAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_showfileobject:
+  path: /admin/{bundle}/import/log/{dataportId}/{requestedFilePath}
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::showFileObjectAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_getparameterfields:
+  path: /admin/{bundle}/import/get-parameter-fields/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::getParameterFieldsAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_deleteelements:
+  path: /admin/{bundle}/import/delete-elements
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::deleteElementsAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_deleteelementsstatus:
+  path: /admin/{bundle}/import/delete-elements-status
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::deleteElementsStatusAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_statistics:
+  path: /admin/{bundle}/import/statistics
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::statisticsAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_restoreelements:
+  path: /admin/{bundle}/import/restore-elements
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::restoreElementsAction
+  methods: [ POST ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_getrestorefields:
+  path: /admin/{bundle}/import/get-restore-fields
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::getRestoreFieldsAction
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_restoreelementsstatus:
+  path: /admin/{bundle}/import/restore-elements/status
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::restoreElementsStatusAction
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_ignore:
+  path: /admin/{bundle}/import/ignore
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::setImportIgnoreDataAction
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_import_get_ignored_values:
+  path: /admin/{bundle}/import/get-ignored-values
+  controller: Sylphen\DataBridgeBundle\Controller\ImportController::getIgnoredValuesAction
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+# ImportconfigController
+sylphen_databridge_importconfig_getdataports:
+    path: /admin/{bundle}/importconfig/get-dataports
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getDataportsAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_get:
+    path: /admin/{bundle}/importconfig/get
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_addfromtemplate:
+    path: /admin/{bundle}/importconfig/add-from-template
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::addFromTemplateAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_add:
+    path: /admin/{bundle}/importconfig/add
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::addAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_copy:
+    path: /admin/{bundle}/importconfig/copy
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::copyAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_delete:
+    path: /admin/{bundle}/importconfig/delete/{id}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::deleteAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_update:
+    path: /admin/{bundle}/importconfig/update
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::updateAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getrawitemfieldconfig:
+    path: /admin/{bundle}/importconfig/get-rawitemfield-config/{id}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getRawitemfieldConfigAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getdemodata:
+    path: /admin/{bundle}/importconfig/get-demo-data
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getDemoDataAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getpreviewgridconfig:
+    path: /admin/{bundle}/importconfig/get-previewgrid-config
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getPreviewgridConfigAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getrawdata:
+    path: /admin/{bundle}/importconfig/get-rawdata/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getRawdataAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getdataportresources:
+    path: /admin/{bundle}/importconfig/get-dataport-resources/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getDataportResourcesAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getdataportresourcelocales:
+    path: /admin/{bundle}/importconfig/get-dataport-resource-locales/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getDataportResourceLocalesAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_deleterawdata:
+    path: /admin/{bundle}/importconfig/delete-rawdata
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::deleteRawdataAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getpimcoreclasses:
+    path: /admin/{bundle}/importconfig/get-pimcore-classes
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getPimcoreClassesAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_suggestcondition:
+    path: /admin/{bundle}/importconfig/suggest_condition
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::suggestCondition
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getdataqueryselectoritems:
+    path: /admin/{bundle}/importconfig/get-data-query-selector-items
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getDataQuerySelectorItems
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getjavascriptengines:
+    path: /admin/{bundle}/importconfig/get-javascript-engines
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getJavascriptEnginesAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getrecipients:
+    path: /admin/{bundle}/importconfig/get-recipients/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getRecipientsAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_updaterawdata:
+    path: /admin/{bundle}/importconfig/update-raw-data/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::updateRawDataAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_createrawdata:
+    path: /admin/{bundle}/importconfig/create-raw-data/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::createRawDataAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getxpathsuggestions:
+    path: /admin/{bundle}/importconfig/get-xpath-suggestions
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getXPathSuggestionsAction
+    methods: [ GET ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_download:
+    path: /admin/{bundle}/importconfig/download/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::downloadAction
+    methods: [ GET ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_import:
+    path: /admin/{bundle}/importconfig/import
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::importAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_canbeimported:
+    path: /admin/{bundle}/importconfig/can-be-executed
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::canBeImportedAction
+    methods: [ GET ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getparameters:
+    path: /admin/{bundle}/importconfig/get-parameters
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getParametersAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_autocreaterawdatafields:
+    path: /admin/{bundle}/importconfig/auto-create-rawdata-fields
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::autoCreateRawdataFieldsAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_restauth:
+    path: /admin/{bundle}/importconfig/rest-auth
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::restAuthAction
+    methods: [ GET ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_restauthupdate:
+    path: /admin/{bundle}/importconfig/rest-auth/update
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::restAuthUpdateAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_addfavorite:
+    path: /admin/{bundle}/importconfig/add-favorite
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::addFavoriteAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_removefavorite:
+    path: /admin/{bundle}/importconfig/remove-favorite
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::removeFavoriteAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getfavorites:
+    path: /admin/{bundle}/importconfig/get-favorites
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getFavoritesAction
+    methods: [ GET ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_createreport:
+    path: /admin/{bundle}/importconfig/create-report
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::createReportAction
+    methods: [ POST ]
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getversions:
+    path: /admin/{bundle}/importconfig/get-versions/{id}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getVersionsAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_compareversion:
+    path: /admin/{bundle}/importconfig/compare-version/{id}_{timestamp}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::compareVersionAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_restoreversion:
+    path: /admin/{bundle}/importconfig/restore-version/{id}_{timestamp}
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::restoreVersionAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getconfigpath:
+    path: /admin/{bundle}/importconfig/get-config-path
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getConfigPathAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getgridconfigs:
+    path: /admin/{bundle}/importconfig/get-grid-configs
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getGridConfigs
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getversion:
+    path: /admin/{bundle}/importconfig/get-version
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getVersion
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_updateavailable:
+    path: /admin/{bundle}/importconfig/update-available
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::updateAvailable
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_getsearchbyfieldfields:
+    path: /admin/{bundle}/importconfig/get-search-by-field-fields
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getSearchByFieldFields
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_openobjectsbysearchfield:
+    path: /admin/{bundle}/importconfig/open-objects-by-search-field
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::openObjectsBySearchField
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_gettemplates:
+    path: /admin/{bundle}/importconfig/get-templates
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::getTemplates
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_importconfig_updatemaxparallelprocesses:
+    path: /admin/{bundle}/importconfig/update-max-parallel-processes
+    controller: Sylphen\DataBridgeBundle\Controller\ImportconfigController::updateMaxParallelprocesses
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_mappingconfig_getconfig:
+    path: /admin/{bundle}/mappingconfig/get-config/{dataportId}
+    controller: Sylphen\DataBridgeBundle\Controller\MappingconfigController::getConfigAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_mappingconfig_saveconfig:
+    path: /admin/{bundle}/mappingconfig/save-config
+    controller: Sylphen\DataBridgeBundle\Controller\MappingconfigController::saveConfigAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_mappingconfig_getautotranslatelanguages:
+    path: /admin/{bundle}/mappingconfig/get-autotranslate-languages
+    controller: Sylphen\DataBridgeBundle\Controller\MappingconfigController::getAutotranslateLanguagesAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_mappingconfig_autoassignrawdatafields:
+    path: /admin/{bundle}/mappingconfig/auto-assign-rawdata-fields
+    controller: Sylphen\DataBridgeBundle\Controller\MappingconfigController::autoAssignRawdataFieldsAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_mappingconfig_getalternativerawitemdata:
+    path: /admin/{bundle}/mappingconfig/get-alternative-raw-item-data
+    controller: Sylphen\DataBridgeBundle\Controller\MappingconfigController::getAlternativeRawItemData
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_mappingconfig_visualizedependencies:
+    path: /admin/{bundle}/mappingconfig/visualize-dependencies
+    controller: Sylphen\DataBridgeBundle\Controller\MappingconfigController::visualizeDependenciesAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_mappingconfig_getmetacolumns:
+    path: /admin/{bundle}/mappingconfig/get-meta-columns
+    controller: Sylphen\DataBridgeBundle\Controller\MappingconfigController::getMetaColumnsAction
+    defaults: { bundle: SylphenDataBridge }
+    requirements: { bundle: SylphenDataBridge }
+
+# MiscController
+sylphen_databridge_misc_translationlanguageicons:
+  path: /SylphenDataBridge/translation-language-icons
+  controller: Sylphen\DataBridgeBundle\Controller\MiscController::translationLanguageIconsAction
+
+sylphen_databridge_misc_gui_translation_details:
+  path: /SylphenDataBridge/read-gui-translation-details
+  controller: Sylphen\DataBridgeBundle\Controller\MiscController::readTranslationDetailsAction
+
+sylphen_databridge_misc_read_ajax_timeout_from_config:
+    path: /SylphenDataBridge/read-ajax-timeout-from-config
+    controller: Sylphen\DataBridgeBundle\Controller\MiscController::readAjaxTimeoutFromConfigAction
+
+# RestController
+dataport_import:
+  path: /api/rest/import/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::importAction
+  methods: [ POST, GET, OPTIONS ]
+  defaults: { dataportId: 0 }
+
+dataport_import_legacy:
+  path: /webservice/{bundle}/rest/import/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::importAction
+  methods: [ POST, GET, OPTIONS ]
+  defaults: { dataportId: 0, bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+dataport_export:
+  path: /api/rest/export/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::exportAction
+  methods: [ GET, OPTIONS ]
+  defaults: { dataportId: 0 }
+
+dataport_export_legacy:
+  path: /webservice/{bundle}/rest/export/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::exportAction
+  methods: [ GET, OPTIONS ]
+  defaults: { dataportId: 0, bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+import_status:
+  path: /api/rest/async
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::statusAction
+  methods: [ GET ]
+
+import_status_legacy2:
+  path: /api/rest/status
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::statusAction
+  methods: [ GET ]
+
+import_status_legacy:
+  path: /webservice/{bundle}/rest/status
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::statusAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_rest_index:
+  path: /api/rest/documentation/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::indexAction
+  methods: [ GET ]
+
+sylphen_databridge_rest_index_1:
+  path: /admin/{bundle}/rest/documentation/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::indexAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+pim_generate_open_api:
+  path: /api/rest/documentation/open-api/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::generateOpenApiJsonAction
+  methods: [ GET ]
+
+sylphen_databridge_rest_generateopenapijson:
+  path: /admin/{bundle}/rest/documentation/open-api/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::generateOpenApiJsonAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }
+
+sylphen_databridge_api_dataport_list:
+  path: /api/dataports
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::dataportListAction
+  methods: [ GET ]
+
+sylphen_databridge_api_dataport_configuration:
+  path: /api/dataports/{dataportId}
+  controller: Sylphen\DataBridgeBundle\Controller\RestController::exportConfigurationAction
+  methods: [ GET ]
+
+# TutorialController
+sylphen_databridge_tutorial_index:
+  path: /{bundle}/tutorial/
+  controller: Sylphen\DataBridgeBundle\Controller\TutorialController::indexAction
+  methods: [ GET ]
+  defaults: { bundle: SylphenDataBridge }
+  requirements: { bundle: SylphenDataBridge }

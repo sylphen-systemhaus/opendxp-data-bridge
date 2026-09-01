@@ -1,0 +1,395 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    Sylphen\DataBridgeBundle\lib\Pim\Item\ImporterInterface:
+        public: true
+        class: Sylphen\DataBridgeBundle\lib\Pim\Item\Importer
+        autoconfigure: false
+        arguments:
+            $logger: '@pim.logger'
+
+    Sylphen\DataBridgeBundle\model\ImportIgnoreData:
+        arguments:
+            $useImportIgnoreObjectId: '%sylphen_data_bridge.import_ignore.use_object_id%'
+
+    Sylphen\DataBridgeBundle\lib\Pim\Helper:
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\Item\DataQuerySelectorResolver: ~
+
+    Sylphen\DataBridgeBundle\lib\Pim\Item\ItemMoldBuilder:
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\RawData\Importmanager:
+        autoconfigure: false
+        public: true
+        arguments: ['@pim.logger']
+
+    pim.application_logger:
+        class: 'Sylphen\DataBridgeBundle\lib\Pim\Logger\ApplicationLogger'
+        factory: ['Sylphen\DataBridgeBundle\lib\Pim\Logger\ApplicationLogger', 'getInstance']
+        arguments: ['Sylphen/DataBridgeBundle', false, '%sylphen_data_bridge.application_logger_log_level%']
+        calls:
+            - [addWriter, ['@Sylphen\DataBridgeBundle\lib\Pim\Logger\ApplicationLoggerDb']]
+
+    Sylphen\DataBridgeBundle\lib\Pim\Logger\ApplicationLoggerDb:
+        arguments:
+            $level: '%sylphen_data_bridge.application_logger_log_level%'
+        calls:
+            - [ pushProcessor, [ '@monolog.processor.psr_log_message' ] ]
+            - [ pushProcessor, [ '@pim.application_logger_processor' ] ]
+
+    pim.application_logger_processor:
+        class: OpenDxp\Bundle\ApplicationLoggerBundle\Processor\ApplicationLoggerProcessor
+
+    pim.logger:
+        class: Sylphen\DataBridgeBundle\lib\Pim\Logger\Logger
+        calls:
+            - method: addLogger
+              arguments: [ '@pim.application_logger' ]
+            - method: addLogger
+              arguments: [ '@Sylphen\DataBridgeBundle\lib\Pim\Logger\TagLogger' ]
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\Logger\TagLogger:
+        arguments: [2]
+
+    Sylphen\DataBridgeBundle\Controller\ImportconfigController:
+        arguments: ['@pim.logger', '@Sylphen\DataBridgeBundle\lib\Pim\Item\ItemMoldBuilder']
+        public: true
+        tags: [ 'controller.service_arguments' ]
+
+    Sylphen\DataBridgeBundle\Controller\MappingconfigController:
+        arguments: ['@translator']
+        tags: [ 'controller.service_arguments' ]
+
+    Sylphen\DataBridgeBundle\Controller\ImportController:
+        arguments: ['@translator']
+        tags: [ 'controller.service_arguments' ]
+
+    Sylphen\DataBridgeBundle\Controller\RestController:
+        tags: [ 'controller.service_arguments' ]
+
+    Sylphen\DataBridgeBundle\Controller\FieldTypeController:
+        tags: [ 'controller.service_arguments' ]
+
+    Sylphen\DataBridgeBundle\Controller\Web2PrintController:
+        tags: [ 'controller.service_arguments' ]
+
+    Sylphen\DataBridgeBundle\Controller\DocumentController:
+        tags: [ 'controller.service_arguments' ]
+
+    Sylphen\DataBridgeBundle\Tools\Installer:
+        arguments:
+            $bundle: "@=service('kernel').getBundle('SylphenDataBridgeBundle')"
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\Logger\CriticalErrorLogger:
+      arguments: ['%kernel.logs_dir%/php.log']
+      tags:
+        - { name: kernel.event_listener, event: kernel.request, method: registerFatalErrorLogger }
+
+    Sylphen\DataBridgeBundle\EventListener\ImportStatusListener:
+        arguments: ["%sylphen_data_bridge.importstatus.cleanup_interval%", "%sylphen_data_bridge.importstatus.abortion_threshold%"]
+        tags:
+            - { name: kernel.event_listener, event: opendxp.system.maintenance, method: maintenance }
+
+    Sylphen\DataBridgeBundle\EventListener\AutomaticImportListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.asset.postUpdate, method: startImports }
+            - { name: kernel.event_listener, event: opendxp.asset.postAdd, method: startImports }
+            - { name: kernel.event_listener, event: opendxp.dataobject.postUpdate, method: startImports }
+            - { name: kernel.event_listener, event: opendxp.dataobject.postAdd, method: startImports }
+            - { name: kernel.event_listener, event: opendxp.document.postUpdate, method: startImports }
+            - { name: kernel.event_listener, event: opendxp.document.postAdd, method: startImports }
+            - { name: kernel.event_listener, event: opendxp.dataobject.preDelete, method: deleteRawdata }
+            - { name: kernel.event_listener, event: opendxp.asset.preDelete, method: deleteRawdata }
+            - { name: kernel.event_listener, event: opendxp.document.preDelete, method: deleteRawdata }
+
+    Sylphen\DataBridgeBundle\EventListener\MappingPreviewListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.asset.postUpdate, method: clearMappingPreviewCache }
+            - { name: kernel.event_listener, event: opendxp.dataobject.postUpdate, method: clearMappingPreviewCache }
+            - { name: kernel.event_listener, event: opendxp.document.postUpdate, method: clearMappingPreviewCache }
+            - { name: kernel.event_listener, event: opendxp.dataobject.preDelete, method: clearMappingPreviewCache }
+            - { name: kernel.event_listener, event: opendxp.asset.preDelete, method: clearMappingPreviewCache }
+            - { name: kernel.event_listener, event: opendxp.document.preDelete, method: clearMappingPreviewCache }
+
+    Sylphen\DataBridgeBundle\EventListener\ClassChangedListener:
+        public: true
+        tags:
+            - { name: kernel.event_listener, event: opendxp.class.postUpdate, method: removeCompiledDataQuerySelectors }
+            - { name: kernel.event_listener, event: opendxp.class.postDelete, method: removeCompiledDataQuerySelectors }
+            - { name: kernel.event_listener, event: opendxp.system.cache.clear, method: removeAllCompiledDataQuerySelectors }
+            - { name: kernel.event_listener, event: opendxp.class.postUpdate, method: createStoreView }
+            - { name: kernel.event_listener, event: opendxp.class.postAdd, method: createStoreView }
+            - { name: kernel.event_listener, event: opendxp.class.postDelete, method: removeStoreView }
+            - { name: kernel.event_listener, event: opendxp.class.preAdd, method: addPreviewService }
+            - { name: kernel.event_listener, event: opendxp.class.preUpdate, method: addPreviewService }
+            - { name: kernel.event_listener, event: opendxp.class.preAdd, method: addPathFormatterService }
+            - { name: kernel.event_listener, event: opendxp.class.preUpdate, method: addPathFormatterService }
+            - { name: kernel.event_listener, event: opendxp.objectbrick.preUpdate, method: addPathFormatterService }
+            - { name: kernel.event_listener, event: opendxp.class.preAdd, method: setClassIcon }
+            - { name: kernel.event_listener, event: opendxp.class.preUpdate, method: setClassIcon }
+            - { name: kernel.event_listener, event: opendxp.class.postUpdate, method: createPerspective }
+            - { name: kernel.event_listener, event: opendxp.class.postAdd, method: createPerspective }
+            - { name: kernel.event_listener, event: opendxp.class.postUpdate, method: clearCalculatedValueFieldCache }
+            - { name: kernel.event_listener, event: opendxp.class.preAdd, method: setLayoutFieldNames }
+            - { name: kernel.event_listener, event: opendxp.class.preUpdate, method: setLayoutFieldNames }
+            - { name: kernel.event_listener, event: opendxp.objectbrick.preUpdate, method: setLayoutFieldNames }
+
+    Sylphen\DataBridgeBundle\EventListener\OptimizeRawDataTables:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.system.cache.clear, method: optimize }
+
+    Sylphen\DataBridgeBundle\lib\Pim\FieldType\CalculatedValueDataQuerySelector:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.dataobject.preUpdate, method: disableDatabaseFetch }
+            - { name: kernel.event_listener, event: opendxp.dataobject.postUpdate, method: clearDatabaseCache }
+
+    Sylphen\DataBridgeBundle\EventListener\AssetHashListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.asset.preUpdate, method: updateHash }
+
+    Sylphen\DataBridgeBundle\EventListener\DeepCopyListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.system.service.preGetDeepCopy, method: getDeepCopyInstance }
+
+    Sylphen\DataBridgeBundle\EventListener\AddDataportIdListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.asset.preUpdate, method: addDataportId, priority: 255 }
+            - { name: kernel.event_listener, event: opendxp.asset.postUpdate, method: addDataportId, priority: 255 }
+            - { name: kernel.event_listener, event: opendxp.document.preUpdate, method: addDataportId, priority: 255 }
+            - { name: kernel.event_listener, event: opendxp.document.postUpdate, method: addDataportId, priority: 255 }
+
+    Sylphen\DataBridgeBundle\EventListener\AssetRedirectListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.asset.preUpdate, method: checkForLinkSupport }
+            - { name: kernel.event_listener, event: opendxp.asset.postUpdate, method: createLinkIfRenamed }
+
+    Sylphen\DataBridgeBundle\EventListener\ContextListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest, priority: 513 }
+
+    Sylphen\DataBridgeBundle\EventListener\QuickSearchListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.admin.quickSearch.list.beforeListLoad, method: loadByKeyFields }
+
+    Sylphen\DataBridgeBundle\EventListener\TranslationListener:
+        public: true
+        arguments:
+            - '@Sylphen\DataBridgeBundle\lib\Pim\Translate\TranslationProvider'
+        tags:
+            - { name: kernel.event_listener, event: opendxp.translation.postSave, method: updateGlossary }
+
+    Sylphen\DataBridgeBundle\EventListener\GridListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.admin.dataobject.get.preSendData, method: defaultToClassWithMostObjects }
+
+    Sylphen\DataBridgeBundle\EventListener\DataObjectTreeListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.admin.object.list.beforeListLoad, method: onBeforeListLoad }
+
+    Sylphen\DataBridgeBundle\Command\:
+        resource: '../../Command'
+        tags: ['console.command']
+
+    Sylphen\DataBridgeBundle\Command\RevertImportCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:revert' }
+
+    Sylphen\DataBridgeBundle\Command\DeploymentDataportRebuildCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:deployment:dataport-rebuild' }
+
+    Sylphen\DataBridgeBundle\Command\ImportRawdataCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:extract' }
+
+    Sylphen\DataBridgeBundle\Command\ImportPimCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:process' }
+
+    Sylphen\DataBridgeBundle\Command\ImportCompleteCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:complete' }
+
+    Sylphen\DataBridgeBundle\Command\CreateTestCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:create-test' }
+
+    Sylphen\DataBridgeBundle\Command\DeleteRawdataCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:delete-rawdata' }
+
+    Sylphen\DataBridgeBundle\Command\QueueProcessorCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:process-queue' }
+
+    Sylphen\DataBridgeBundle\Command\CheckAutomaticImportCommand:
+        tags:
+            - { name: console.command, command: 'data-bridge:start-automatic-dataports' }
+
+    Sylphen\DataBridgeBundle\Command\CleanupCommand:
+        arguments: [ '@Sylphen\DataBridgeBundle\Maintenance\CleanupImportStatus' ]
+        tags:
+            - { name: console.command, command: 'data-bridge:cleanup' }
+
+    Sylphen\DataBridgeBundle\Command\CronjobCommand:
+        arguments: [ '@Sylphen\DataBridgeBundle\Maintenance\CronjobTask' ]
+        tags:
+            - { name: console.command, command: 'data-bridge:cronjobs' }
+
+    Sylphen\DataBridgeBundle\Maintenance\CleanupImportStatus:
+        arguments: [ "%sylphen_data_bridge.importstatus.cleanup_interval%", "%sylphen_data_bridge.importstatus.abortion_threshold%" ]
+        public: true
+        tags:
+            - { name: opendxp.maintenance.task, type: data_bridge_import_cleanup }
+
+    Sylphen\DataBridgeBundle\Maintenance\AssetHashTask:
+        tags:
+            - { name: opendxp.maintenance.task, type: data_bridge_asset_hash }
+
+    Sylphen\DataBridgeBundle\Maintenance\CronjobTask:
+        tags:
+            - { name: opendxp.maintenance.task, type: data_bridge_cronjob }
+
+    Sylphen\DataBridgeBundle\lib\Pim\Translate\TranslationProvider:
+        public: true
+        factory: [ 'Sylphen\DataBridgeBundle\lib\Pim\Translate\TranslationProviderFactory', 'get' ]
+        arguments:
+            - '%sylphen_data_bridge.deepl_api_key%'
+            - '%sylphen_data_bridge.aws_translate_access_key%'
+            - '%sylphen_data_bridge.aws_translate_secret_key%'
+            - '%data_bridge.config%'
+
+    Sylphen\DataBridgeBundle\lib\Pim\TextGeneration\TextGenerator:
+        public: true
+        factory: [ 'Sylphen\DataBridgeBundle\lib\Pim\TextGeneration\TextGeneratorFactory', 'get' ]
+        arguments:
+            - '%data_bridge.config%'
+
+    Sylphen\DataBridgeBundle\lib\Pim\EventDispatcher:
+        arguments: ['@event_dispatcher']
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\Security\ApiKeyUserProvider: ~
+
+    Sylphen\DataBridgeBundle\lib\Pim\Security\Guard\RestApiAuthenticator:
+        calls:
+            - [ setLogger, [ '@logger' ] ]
+        tags:
+            - { name: monolog.logger, channel: security }
+
+    Sylphen\DataBridgeBundle\lib\Pim\Logger\EmailReportingLogger:
+        public: true
+    Sylphen\DataBridgeBundle\lib\Pim\Logger\WorstErrorImportStatusLogger:
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\Parser\GridParser:
+        public: true
+
+    opendxp.custom_report.adapter.factory.dataBridge:
+        class: OpenDxp\Bundle\CustomReportsBundle\Tool\Adapter\DefaultCustomReportAdapterFactory
+        arguments:
+            - 'Sylphen\DataBridgeBundle\lib\Pim\Report\Adapter'
+
+    opendxp.data_object.grid_column_config.operator.factory.data_query_selector:
+        class: OpenDxp\Bundle\AdminBundle\DataObject\GridColumnConfig\Operator\Factory\DefaultOperatorFactory
+        arguments:
+            $className: Sylphen\DataBridgeBundle\lib\Pim\GridOperator\DataQuerySelector
+        tags:
+            - { name: opendxp.data_object.grid_column_config.operator_factory, id: DataQuerySelector }
+
+    DataBridgePreview:
+        class: Sylphen\DataBridgeBundle\lib\Pim\PreviewGenerator\PreviewGenerator
+        public: true
+
+    DataBridgeGridViewPathFormatter:
+        class: Sylphen\DataBridgeBundle\lib\Pim\PathFormatter\GridViewPathFormatter
+        public: true
+
+    DataBridgeSearchViewPathFormatter:
+        class: Sylphen\DataBridgeBundle\lib\Pim\PathFormatter\SearchViewPathFormatter
+        public: true
+
+    DefaultPathFormatter:
+        class: Sylphen\DataBridgeBundle\lib\Pim\PathFormatter\DefaultPathFormatter
+        public: true
+
+    DataBridgeCurrencyConverter:
+        class: Sylphen\DataBridgeBundle\lib\Pim\CurrencyConverter
+        public: true
+
+    DataBridgeOptionProvider:
+        class: Sylphen\DataBridgeBundle\lib\Pim\OptionProvider\DataQuerySelectorOptionProvider
+        public: true
+
+    DataBridgeObjectBrickFieldsOptionProvider:
+        class: Sylphen\DataBridgeBundle\lib\Pim\OptionProvider\ObjectBrickFieldsOptionProvider
+        public: true
+
+    DataBridgeObjectBricksOptionProvider:
+        class: Sylphen\DataBridgeBundle\lib\Pim\OptionProvider\ObjectBricksOptionProvider
+        public: true
+
+    DataBridgeClassFieldsOptionProvider:
+        class: Sylphen\DataBridgeBundle\lib\Pim\OptionProvider\ClassFieldsOptionProvider
+        public: true
+
+    # Blackbit class/unit definitions persist @DataDirector* service ids
+    DataDirectorPreview:
+        alias: DataBridgePreview
+        public: true
+    DataDirectorGridViewPathFormatter:
+        alias: DataBridgeGridViewPathFormatter
+        public: true
+    DataDirectorSearchViewPathFormatter:
+        alias: DataBridgeSearchViewPathFormatter
+        public: true
+    DataDirectorCurrencyConverter:
+        alias: DataBridgeCurrencyConverter
+        public: true
+    DataDirectorOptionProvider:
+        alias: DataBridgeOptionProvider
+        public: true
+    DataDirectorObjectBrickFieldsOptionProvider:
+        alias: DataBridgeObjectBrickFieldsOptionProvider
+        public: true
+    DataDirectorObjectBricksOptionProvider:
+        alias: DataBridgeObjectBricksOptionProvider
+        public: true
+    DataDirectorClassFieldsOptionProvider:
+        alias: DataBridgeClassFieldsOptionProvider
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\Item\TranslationHelper:
+        arguments: [ '@translator' ]
+        public: true
+
+    Sylphen\DataBridgeBundle\lib\Pim\Twig\DachcomToolboxExtension:
+        tags:
+            - { name: twig.extension }
+
+    Sylphen\DataBridgeBundle\EventListener\AdminStyleListener:
+        tags:
+            - { name: kernel.event_listener, event: opendxp.admin.resolve.elementAdminStyle, method: onResolveElementAdminStyle, priority: -200 }
+
+    Sylphen\DataBridgeBundle\lib\Pim\FormBuilder\DataBridgeApiProvider:
+        tags:
+            - { name: form_builder.api.provider, identifier: data_bridge }
+
+    Sylphen\DataBridgeBundle\lib\Pim\Document\Areabrick\DataBridgeImageAreaBrick:
+        tags:
+            - { name: opendxp.area.brick, id: dataDirectorImageAreaBrick }
+
+    Sylphen\DataBridgeBundle\lib\Pim\Document\Areabrick\DataBridgeWysiwygAreaBrick:
+        tags:
+            - { name: opendxp.area.brick, id: dataDirectorWysiwygAreaBrick }
+
+    Sylphen\DataBridgeBundle\lib\Pim\Document\Areabrick\DataBridgeCodeAreaBrick:
+        tags:
+            - { name: opendxp.area.brick, id: dataDirectorCodeAreaBrick }

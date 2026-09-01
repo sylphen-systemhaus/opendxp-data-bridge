@@ -1,0 +1,177 @@
+{
+    "parentClass": "",
+    "implementsInterfaces": "",
+    "title": "",
+    "group": "",
+    "layoutDefinitions": {
+        "name": null,
+        "type": null,
+        "region": null,
+        "title": null,
+        "width": 0,
+        "height": 0,
+        "collapsible": false,
+        "collapsed": false,
+        "bodyStyle": null,
+        "datatype": "layout",
+        "permissions": null,
+        "children": [
+            {
+                "name": "Layout",
+                "type": null,
+                "region": null,
+                "title": "",
+                "width": "",
+                "height": "",
+                "collapsible": false,
+                "collapsed": false,
+                "bodyStyle": "",
+                "datatype": "layout",
+                "permissions": null,
+                "children": [
+                    {
+                        "name": "material",
+                        "title": "Material",
+                        "tooltip": "",
+                        "mandatory": false,
+                        "noteditable": false,
+                        "index": false,
+                        "locked": false,
+                        "style": "",
+                        "permissions": null,
+                        "datatype": "data",
+                        "fieldtype": "input",
+                        "relationType": false,
+                        "invisible": false,
+                        "visibleGridView": false,
+                        "visibleSearch": false,
+                        "width": "",
+                        "defaultValue": null,
+                        "columnLength": 190,
+                        "regex": "",
+                        "regexFlags": [],
+                        "unique": false,
+                        "showCharCount": false,
+                        "defaultValueGenerator": "",
+                        "customSettings": {
+                            "fieldtype": "input",
+                            "displayfield-1988-inputEl": "The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.",
+                            "textfield-1984-inputEl": "",
+                            "invalidFieldError": null,
+                            "children": null,
+                            "displayfield-4778-inputEl": "The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.",
+                            "textfield-4774-inputEl": ""
+                        }
+                    },
+                    {
+                        "name": "colors",
+                        "title": "Colors",
+                        "tooltip": "",
+                        "mandatory": false,
+                        "noteditable": false,
+                        "index": false,
+                        "locked": false,
+                        "style": "",
+                        "permissions": null,
+                        "datatype": "data",
+                        "fieldtype": "multiselect",
+                        "relationType": false,
+                        "invisible": false,
+                        "visibleGridView": false,
+                        "visibleSearch": false,
+                        "options": [
+                            {
+                                "key": "Blue",
+                                "value": "b"
+                            },
+                            {
+                                "key": "Red",
+                                "value": "r"
+                            },
+                            {
+                                "key": "Orange",
+                                "value": "o"
+                            },
+                            {
+                                "key": "Green",
+                                "value": "g"
+                            }
+                        ],
+                        "width": "",
+                        "height": "",
+                        "maxItems": null,
+                        "renderType": "list",
+                        "optionsProviderClass": "",
+                        "optionsProviderData": "",
+                        "dynamicOptions": false,
+                        "customSettings": {
+                            "fieldtype": "multiselect",
+                            "displayfield-2283-inputEl": "The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.",
+                            "displayfield-2285-inputEl": "The height of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.",
+                            "invalidFieldError": null,
+                            "children": null,
+                            "displayfield-4747-inputEl": "The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.",
+                            "displayfield-4749-inputEl": "The height of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units."
+                        }
+                    },
+                    {
+                        "name": "gender",
+                        "title": "Gender",
+                        "tooltip": "",
+                        "mandatory": false,
+                        "noteditable": false,
+                        "index": false,
+                        "locked": false,
+                        "style": "",
+                        "permissions": null,
+                        "datatype": "data",
+                        "fieldtype": "select",
+                        "relationType": false,
+                        "invisible": false,
+                        "visibleGridView": false,
+                        "visibleSearch": false,
+                        "options": [
+                            {
+                                "key": "Male",
+                                "value": "Male"
+                            },
+                            {
+                                "key": "Female",
+                                "value": "Female"
+                            }
+                        ],
+                        "width": "",
+                        "defaultValue": "",
+                        "optionsProviderClass": "",
+                        "optionsProviderData": "",
+                        "columnLength": 190,
+                        "dynamicOptions": false,
+                        "defaultValueGenerator": "",
+                        "customSettings": {
+                            "fieldtype": "select",
+                            "displayfield-5099-inputEl": "The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.",
+                            "invalidFieldError": null,
+                            "children": null
+                        }
+                    }
+                ],
+                "locked": false,
+                "fieldtype": "panel",
+                "layout": null,
+                "border": false,
+                "icon": "",
+                "labelWidth": 0,
+                "labelAlign": "left"
+            }
+        ],
+        "locked": false,
+        "fieldtype": "panel",
+        "layout": null,
+        "border": false,
+        "icon": null,
+        "labelWidth": 100,
+        "labelAlign": "left"
+    },
+    "generateTypeDeclarations": true,
+    "classDefinitions": []
+}

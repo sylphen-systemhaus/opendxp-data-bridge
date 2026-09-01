@@ -1,0 +1,495 @@
+plugin_sylphen_data_bridge: Creare porte dati
+plugin_sylphen_data_bridge_admin_permission: Data Bridge Admin (configura ed esegue tutte le porte dati)
+no_objects_found: Nessun oggetto trovato
+flexibleTable_type_text: Testo
+flexibleTable_type_number: Numero
+flexibleTable_type_bool: Casella di controllo
+deleted: cancellato
+DD.WorkflowTransition: Transizione di flusso di lavoro
+pim:
+  "true": SÌ
+  "false": NO
+  each: ogni elemento
+  Imports: Porte dati
+  PIM config: Data Bridge
+  mapping_config: Assegnazione degli attributi
+  delete_rawdata: Cancellare i dati grezzi
+  delete_rawdata.confirm: Volete davvero cancellare questi dati grezzi?
+  copy_dataport: Copia della porta dati
+  compatibilityMode: Modalità di compatibilità
+  compatibilityMode.tooltip: In modalità compatibilità, durante il salvataggio viene utilizzata la logica standard di OpenDXP. Questo salva sempre tutti i campi dell'oggetto e i suoi metacampi, rendendo il salvataggio molto più lento.
+  dataport:
+    notfound: La porta dati non esiste
+pim.add_dataport: Aggiungere una porta dati
+pim.add_dataport.no_template: Nessun modello disponibile
+pim.dataport_configuration: Tutte le porte dati
+pim.dataport.import_configuration: Importazione della configurazione
+pim.dataport.export_configuration: Esportazione della configurazione
+pim.dataport.favorite.add: Aggiungere al menu principale
+pim.dataport.favorite.remove: Rimuovere dal menu principale
+pim.dataport.favorite.personal: Utente attuale
+pim.enter_new_dataport_name: Nome della porta dati
+pim.error_creating_dataport: Errore durante la creazione della porta dati
+pim.delete_dataport_message: Si desidera davvero cancellare questa porta dati? Anche tutti i dati grezzi verranno cancellati.
+pim.dataport_empty_tree: Nessuna porta dati trovata
+pim.dataport_create: Creare porta dati %s
+pim.dataport.create_report: Creare un rapporto sui dati grezzi
+pim.dataport.open_report: Visualizza il rapporto sui dati grezzi
+pim.dataport_loading: Caricamento ...
+pim.dataport_configpanel: Impostazioni
+pim.dataport_previewpanel: Anteprima
+pim.dataport_name: Nome
+pim.dataport_description: Descrizione del
+pim.dataport_sourcetype: Tipo di dati sorgente
+pim.dataport_sourcetype.pimcore_elements: Elementi OpenDXP
+pim.dataport_sourcetype.fixed_length_file: File con campi di lunghezza fissa
+pim.dataport_sourcetype.pimcore_reports: Rapporto OpenDXP / Query SQL
+pim.dataport_sourcetype.pimcore_reports.install_report_bundle: Installare il file <a href="https://docs.opendxp.io/docs/core-framework/Tools_and_Features/Custom_Reports/" target="_blank">OpenDXP Custom Reports bundle</a>, per poter utilizzare i report come origine dati.
+pim.dataport_sourcetype.pimcore_grid_config: OpenDXP-Configurazione della tabella
+pim.dataport_sourcetype.files: Sistema di file
+pim.dataport_sourcetype.object-wizard: Procedura guidata per gli oggetti
+pim.dataport.object_wizard.fields.field-type: Tipo di campo
+pim.dataport_sourcetype.change.question: Cambiare il tipo di dati?
+pim.dataport_sourcetype.change.warning: La modifica del tipo di dati può comportare la perdita di dati.<br /> dalle linee già aggiunte.<br /><br />Si vuole davvero cambiare il tipo di dati?
+pim.dataport_targetclass: Classe di destinazione
+pim.dataport_targetclass.core_classes: Classi standard
+pim.dataport_targetclass.data_object_classes: Classi di oggetti dati
+pim.dataport_sourceClass: Classe (fonte dei dati)
+pim.dataport_mode: Modalità di importazione
+pim.dataport_mode.create_only: Creare nuovi oggetti, non modificare quelli esistenti
+pim.dataport_mode.edit_only: Modificare gli oggetti esistenti, non crearne di nuovi
+pim.dataport_mode.create_and_edit: Creare oggetti e modificare quelli esistenti
+pim.dataport_targetfolder: Cartella di destinazione
+pim.dataport_optimize_inheritance: Ottimizzare l'eredità
+pim.dataport_optimize_inheritance.tooltip: I dati sono assegnati a un elemento genitore se tutti i suoi elementi figli hanno lo stesso valore nel campo corrispondente.
+pim.dataport_parallel_processes: Esecuzione con processi paralleli
+pim.dataport_parallel_processes.tooltip: L'importazione viene suddivisa in più processi paralleli per ottimizzare la velocità.
+pim.dataport_parallel_processes.updated: Numero di processi paralleli aggiornati con successo
+pim.dataport.send_error_notification: Notifica di errore
+pim.dataport_skip_versioning: Disattivare il versioning
+pim.dataport_skip_versioning.tooltip: Quando si salvano gli asset, una copia dell'asset viene salvata come versione. A seconda delle dimensioni dell'asset, questo può occupare molto spazio sul disco rigido.
+pim.dataport_assetfolder: Cartella di destinazione asset
+pim.dataport_archiveFolder: Cartella d'archivio
+pim.dataport_importstatus: Pubblicare l'oggetto
+pim.dataport_idprefix: Prefisso della chiave dell'oggetto
+pim.dataport_advancedOptions: Impostazioni avanzate
+pim.dataport_categoryclass: Categoria Classe
+pim.dataport_fieldnameProducts: Nome del campo Prodotti
+pim.dataport.folder.pimcore_or_filesystem: OpenDXP o cartella del file system (la cartella OpenDXP può essere assegnata tramite drag & drop)
+pim.dataport-fields.sorting-direction.asc: I record di dati sono ordinati in ordine crescente in base a questo campo. Per ordinare in ordine decrescente, fare clic su questo campo.
+pim.dataport-fields.sorting-direction.desc: I record sono ordinati in ordine decrescente in base a questo campo. Fare clic per ordinare in ordine crescente.
+pim.dataport-fields-name: Nome del campo
+pim.dataport-fields-multivalues: Valore multiplo
+pim.dataport-fields-ex1: Set di dati di esempio
+pim.dataport-fields.duplicate: SEsiste già un altro campo con questo identificatore di campo
+pim.dataport.file: Importazione dell'origine (file, cartella, URL, comando cURL, script PHP)
+pim.dataport.file.files: Percorso dei file da importare
+pim.dataport.auto-import: Esecuzione automatica con nuovi dati
+pim.dataport.auto-import.tooltip: Esecuzione automatica durante il salvataggio degli oggetti per le porte dati con tipo di dati di origine "oggetti OpenDXP", per le fonti di importazione dinamica con variabili che fanno riferimento a campi della classe di destinazione, nonché per gli asset gestiti in OpenDXP per le importazioni basate su file. Per tutte le altre fonti di dati, la porta dati viene eseguita insieme al lavoro di maintenance (la frequenza può essere regolata con il modello "Esegui solo ogni x ore" nella mappatura degli attributi).
+pim.dataport.auto-import.tooltip.export: Aggiornamento automatico dei dati grezzi quando si salva un oggetto della classe di origine. Accelera le prestazioni dell'esportazione, poiché i dati grezzi sono sempre aggiornati al momento della richiesta di esportazione, eliminando così la fase di estrazione dei dati grezzi.
+pim.dataport.incremental_export: Esportazione incrementale
+pim.dataport.incremental_export.tooltip: Vengono esportati solo gli oggetti che sono cambiati dall'ultima esportazione riuscita
+pim.dataport.incremental_export.draft_versions: Corri anche per le bozze
+pim.dataport.incremental_export.draft_versions.tooltip: Una bozza viene creata quando si preme il pulsante "Salva" invece del pulsante "Salva e pubblica". Soprattutto se le autorizzazioni del tuo ruolo/utente non consentono la pubblicazione delle modifiche, questa opzione è necessaria per eseguire automaticamente la porta dati.
+pim.dataport_xml_itemxpath: Espressione XPath per il record
+pim.dataport-fields-xpath: Espressione XPath
+pim.dataport-fields-json-path: Espressione JMESPath
+pim.dataport.json.item-json-path: Espressione del pointer JSON per l'insieme di dati
+pim.dataport.change-order-hint: L'ordine dei campi determina l'ordine di importazione/esportazione
+pim.dataport.move-to-top: Spostarsi all'inizio (sequenza di importazione)
+pim.dataport.move-to-selection: Muoversi dietro "%s" (sequenza di importazione)
+pim.dataport.auto_create: Creare automaticamente
+pim.dataport.auto_create.window.title: Caricare il file di esempio per la creazione dei campi di dati grezzi
+pim.dataport.auto_create.window.button: Creare campi di dati grezzi
+pim.dataport.csv.fields.name: Nome o numero del campo (fonte)
+pim.dataport.csv.hasHeader: Nome del campo nella prima riga
+pim.dataport.csv.separator: Separatore di colonna
+pim.dataport.csv.quote: Delimitatore di testo
+pim.dataport.csv.assetSource: Elenco delle fonti delle asset
+pim.dataport.excel.fields.name: Nome o numero del campo (fonte)
+pim.dataport.excel.hasHeader: Nome del campo nella prima riga
+pim.dataport.excel.assetSource: Elenco delle fonti delle asset
+pim.dataport.excel.sheet: Scheda registro
+pim.dataport.excel.dataArea: Gamma di dati
+pim.dataport.excel.dataArea.tooltip: Ad esempio, A1:F65536 (comprese le intestazioni di colonna) o A:F (tutte le righe nelle colonne A-F)
+pim.dataport.opendxp.condition.suggest.like: contiene un valore specifico, il segno % può essere usato come segnaposto
+pim.dataport.opendxp.condition.suggest.unreferenced_elements: Oggetti non referenziati
+pim.dataport.opendxp.fields.method: Metodo
+pim.dataport.opendxp.fields.parameters: Parametri (separati da virgole)
+pim.dataport.opendxp.fields.data_query_selector: Data Query Selector
+pim.dataport.opendxp.fields.data_query_selector.hint: Per operazioni logiche può <a href="https://twig.symfony.com/doc/3.x/templates.html" target="_blank">Twig-Syntax</a> possono essere utilizzati, ad esempio<br><code>{{ Feld1 * Feld2 }}</code><br><br>oder<br><br><code>{% if Feld1 != '' %}<br>&nbsp;&nbsp;{{ Feld1 }}<br>{% else %}<br>&nbsp;&nbsp;{{ Feld2 }}<br>{% endif %}</code><br><br>I Data Query Selector provengono da Blackbit Data Director (sintassi invariata). Vedi <a href="https://www.youtube.com/watch?v=mAu_5Eg3q_o&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=9&t=1954s&pp=iAQB" target="_blank">tutorial YouTube</a> e il <a href="https://blackbitdigitalcommerce.github.io/pimcore-data-director/#data-query-selectors" target="_blank">manuale Blackbit Data Director</a>.
+pim.dataport.opendxp.fields.your_input: Fatto (non aggiungere un'altra operazione per questo campo)
+pim.dataport.opendxp.fields.in_requested_language: nella lingua richiesta
+pim.dataport.opendxp.fields.in_all_languages: in tutte le lingue
+pim.dataport.opendxp.fields.core_functions.md5: MD5-Hash
+pim.dataport.opendxp.fields.core_functions.mb_strtolower: Convertire in minuscolo
+pim.dataport.opendxp.fields.core_functions.mb_strtoupper: Convertire in maiuscolo
+pim.dataport.opendxp.fields.core_functions.strip_tags: Rimuovere i tag HTML (tag HTML consentiti possibili come parametri)
+pim.dataport.opendxp.fields.core_functions.str_replace: Sostituire le parti di testo
+pim.dataport.opendxp.fields.core_functions.explode: Convertire in array
+pim.dataport.opendxp.fields.core_functions.translate: Tradurre (con le traduzioni di OpenDXP)
+pim.dataport.opendxp.fields.core_functions.add: Aggiungi numero
+pim.dataport.opendxp.fields.core_functions.subtract: Sottrarre un numero
+pim.dataport.opendxp.fields.core_functions.multiply: Moltiplicare il numero
+pim.dataport.opendxp.fields.core_functions.divide: Dividere il numero
+pim.dataport.opendxp.fields.core_functions.number_format: "Formato numero (parametro: Numero di cifre decimali, separatore decimale, separatore delle migliaia)"
+pim.dataport.opendxp.fields.core_functions.implode: unire al testo
+pim.dataport.opendxp.fields.ancestors: tutti gli elementi genitori della stessa classe
+pim.dataport.opendxp.fields.descendants: tutti gli elementi sottostanti della stessa classe
+pim.dataport.opendxp.fields.before: versione precedente
+pim.dataport.opendxp.fields.labels: Key-Value-Array con i titoli dei campi come nomi dei campi
+pim.dataport.opendxp.fields.fields: Definizioni di campo
+pim.dataport.opendxp.variable_preview_object: Oggetto / elemento corrente
+pim.dataport.files.fields.command: Comando da riga di comando
+pim.dataport.fixed_length_file.fields.length: Lunghezza del campo (numero di caratteri)
+pim.versions.compare_with_current: Fare clic su una versione a sinistra per confrontarla con la configurazione attuale.
+pim.versions.add_to_git: Le versioni in questa vista vengono archiviate per 90 giorni. Per una migliore archiviazione e registrazione delle modifiche alle configurazioni della porta dati, si consiglia di aggiungere la cartella %s a Git. In questo contesto, può essere utile anche la deployatio automatica delle porte dati con il comando <code>bin/console data-bridge:deployment:dataport-rebuild</code>.
+pim.rawdatafield: Campo dati grezzi
+pim.rawdatafields: Campo dati grezzi
+pim.rawdatafields.bulk_edit: Elaborazione di massa
+pim.rawdatafields.bulk_edit.description: Elencare i campi dei dati grezzi come valori separati da virgole (CSV). Una riga definisce le proprietà di un campo di dati grezzi. Inserire i seguenti campi in ogni riga.
+pim.rawdatafields.object_tree: Selezione dei campi della classe
+pim.transformations: Trasformazioni
+pim.error_loading_dataport: Errore nel caricamento della porta dati
+pim.dataport_rawitemfield_id: ID dati grezzi
+pim.dataport_rawitemfield_updated: modificato
+pim.preview.remove_column_sort: Rimuovere l'ordinamento
+pim.preview.minimize_column_width: Ridurre tutte le colonne
+pim.preview.maximize_column_width: Ingrandire tutte le colonne
+pim.preview.hide_columns_without_search_term: Nascondere le colonne senza corrispondenza di ricerca
+pim.preview.no_records: Al momento non sono disponibili dati grezzi per questa porta dati.
+pim_error_loadmapping: Errore durante il caricamento dell'assegnazione dell'attributo
+pim.reload: Ricarica
+pim.loading: Caricamento ...
+pim.error_rawdatafields: Errore durante il caricamento dei nomi dei campi
+pim.settingspanel.caption: Impostazioni
+pim.mapping.field: Campo
+pim.mapping.field.difference: Differenza
+pim.mapping.target_class_field: Campo obiettivo
+pim.mapping.visualize_dependencies: Le importazioni e le esportazioni dipendono dal campo "%s".
+pim.mapping.visualize_dependencies.tooltip: Fare clic per aprire il diagramma delle dipendenze
+pim.mapping.savebutton: Risparmiare
+pim.mapping.uncommitted_changes: Modifiche non salvate
+pim.mapping.uncommitted_changes.question: Ci sono cambiamenti non salvati. Cosa vorresti fare?
+pim.mapping.show_only_mapped: Solo campi assegnati
+pim.mapping.auto_map: Assegnare automaticamente i campi dei dati grezzi
+pim.mapping.auto_map.tooltip: I campi già assegnati non vengono modificati.
+pim.mapping.auto_map.success: L'incarico è andato a buon fine
+pim.mapping.auto_map.unmapped_fields: "Tuttavia, non è stato possibile assegnare i seguenti campi di dati grezzi: %sSi prega di adattare i nomi dei campi dei dati grezzi ai nomi dei campi di OpenDXP o di assegnare manualmente i campi dei dati grezzi."
+pim.mapping.auto_map.success.save_hint: Dopo aver controllato i compiti, utilizzare il pulsante in basso a destra per salvarli.
+pim.mapping.init_action: Funzione di inizializzazione
+pim.mapping.init_action.hint: Funzione eseguita prima dell'elaborazione dei dati grezzi. Se restituisce false, l'importazione viene annullata
+pim.mapping.result_callback: Funzione di creazione dei risultati
+pim.mapping.result_callback.hint: Funzione per la creazione del documento di risposta
+pim.mapping.result_action: Risultato azione documento
+pim.mapping.result_action.hint: Funzione per definire cosa deve essere fatto con il documento di risposta
+pim.mapping.remove_mapping: Rimuovere l'assegnazione
+pim.mapping.path: Percorso dell'oggetto / elemento genitore
+pim.mapping.id.tooltip: "Il valore non viene scritto (campo ad incremento automatico), può essere utilizzato solo come campo chiave.<br>Crea un campo separato nell'oggetto dati per gli ID provenienti da sistemi esterni."
+pim.mapping.key: Nome dell'oggetto
+pim.mapping.key.tooltip: Nome dell'oggetto nell'albero degli elementi
+pim.mapping.deleteElement: Eliminare l'elemento
+pim.mapping.deleteElement.tooltip: Se la funzione di callback restituisce <code>true</code>, gli elementi trovati vengono eliminati.
+pim.mapping.stream: Percorso del file / contenuto
+pim.mapping.used_as_virtual_field.tooltip: viene utilizzato come campo virtuale
+pim.mapping.virtual_field.tooltip: campo virtuale
+pim.mapping.auto_translate: Tradurre automaticamente da
+pim.mapping.deeplApiKey: "<a href=\"https://www.deepl.com/de/docs-api/api-access/authentication/\" target=\"_blank\">DeepL-API-Schlüssel</a>"
+pim.mapping.openAiKey: "<a href=\"https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key\" target=\"_blank\">OpenAI-API-Schlüssel</a>"
+pim.mapping.auto_generate.textLength: Lunghezza del testo
+pim.mapping.auto_generate.textLength.tooltip: I testi più lunghi offrono maggiori dettagli, ma richiedono anche più tempo per essere generati e comportano costi più elevati.
+pim.mapping.auto_generate.textLength.short: Breve (circa 1 paragrafo)
+pim.mapping.auto_generate.textLength.medium: Medio (circa 2 paragrafi)
+pim.mapping.auto_generate.textLength.long: Lungo (circa 3 paragrafi)
+pim.mapping.auto_generate: Generare automaticamente
+pim.mapping.auto_generate.tooltip: Creare testo utilizzando l'intelligenza artificiale sulla base delle informazioni di testo fornite tramite il campo dati grezzi / funzione di callback
+pim.mapping.infer: Determinare automaticamente dal testo
+pim.mapping.infer.advanced-relations: Campi da determinare automaticamente
+pim.mapping.infer.tooltip: Inferire il valore di un testo dato utilizzando l'intelligenza artificiale
+pim.mapping.auto_detect_language: Riconoscimento automatico
+pim.mapping.auto_classification: Assegnazione automatica
+pim.mapping.auto_create_references: Creare automaticamente oggetti inesistenti e referenziati
+pim.mapping.auto_create_options: Creare automaticamente le opzioni mancanti
+pim.mapping.callback_function.confirm_delete: Cancellare la funzione di callback?
+pim.mapping.callback_function.unexpected_output: Problema imprevisto
+pim.mapping.callback_function.no_rawdata_field_assigned: Nella funzione di callback, si accede a $params['value'], ma non è stato assegnato alcun campo dati grezzo
+pim.mapping.template.group.generic_exports: Esportazioni generiche
+pim.mapping.template.rawdata_as_xml: Emissione di dati grezzi come XML
+pim.mapping.template.rawdata_as_zipped_xml: Dati grezzi in formato XML, confezionati in formato zip con asset.
+pim.mapping.template.rawdata_as_csv: Emissione dei dati grezzi in formato CSV
+pim.mapping.template.rawdata_as_excel: Output dei dati grezzi come file Excel
+pim.mapping.template.rawdata_as_zipped_excel: Dati grezzi in formato Excel, confezionati in formato zip con asset.
+pim.mapping.template.rawdata_as_zipped_csv: Dati grezzi in formato CSV, confezionati in formato zip con asset.
+pim.mapping.template.rawdata_as_json: Emettere i dati grezzi come JSON
+pim.mapping.template.rawdata_as_zipped_json: Dati grezzi come JSON, confezionati come zip, inclusi gli asset.
+pim.mapping.template.visualization: Grafico delle dipendenze
+pim.mapping.template.dependent_import: Eseguire il follow-up della porta dati
+pim.mapping.template.parametrize_dependent_import: Parametrizzare la porta dati di follow-up
+pim.mapping.template.dependent_import_with_result_document: Eseguire la porta dati di follow-up con il documento dei risultati come fonte di importazione
+pim.mapping.template.dependent_import_url: URL di uscita per la porta dati di follow-up
+pim.mapping.template.save_to_website_settings: Salva i dati grezzi come impostazioni del sito web
+pim.mapping.template.fetch_data_from_dependent_import: Generare dati dal documento dei risultati di un'altra porta dati
+pim.mapping.template.raw_data_table: Emettere i dati grezzi come tabella HTML
+pim.mapping.template.error_output: Emettere gli errori di importazione come testo
+pim.mapping.template.action.output: Documento di output
+pim.mapping.template.action.save_as_asset: Salva come asset
+pim.mapping.template.action.save_as_zipped_asset: Salvare come asset zip
+pim.mapping.template.action.ftp: Caricamento tramite FTP
+pim.mapping.template.action.sftp: Caricamento tramite SFTP
+pim.mapping.template.action.s3: Caricare su AWS S3
+pim.mapping.template.action.gcp: Caricare su Google Cloud Storage
+pim.mapping.template.action.email: Inviare e-mail
+pim.mapping.template.action.commands: Commands
+pim.mapping.template.action.commands.run: "Svolgere %s"
+pim.mapping.template.init.abort_if_other_processes_running: Annullare se è già in corso un altro processo di importazione per questa porta dati.
+pim.mapping.template.init.queue_bulk_export_if_too_many_incremental_exports_queued: Elaborazione in blocco di più di x lavori incrementali in coda
+pim.mapping.template.init.only_execute_every_x_hours: Funziona solo ogni x ore (Cronjob)
+pim.mapping.template.init.cronjob: Esegui solo tramite cronjob
+pim.mapping.template.init.parameter-dependent-run: Raccogliere solo i dati. Eseguire la porta dati solo se è impostato il parametro "run".
+pim.mapping.template.textarea.concatenate_raw_data_fields: Emissione di tutti i campi dei dati grezzi come elenco
+pim.mapping.assign_field_by: "Assegnare l'oggetto %s per %s"
+pim.mapping.assign_field_by_empty: "no %s"
+pim.mapping.assign_asset_by_query: Assegnazione di %s esistenti
+pim.mapping.assign_asset_by_url: Carica %s da file / URL
+pim.mapping.assign_asset_by_meta_field: Trova %s esistente tramite il campo metadati %s
+pim.mapping.assign_metadata: Assegnare i metadati
+pim.mapping.asset_generate_barcode: Creare un codice a barre
+pim.mapping.asset_generate_qrcode: Creare un codice QR
+pim.mapping.add_index: o aggiungere un indice (univoco) a un campo da usare per l'assegnazione nella classe %s
+pim.mapping.variant: Creare varianti di oggetti invece di oggetti normali
+pim.mapping.always_publish: Pubblicare tutti
+pim.mapping.always_unpublish: Tutti inediti
+pim.mapping.always_enable: Attivare sempre
+pim.mapping.always_disable: Disattivare sempre
+pim.mapping.date.now: Data attuale
+pim.mapping.user.current_user: Utente in esecuzione
+pim.mapping.assign_link_path: Campo dati grezzi come target del collegamento
+pim.mapping.assign_fieldcollection: Importazione nella collezione di campi %s
+pim.mapping.translate_fieldcollection: Traduci i campi localizzati nella raccolta di campi
+pim.mapping.assign_quantity_value: "Importazione %s"
+pim.mapping.generate_pdf_from_html: Creare PDF da HTML
+pim.mapping.generate_pdf_from_document: Creare PDF da un documento OpenDXP
+pim.mapping.import_only_for_new_objects: Importa il valore solo per i nuovi oggetti. Conserva il valore attuale per gli oggetti esistenti
+pim.mapping.prepend_input: Mettere un altro campo davanti
+pim.mapping.append_input: Aggiungere un altro campo
+pim.mapping.generate_url: Generare lo slug dell'URL
+pim.mapping.deepl_translation: DeepL Traduzione
+pim.mapping.calculatedValue.asset_absolute_url: Generare un URL assoluto / prefisso di dominio
+pim.mapping.calculatedValue.html_to_text: Convertire l'HTML in testo
+pim.mapping.calculatedValue.html_to_markdown: Convertire l'HTML in Markdown
+pim.mapping.calculatedValue.number_format: Formattazione del numero in base alla lingua di esportazione
+pim.mapping.calculatedValue.data_quality: Controllare la qualità dei dati
+pim.mapping.calculatedValue.data_quality.invalid_data: Contenuto del campo non valido
+pim.mapping.calculatedValue.nodes_visualization: Dati dei nodi per il grafo delle dipendenze
+pim.mapping.classificationStore.auto_generate_fields: Creare automaticamente campi inesistenti
+pim.mapping.block.auto_create: Creazione automatica di opzioni di selezione e unità di misura inesistenti
+pim.mapping.checkbox.data_quality: Disattivare se la qualità dei dati è insufficiente
+pim.mapping.example.raw: Esempio di risultato
+pim.mapping.example.parsed: Elaborato
+pim.mapping.preview_hint: Questo valore si basa sul set di dati grezzi dell'anteprima corrente; per i test e il debug, è possibile regolare i valori nel pannello di anteprima o selezionare un set di dati diverso nella colonna "Risultato di esempio".
+pim.mapping.key_attribute: Attributo chiave
+pim.mapping.key_attribute_missing_index: Attributo chiave (attiva la casella di controllo "Indicizzato" quando definisci il campo per prestazioni migliori)
+pim.mapping.data_query_selector_missing_index: Per prestazioni migliori, imposta la casella di controllo "Indicizzato" per il campo "%s" nella classe "%s".
+pim.mapping.key_attribute.skipping.key_field_null: Record saltato perché il campo chiave "%s" restituisce null
+pim.mapping.key_attribute.skipping.create_not_allowed: Record saltato perché la modalità di importazione è impostata su "Modifica solo oggetti esistenti"
+pim.mapping.key_attribute.skipping.edit_not_allowed: Record saltato perché la modalità di importazione è impostata su "Crea solo nuovi oggetti"
+pim.mapping.write-protected: Non sovrascrivere se già compilato
+pim.mapping.truncate_before_import: Contenuto vuoto prima dell'importazione
+pim.mapping.truncate_before_import.objectbricks: Svuotare i campi di relazione utilizzati prima dell'importazione
+pim.mapping.delete_children_before_import: Elimina gli elementi secondari prima dell'importazione
+pim.mapping.overwrite_images: Sovrascrivi le immagini.
+pim.mapping.prevent_duplicates: Evita i duplicati
+pim.mapping.decimal_separator: Separatore decimale
+pim.mapping.thousands_separator: Separatore delle migliaia
+pim.mapping.auto_create_units: Crea automaticamente unità inesistenti
+pim.mapping.optimize: Ottimizzare
+pim.mapping.optimize.none: Disabilitato
+pim.mapping.optimize.minimize: Minimizzare
+pim.mapping.optimize.maximize: Massimizzare
+pim.mapping.optimize.tooltip: Questa funzione tenta di ottimizzare il valore in questo campo modificando gli altri campi mappati in questa porta dati
+pim.mapping.copied_to_clipboard: La variabile è stata copiata negli appunti. Incollalo nella funzione di richiamata nella posizione desiderata.
+pim.mapping.copied_to_clipboard_mapping: Il valore è stato copiato negli appunti.
+pim.mapping.variables.double_click: Fare doppio clic per visualizzare la variabile in una nuova finestra
+pim.mapping.variables.tooltip: Valore della variabile “%s”
+pim.mapping.variables.variable.not_in_use: non usato
+pim.mapping.variables.variable: variabile
+pim.mapping.variables.available_variables: Variabili disponibili
+pim.mapping.variables.history: storia
+pim.mapping.variables.history.compare_with: Confronto della funzione di callback
+pim.mapping.variables.generic: Variabili generiche
+pim.mapping.variables.mapped: Campi mappati
+pim.mapping.variables.value: Valore del campo dati grezzi assegnato come importato dall'origine di importazione
+pim.mapping.variables.rawItemData: Valori di tutti i campi di dati grezzi nel set di dati grezzi corrente
+pim.mapping.variables.rawItemData.single: Valore del campo dati grezzi "%s"
+pim.mapping.variables.currentValue: Contenuto corrente del campo %s nell'oggetto trovato dai campi chiave, <i>non disponibile nella fase campo chiave</i>
+pim.mapping.variables.currentObjectData: Array con i valori correnti di tutti i campi dell'elemento trovato dai campi chiave (array associativo con i nomi dei campi dell'oggetto come indici), <i>non disponibile in fase campo chiave</i>
+pim.mapping.variables.currentObjectData.single: Valore corrente nel campo "%s"
+pim.mapping.variables.keyValues: Array associativo con i valori dei campi chiave con i relativi nomi di campo come indici, <i>non disponibile nella fase dei campi chiave</i>
+pim.mapping.variables.response: Documento di risposta HTTP corrente creato da questa funzione di callback da elementi di dati grezzi già elaborati, inizialmente vuoto <code>Response</code>-Objekt - il documento di risposta può essere con <code>$params['response']->setContent('La mia risposta');</code> oder <code>return "La mia risposta";</code> essere riempito.<br>Le intestazioni HTTP possono essere create utilizzando <code>$params['response']->headers->set('Header-Nome', 'Header-Valore');</code> essere impostato.
+pim.mapping.variables.request: "Oggetto della richiesta corrente: particolarmente interessante se desideri modificare il comportamento delle chiamate API REST utilizzando i parametri URL. L'accesso ai parametri avviene tramite <code>$params['request']->get('parameterName')</code>"
+pim.mapping.variables.context: Contesto del trattamento attuale
+pim.mapping.variables.logs: Log che si sono verificati durante l'elaborazione del set di dati grezzi corrente
+pim.mapping.variables.objectIDs: Array contenente gli ID degli elementi elaborati dal set di dati grezzi corrente
+pim.mapping.variables.lastCall: <i>true</i>, se il set di dati grezzi corrente è l'ultimo dell'importazione/esportazione corrente, altrimenti <i>false</i>
+pim.mapping.variables.transfer: Oggetto per preservare i dati tra ogni esecuzione di dati grezzi, inizialmente l'oggetto è vuoto
+pim.mapping.variables.translator: Oggetto per accedere alle traduzioni OpenDXP, ad es. <code>$params['translator']->translate('Translation Key');</code> oder <br><code>$params['translator']->translate('Translation Key', 'en');</code><br>Funziona sia con traduzioni amministrative che condivise
+pim.mapping.variables.response.action: Documento di risposta creato dalla funzione di creazione dei risultati
+pim.mapping.variables.transfer.action: Oggetto di trasferimento che potrebbe essere stato riempito dalla funzione di creazione del risultato
+pim.mapping.variables.logger: Oggetto logger PSR-3, ad esempio per il debug <code>$params['logger']->info($myVariable);</code>
+pim.manual.title: Avvia la cronologia e importa
+pim.manual.title.export: Avvia cronologia ed esporta
+pim.manual.importForm.title: Importa origine dati grezzi
+pim.manual.importForm.start: Estrai i dati grezzi dalla fonte di importazione
+pim.manual.startimport.rawdata: Avvia l'importazione dei dati grezzi
+pim.manual.startimport.rawdata.export: Carica i dati grezzi per l'esportazione
+pim.manual.startimport.pim: Avvia l'importazione degli oggetti
+pim.manual.startimport.pim.export: Avvia l'esportazione con i dati grezzi attuali
+pim.manual.startimport.complete: Avvia l'importazione completa
+pim.manual.startimport.complete.export: Avvia l'esportazione completa
+pim.manual.startimport.dry-run: Verifica dei dati (mostra cosa verrebbe cambiato)
+pim.manual.startimport.dry-run.importType: Verifica dei dati
+pim.manual.startimport.open-changed-elements: Apri oggetti modificati
+pim.manual.startimport.open-changed-elements.confirm: "%s oggetti sono stati modificati. Dovrebbero davvero essere aperti tutti?"
+pim.manual.startimport.summary: Riepilogo
+pim.manual.startimport.summary.old: Valore precedente
+pim.manual.startimport.summary.new: Nuovo valore
+pim.manual.startimport.summary.diff: il cambiamento
+pim.manual.startimport.summary.logs: Visualizza i registri
+pim.manual.startimport.summary.finished_in: Completato nel
+pim.manual.startimport.summary.errors: Errori
+pim.manual.startimport.summary.changes: Cambiamenti
+pim.manual.startimport.summary.changes.none: Nessun cambiamento
+pim.manual.startimport.summary.output: Produzione
+pim.manual.startimport.popup_blocked: Il tuo browser ha bloccato la finestra pop-up. <a href="%s" target="_blank">Fare clic qui per avviare l'importazione completa</a>.
+pim.manual.startimport.export.next: Ulteriore
+pim.manual.statusgrid.title: Importa stato e cronologia
+pim.manual.statusgrid.dataport: Porta dati
+pim.manual.statusgrid.startDate: Ora di inizio
+pim.manual.statusgrid.duration: Periodo di tempo
+pim.manual.statusgrid.duration.remaining: finisce dentro
+pim.manual.statusgrid.click_to_open_archive_file: Apri l'origine di importazione nella cartella di archivio
+pim.manual.statusgrid.status: stato
+pim.manual.statusgrid.status.0: In corso ...
+pim.manual.statusgrid.status.1: Completato con successo
+pim.manual.statusgrid.status.2: Annullato
+pim.manual.statusgrid.status.queued: In coda
+pim.manual.statusgrid.status.error_occurred: Si è verificato un errore in una delle ultime esecuzioni
+pim.manual.statusgrid.status.unused: Non si accede alla porta dati da molto tempo e potrebbe essere necessario rimuoverla
+pim.manual.statusgrid.status.EMERGENCY: Finita con l'emergenza
+pim.manual.statusgrid.status.CRITICAL: Uscita con errore criticon
+pim.manual.statusgrid.status.ALERT: Si è concluso con errori allarmanti
+pim.manual.statusgrid.status.ERROR: Finito con errori
+pim.manual.statusgrid.status.WARNING: Finito con gli avvertimenti
+pim.manual.statusgrid.status.NOTICE: Termina con le note
+pim.manual.statusgrid.progress: Progresso
+pim.manual.statusgrid.type: Tipo di importazione
+pim.manual.statusgrid.type.unknown: Sconosciuto
+pim.manual.statusgrid.type.4: Estrai dati grezzi
+pim.manual.statusgrid.type.8: Elaborazione dei dati grezzi
+pim.manual.statusgrid.type.32: "Completato"
+pim.manual.statusgrid.type.32.1: "Completato (1/2: estrazione dei dati grezzi)"
+pim.manual.statusgrid.type.32.2: "Completato (2/2: Elaborazione)"
+pim.manual.importForm.emptyUpload: Lascia vuoto per importare il file standard
+pim.manual.importForm.uploadLabel: file
+pim.manual.importForm.waitMsg: Preparazione...
+pim.manual.importForm.success: La porta dati è stata avviata
+pim.manual.importForm.failure: C'è stato un errore. Non è stato possibile avviare la porta dati
+pim.manual.importForm.file_too_large: Impossibile caricare il file, forse è più grande di %s
+pim.manual.importForm.cancel: Annulla l'importazione
+pim.manual.importForm.cancel.failure: C'è stato un errore. Non è stato possibile interrompere l'importazione
+pim.manual.importForm.redo: Esegui di nuovo
+pim.manual.error.noPhpCli: Non è stato trovato alcun binario PHP eseguibile.
+pim.manual.startimport.pim.title: Elaborazione dei dati grezzi
+pim.manual.startimport.pim.text: Eseguire la porta dati con i dati grezzi attuali?
+pim.manual.startimport.pim.force: Salta i record che sono già stati importati
+pim.manual.startimport.pim.force.export: Utilizza la cache di output se l'ultimo set di dati grezzi non è più recente della cache
+pim.manual.startimport.single: È opportuno avviare l'elaborazione della porta dati per questo set di dati grezzi?
+pim.dataport.clone: Clone
+pim.dataport.import: Porta dati di importazione
+pim.dataport.import.confirm: Tutte le configurazioni di questa porta dati vengono sovrascritte con quelle del file di importazione. Vuoi continuare?
+pim.dataport.import.start: Avvia l'importazione
+pim.dataport.import.success: Porta dati importata correttamente
+pim.dataport.import.failure: Impossibile elaborare il file di importazione
+pim.dataport.import.open_objects_by_key_fields: Aprire oggetti corrispondenti ai campi chiave
+pim.dataport.import.no_matching_objects_found: "Al momento non esiste alcun oggetto per questo set di dati grezzi: avvia prima l'importazione"
+pim.dataport.noname: Nessun nome dato
+pim.dataport.nametaken: Esiste già una porta dati con questo nome
+pim.dataport.invalidid: Porta dati non valida
+pim.manual.delete.rawdata: Elimina i dati grezzi
+pim.manual.delete.rawdata.success: I dati grezzi sono stati cancellati.
+pim.manual.delete.rawdata.failure: C'è stato un errore. I dati grezzi non sono stati cancellati
+pim.manual.delete.rawdata.running_process_rawdata: Alcuni dati grezzi non possono essere eliminati perché sono in fase di elaborazione da parte di processi in esecuzione. Eliminarli comunque?
+pim.manual.start_queue_processor: Avvia il processore della coda
+pim.manual.start_queue_processor.tooltip: Non appena i lavori vengono inseriti nella coda, l'elaborazione della coda solitamente si avvia automaticamente. Sfortunatamente in questo caso non ha funzionato. È possibile avviare manualmente l'elaborazione della coda con questo pulsante. Se questo pulsante viene visualizzato frequentemente, c'è qualcosa di configurato in modo errato nel sistema che impedisce l'avvio automatico del Processore coda.
+pim.manual.start_queue_processor.started: Il processore della coda è stato avviato correttamente
+pim.manual.queue_processor_monitor: Stato del processore della coda
+pim.manual.filter.successful: Processi completati con successo
+pim.manual.filter.errors: Processi con errori
+pim.manual.filter.aborted: Processi annullati
+pim.manual.filter.queued: Lavori in coda
+pim.manual.filter.running: Processi attualmente in esecuzione
+pim.manual.filter.done: Filtra per record di dati modificati (il numero può essere modificato)
+pim.manual.filter.total: Filtra per numero totale (il numero può essere modificato)
+pim.dataport_importer_class: Classe importatore
+pim.dataport_javascriptEngine: Callback-Function-Engine
+pim.jsengine.spidermonkeyLegacy: Spidermonkey (legacy)
+pim.jsengine.spidermonkey: Spidermonkey con wrapper di funzioni
+pim.jsengine.v8Js: V8
+pim.jsengine.php: PHP
+pim.jsengine.unavailable: non disponibile
+pim.jsengine.none: Nessuno (elaborazione Javascript disabilitata)
+pim.rest_api.documentation: REST API documentazione
+pim.rest_api.authentication: Autenticazione
+pim.rest_api.api_keys: API-Keys
+pim.rest_api.api_key: REST API-Key
+pim.rest_api.api_key_valid_to: API-Key data di scadenza
+pim.rest_api.user_disabled: L'utente è disabilitato
+pim.rest_api.api_key_expired: API-Key non è più valido
+pim.permission_missing_targetType: L'utente non dispone dell'autorizzazione per l'ambito '%s'
+pim.permission_missing_targetClass: L'utente non dispone dell'autorizzazione per la classe '%s'
+pim.permission_execution: esecuzione
+pim.permission_no_execution: Nessuna autorizzazione per l'esecuzione, consentita solo la configurazione
+pim.permission_missing_create_dataport: Nessuna autorizzazione per creare porte dati
+pim.permission_missing: Autorizzazione '%s' mancante
+pim.conflict.title: Conflitto nelle impostazioni della porta dati
+pim.conflict: Da allora la porta dati è stata elaborata da %s. Sovrascrivere le modifiche?
+pim.conflict.force: Risparmia comunque
+pim.conflict.check_versions: Controlla le versionin
+pim.conflict.cancel: Annulla
+pim.import.editlock.notification.title: Aggiorna quello che hai aperto %elementType%
+pim.import.editlock.notification.text: I dati da %elementType% %elementPath% dovrebbe essere aggiornato automaticamente a breve (porta dati '%dataportName%' (ID %dataportId%)). Per favore finisci di lavorare su questo oggetto e poi chiudilo.
+pim.grid-export.warning: La struttura del documento di esportazione ed i campi da esportare dipendono esclusivamente dalla configurazione della porta dati da selezionare di seguito. Quali colonne sono attualmente visualizzate nella griglia non hanno importanza per il documento di esportazione. La porta dati selezionata viene eseguita per tutti i record selezionati/filtrati nella griglia corrente.
+pim.grid-export.no_dataports_found: Nessuna porta dati trovata per gli oggetti in questa cartella
+pim.grid-export.select_dataport: Seleziona la porta dati
+pim.grid-export.csv: CSV (Data Bridge)
+pim.grid-export.json: JSON (Data Bridge)
+pim.grid-export.xml: XML (Data Bridge)
+pim.grid-export.import_excel: Importazione XLSX
+pim.grid-export.import_excel.warning: Utilizzare un foglio di calcolo Excel contenente la colonna "ID" (ID oggetto OpenDXP). È possibile fare riferimento a tutte le altre colonne tramite il nome del campo o il titolo.
+pim.field-type.calculated-value-data-query-selector: Valore calcolato (Data Query Selector)
+pim.field-type.input-with-placeholders: Campo di input con variabili
+pim.field-type.textarea-with-placeholders: Campo di testo con variabili
+pim.field-type.wysiwyg-with-placeholders: WYSIWYG-Campo con variabili
+dd_htmlContainer: HTML-Container
+pim.report.force: Ricarica sempre i dati
+pim.report.force.tooltip: Se il segno di spunta non è impostato, i dati grezzi dalla porta dati verranno recuperati solo se non sono disponibili
+pim.update-available.installed_version: Versione installata
+pim.update-available.latest_version: Ultima versione disponibile
+pim.update-available.changes_since: Cambiamenti dal %s
+pim.portlets.queue-monitor: Data Bridge Queue-stato
+pim.portlets.error-monitor: Data Bridge Errore
+pim.portlets.tagged-elements: Elementi con Tag
+pim.perspective.PIM: PIM
+pim.perspective.default: predefinito
+pim.error: C'è stato un errore
+pim.error.retry: Riprova
+pim.direct_open: Apri tra %s
+pim.direct_open.tooltip: Modifica questo file direttamente in %s. Una volta salvato, il file verrà automaticamente salvato in OpenDXP.
+pim.restore_version: Ripristina versione
+pim.restore_version.baseObject: Ogretti
+pim.restore_version.mode: Modalità
+pim.restore_version.mode.objects: Solo questo oggetto
+pim.restore_version.mode.descendants: Bambini e discendenti di questi oggetti
+pim.restore_version.fields: Oggetti
+pim.restore_version.startButton: Ripristina
+pim.restore_version.errors.none: Nessun errore

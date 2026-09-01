@@ -1,0 +1,60 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "11",
+        "name": "Assets",
+        "description": "",
+        "sourcetype": "files",
+        "sourceconfig": "a:5:{s:4:\"file\";s:79:\"\/var\/www\/html\/data-director-bundle\/examples\/3-import-special-cases\/images\/*.jpg\";s:10:\"autoImport\";b:0;s:13:\"archiveFolder\";s:0:\"\";s:9:\"hasHeader\";b:0;s:6:\"fields\";a:4:{s:7:\"field_1\";a:1:{s:3:\"cmd\";s:0:\"\";}s:7:\"field_4\";a:1:{s:3:\"cmd\";s:14:\"basename $file\";}s:7:\"field_2\";a:1:{s:3:\"cmd\";s:27:\"identify -format '%w' $file\";}s:7:\"field_3\";a:1:{s:3:\"cmd\";s:27:\"identify -format '%h' $file\";}}}",
+        "targetconfig": "a:10:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:19:\"Pimcore\\Model\\Asset\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:7:\"\/images\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "11",
+            "fieldName": "filename",
+            "locale": "",
+            "fieldNo": "4",
+            "keyMapping": "1",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "if($params['rawItemData']['width']['value'] < 1000 || $params['rawItemData']['height']['value'] < 1000) {\n    return null;\n}\nreturn $params['value'];",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "11",
+            "fieldName": "Stream",
+            "locale": "",
+            "fieldNo": "1",
+            "keyMapping": "0",
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "11",
+            "fieldNo": "1",
+            "name": "File",
+            "priority": "0"
+        },
+        {
+            "dataportId": "11",
+            "fieldNo": "2",
+            "name": "width",
+            "priority": "2"
+        },
+        {
+            "dataportId": "11",
+            "fieldNo": "3",
+            "name": "height",
+            "priority": "3"
+        },
+        {
+            "dataportId": "11",
+            "fieldNo": "4",
+            "name": "Filename",
+            "priority": "1"
+        }
+    ]
+}

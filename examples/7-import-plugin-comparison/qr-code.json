@@ -1,0 +1,48 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "10",
+        "name": "QR code",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:7:{s:6:\"fields\";a:2:{s:7:\"field_1\";a:2:{s:10:\"parameters\";s:2:\"id\";s:9:\"exportKey\";b:0;}s:7:\"field_2\";a:2:{s:10:\"parameters\";s:4:\"Slug\";s:9:\"exportKey\";b:0;}}s:11:\"sourceClass\";s:7:\"Product\";s:18:\"inheritanceEnabled\";s:1:\"0\";s:4:\"file\";s:0:\"\";s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:7:\"Product\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "10",
+            "fieldName": "id",
+            "locale": "",
+            "fieldNo": "1",
+            "keyMapping": "1",
+            "format": "a:4:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "10",
+            "fieldName": "qrCode",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:3:{s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "\/\/ please enable \"Overwrite images\" option above, otherwise every import run will create a new image \n$url = {{ QR Code QR-Code Text }};\n\n$qrCode = new \\Endroid\\QrCode\\QrCode($url ?? '');\n$filename = \\PIMCORE_SYSTEM_TEMP_DIRECTORY.'\/import_10_qrCode_'.\\uniqid(\\OpenDxp\\File::getValidFilename($url), true).'.svg';\n\n$writer = new \\Endroid\\QrCode\\Writer\\SvgWriter();\nif(method_exists($writer, 'write')) {\n    \/\/ endroid\/qr-code version 4\n    $writer->write($qrCode)->saveToFile($filename);\n} else {\n    \/\/ endroid\/qr-code version 3\n    $qrCode->setWriter($writer);\n    $qrCode->writeFile($filename);\n}\n\n$qrCodeFilename = {{ QR Code QR-Code Filename }};\nif(substr($qrCodeFilename, -4) !== '.svg') {\n    $qrCodeFilename .= '.svg';\n}\nreturn [\n  'url' => $filename,\n  'filename' => 'qrCode\/'.\\OpenDxp\\File::getValidFilename($qrCodeFilename),\n];",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "10",
+            "fieldNo": "1",
+            "name": "id",
+            "priority": "0"
+        },
+        {
+            "dataportId": "10",
+            "fieldNo": "2",
+            "name": "URL slug",
+            "priority": "1"
+        }
+    ]
+}

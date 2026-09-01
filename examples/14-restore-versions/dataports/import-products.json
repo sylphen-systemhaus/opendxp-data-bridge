@@ -1,0 +1,268 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 2,
+        "name": "Import Products",
+        "description": "",
+        "sourcetype": "csv",
+        "sourceconfig": {
+            "fields": {
+                "field_22": {
+                    "column": "brand",
+                    "sort": "ASC"
+                },
+                "field_6": {
+                    "column": "pid",
+                    "sort": "ASC"
+                },
+                "field_4": {
+                    "column": "product_name",
+                    "sort": "ASC"
+                },
+                "field_11": {
+                    "column": "description",
+                    "sort": "ASC"
+                },
+                "field_16": {
+                    "column": "retail_price",
+                    "sort": "ASC"
+                }
+            },
+            "file": "/2506_4189_compressed_flipkart_com-ecommerce_sample.csv.zip",
+            "autoImport": false,
+            "incrementalExport": false,
+            "assetSource": "/",
+            "archiveFolder": "",
+            "hasHeader": true,
+            "separator": ",",
+            "quote": "\""
+        },
+        "targetconfig": {
+            "mode": "3",
+            "itemClass": "Product",
+            "itemFolder": "/Products",
+            "masterDocument": "",
+            "optimizeInheritance": "0",
+            "skipVersioning": false,
+            "javascriptEngine": "php",
+            "assetFolder": "/product-images",
+            "idPrefix": "",
+            "categoryClass": "",
+            "fieldnameProducts": "",
+            "compatibilityMode": "0",
+            "parallelProcesses": "",
+            "errorRecipients": [
+                2
+            ]
+        }
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 2,
+            "fieldName": "brand",
+            "locale": "",
+            "fieldNo": 22,
+            "keyMapping": 0,
+            "format": {
+                "writeProtected": false
+            },
+            "calculation": [
+                "if($params['value']) {",
+                "  return 'Brand:name:'.$params['value'];",
+                "}"
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "description",
+            "locale": "en",
+            "fieldNo": 11,
+            "keyMapping": 0,
+            "format": {
+                "translateFromLanguage": "",
+                "generateText": false,
+                "textLength": 1,
+                "writeProtected": false
+            },
+            "calculation": [
+                ""
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "key",
+            "locale": "",
+            "fieldNo": 4,
+            "keyMapping": 0,
+            "format": {
+                "translateFromLanguage": "",
+                "writeProtected": false
+            },
+            "calculation": [
+                ""
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "name",
+            "locale": "en",
+            "fieldNo": 4,
+            "keyMapping": 0,
+            "format": {
+                "translateFromLanguage": "",
+                "writeProtected": false
+            },
+            "calculation": [
+                ""
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "path",
+            "locale": "",
+            "fieldNo": 22,
+            "keyMapping": 0,
+            "format": {
+                "translateFromLanguage": "",
+                "generateText": false,
+                "overwrite": false,
+                "preventDuplicates": false,
+                "writeProtected": false,
+                "purgeitems": false,
+                "auto_generate_fields": false
+            },
+            "calculation": [
+                "if($params['value']) {",
+                "    return 'Brand:name:'.$params['value'];",
+                "} else {",
+                "    return '- without Brand -';",
+                "}"
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "price",
+            "locale": "",
+            "fieldNo": 16,
+            "keyMapping": 0,
+            "format": {
+                "autoCreateUnits": false,
+                "infer": false,
+                "overwrite": false,
+                "preventDuplicates": false,
+                "writeProtected": false,
+                "purgeitems": false,
+                "deleteChildren": false,
+                "auto_generate_fields": false
+            },
+            "calculation": [
+                "// Here you can apply transformations to the extracted data.",
+                "// On the right side you see all available input parameters.",
+                "// Use any valid PHP code - incl. conditions, loops, call own classes / Pimcore classes / libraries etc.",
+                "// Example:",
+                "return [$params['value'], 'EUR'];"
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "published",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": {
+                "writeProtected": false
+            },
+            "calculation": [
+                "return true;"
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "sku",
+            "locale": "",
+            "fieldNo": 6,
+            "keyMapping": 1,
+            "format": {
+                "translateFromLanguage": "",
+                "overwrite": false,
+                "writeProtected": false,
+                "purgeitems": false
+            },
+            "calculation": [
+                ""
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "__init_action",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": {
+                "optimize": "",
+                "overwrite": false,
+                "preventDuplicates": false,
+                "writeProtected": false,
+                "purgeitems": false,
+                "deleteChildren": false,
+                "auto_generate_fields": false
+            },
+            "calculation": [
+                "return false;"
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 2,
+            "fieldNo": 4,
+            "name": "product_name",
+            "priority": 2
+        },
+        {
+            "dataportId": 2,
+            "fieldNo": 6,
+            "name": "pid",
+            "priority": 1
+        },
+        {
+            "dataportId": 2,
+            "fieldNo": 11,
+            "name": "description",
+            "priority": 3
+        },
+        {
+            "dataportId": 2,
+            "fieldNo": 16,
+            "name": "retail_price",
+            "priority": 4
+        },
+        {
+            "dataportId": 2,
+            "fieldNo": 22,
+            "name": "brand",
+            "priority": 0
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

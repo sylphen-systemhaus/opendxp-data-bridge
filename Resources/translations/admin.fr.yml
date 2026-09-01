@@ -1,0 +1,495 @@
+plugin_sylphen_data_bridge: Créer des ports de données
+plugin_sylphen_data_bridge_admin_permission: Data Bridge Admin (configuration et exécution de tous les ports de donnée)
+no_objects_found: Aucun objet trouvé
+flexibleTable_type_text: Texte
+flexibleTable_type_number: Nombre
+flexibleTable_type_bool: Case à cocher
+deleted: supprimé
+DD.WorkflowTransition: Transition de workflow
+pim:
+  "true": Oui
+  "false": Non
+  each: chaque élément
+  Imports: Ports de données
+  PIM config: Data Bridge
+  mapping_config: Attribution d'attributs
+  delete_rawdata: Supprimer les données brutes
+  delete_rawdata.confirm: Voulez-vous vraiment supprimer ces données brutes ?
+  copy_dataport: Copier le port de données
+  compatibilityMode: Mode de compatibilité
+  compatibilityMode.tooltip: En mode compatibilité, la logique standard d'OpenDXP est utilisée lors de l'enregistrement. Celle-ci enregistre toujours tous les champs de l'objet ainsi que ses méta-champs, ce qui rend l'enregistrement beaucoup plus lent.
+  dataport:
+    notfound: Le port de données n'existe pas
+pim.add_dataport: Ajouter un port de données
+pim.add_dataport.no_template: Aucun modèle disponible
+pim.dataport_configuration: Tous les ports de données
+pim.dataport.import_configuration: Importer la configuration
+pim.dataport.export_configuration: Exporter la configuration
+pim.dataport.favorite.add: Ajouter au menu principal
+pim.dataport.favorite.remove: Supprimer du menu principal
+pim.dataport.favorite.personal: utilisateur actuel
+pim.enter_new_dataport_name: Nom du port de données
+pim.error_creating_dataport: Erreur lors de la création du port de données
+pim.delete_dataport_message: Voulez-vous vraiment supprimer ce port de données ? Toutes les données brutes seront alors également supprimées.
+pim.dataport_empty_tree: Aucun port de données trouvé
+pim.dataport_create: Créer un port de données %s
+pim.dataport.create_report: Créer un rapport de données brutes
+pim.dataport.open_report: Voir le rapport de données brutes
+pim.dataport_loading: Chargement ...
+pim.dataport_configpanel: Réglages
+pim.dataport_previewpanel: Aperçu
+pim.dataport_name: Nom
+pim.dataport_description: Description
+pim.dataport_sourcetype: Type de données source
+pim.dataport_sourcetype.pimcore_elements: Éléments OpenDXP
+pim.dataport_sourcetype.fixed_length_file: Fichier avec longueur de champ fixe
+pim.dataport_sourcetype.pimcore_reports: Rapport OpenDXP / Requête SQL
+pim.dataport_sourcetype.pimcore_reports.install_report_bundle: Veuillez installer le <a href="https://docs.opendxp.io/docs/core-framework/Tools_and_Features/Custom_Reports/" target="_blank">OpenDXP Custom Reports bundle</a>, pour pouvoir utiliser les rapports comme source de données.
+pim.dataport_sourcetype.pimcore_grid_config: Configuration des tables OpenDXP
+pim.dataport_sourcetype.files: Système de fichiers
+pim.dataport_sourcetype.object-wizard: Assistant d'objets
+pim.dataport.object_wizard.fields.field-type: Type de champ
+pim.dataport_sourcetype.change.question: Changer de type de données ?
+pim.dataport_sourcetype.change.warning: Le changement de type de données peut entraîner une perte de données.<br /> de lignes déjà ajoutées.<br /><br />Vous voulez vraiment changer de type de données ?
+pim.dataport_targetclass: Classe cible
+pim.dataport_targetclass.core_classes: Classes standard
+pim.dataport_targetclass.data_object_classes: Classes d'objets de données
+pim.dataport_sourceClass: Classe (source des données)
+pim.dataport_mode: Mode d'importation
+pim.dataport_mode.create_only: Créer de nouveaux objets, ne pas modifier les objets existants
+pim.dataport_mode.edit_only: Modifier des objets existants, ne pas en créer de nouveaux
+pim.dataport_mode.create_and_edit: Créer des objets et modifier des objets existants
+pim.dataport_targetfolder: Dossier de destination
+pim.dataport_optimize_inheritance: Optimiser l'héritage
+pim.dataport_optimize_inheritance.tooltip: Les données sont affectées à un élément parent si tous ses éléments enfants ont la même valeur dans le champ concerné
+pim.dataport_parallel_processes: Exécuter avec des processus parallèles
+pim.dataport_parallel_processes.tooltip: L'importation est divisée en plusieurs processus parallèles pour une vitesse optimale.
+pim.dataport_parallel_processes.updated: Nombre de processus parallèles mis à jour avec succès
+pim.dataport.send_error_notification: Notifications en cas d'erreur
+pim.dataport_skip_versioning: Désactiver le versionnement
+pim.dataport_skip_versioning.tooltip: Lors de l'enregistrement d'un asset, une copie de l'asset est stockée en tant que version. Selon la taille de l'asset, cela peut prendre beaucoup de place sur le disque dur.
+pim.dataport_assetfolder: Asset-Dossier de destination
+pim.dataport_archiveFolder: Dossier d'archivage
+pim.dataport_importstatus: Publier un objet
+pim.dataport_idprefix: Préfixe de la clé d'objet
+pim.dataport_advancedOptions: Paramètres avancés
+pim.dataport_categoryclass: Catégorie Classe
+pim.dataport_fieldnameProducts: Nom du champ Produits
+pim.dataport.folder.pimcore_or_filesystem: OpenDXP- ou dossier du système de fichiers (Le dossier OpenDXP peut être attribué par glisser-déposer)
+pim.dataport-fields.sorting-direction.asc: Les enregistrements sont triés par ordre croissant en fonction de ce champ. Pour trier par ordre décroissant, veuillez cliquer dans ce champ.
+pim.dataport-fields.sorting-direction.desc: Les enregistrements sont triés par ordre décroissant en fonction de ce champ. Veuillez cliquer pour trier par ordre croissant.
+pim.dataport-fields-name: Nom du champ
+pim.dataport-fields-multivalues: Valeur multiple
+pim.dataport-fields-ex1: Exemple de jeu de données
+pim.dataport-fields.duplicate: Vous avez déjà un autre champ avec cet identificateur de champ.
+pim.dataport.file: Source d'importation (Fichier, Dossier, URL, cURL-Commande, PHP-Script)
+pim.dataport.file.files: Chemin des fichiers à importer
+pim.dataport.auto-import: Exécuter automatiquement en cas de nouvelles données
+pim.dataport.auto-import.tooltip: Exécution automatique lors de l'enregistrement d'objets pour les ports de données avec le type de données source 'Objets OpenDXP', pour les sources d'importation dynamiques avec des variables qui font référence à des champs de la classe cible, ainsi que pour les assets gérés dans OpenDXP lors d'importations basées sur des fichiers. Pour toutes les autres sources de données, le port de données est exécuté en même temps que le job de maintenance (la fréquence peut être adaptée avec le modèle 'Exécuter seulement toutes les x heures' dans le mappage des attributs).
+pim.dataport.auto-import.tooltip.export: Actualiser automatiquement les données brutes lors de l'enregistrement d'un objet de la classe source. Accélère les performances d'exportation, car les données brutes sont toujours à jour au moment de la demande d'exportation, ce qui évite l'étape d'extraction des données brutes.
+pim.dataport.incremental_export: Exportation incrémentielle
+pim.dataport.incremental_export.tooltip: Seuls les objets modifiés depuis la dernière exportation sont exportés.
+pim.dataport.incremental_export.draft_versions: Exécuter également pour des projets
+pim.dataport.incremental_export.draft_versions.tooltip: Un brouillon est créé lorsque le bouton 'Enregistrer' est pressé au lieu du bouton 'Enregistrer et publier'. En particulier si vos autorisations de rôle / d'utilisateur ne permettent pas de publier les modifications, cette option est nécessaire pour exécuter automatiquement le port de données.
+pim.dataport_xml_itemxpath: XPath-Impression pour l'ensemble de données
+pim.dataport-fields-xpath: XPath-Impression
+pim.dataport-fields-json-path: JMESPath-Impression
+pim.dataport.json.item-json-path: JSON-Pointer-Impression pour l'ensemble des données
+pim.dataport.change-order-hint: L'ordre des champs détermine l'ordre d'importation / exportation
+pim.dataport.move-to-top: Déplacer vers le début (ordre d'importation)
+pim.dataport.move-to-selection: Déplacer derrière "%s" (ordre d'importation)
+pim.dataport.auto_create: Créer automatiquement
+pim.dataport.auto_create.window.title: Télécharger le fichier d'exemple pour la création des champs de données brutes
+pim.dataport.auto_create.window.button: Créer des champs de données brutes
+pim.dataport.csv.fields.name: Nom ou numéro du champ (source)
+pim.dataport.csv.hasHeader: Nom du champ sur la première ligne
+pim.dataport.csv.separator: Séparateur de colonnes
+pim.dataport.csv.quote: Délimiteur de texte
+pim.dataport.csv.assetSource: Asset-Répertoire des sources
+pim.dataport.excel.fields.name: Nom ou numéro du champ (source)
+pim.dataport.excel.hasHeader: Nom du champ sur la première ligne
+pim.dataport.excel.assetSource: Asset-Répertoire des sources
+pim.dataport.excel.sheet: Onglet
+pim.dataport.excel.dataArea: Zone de données
+pim.dataport.excel.dataArea.tooltip: par exemple A1:F65536 (y compris les en-têtes de colonne) ou A:F (toutes les lignes des colonnes A-F)
+pim.dataport.opendxp.condition.suggest.like: contient une valeur spécifique, le signe % peut être utilisé comme caractère de remplacement
+pim.dataport.opendxp.condition.suggest.unreferenced_elements: Objets non référencés
+pim.dataport.opendxp.fields.method: Méthode
+pim.dataport.opendxp.fields.parameters: Paramètres (séparés par des virgules)
+pim.dataport.opendxp.fields.data_query_selector: Data Query Selector
+pim.dataport.opendxp.fields.data_query_selector.hint: Pour les opérations logiques, on peut <a href="https://twig.symfony.com/doc/3.x/templates.html" target="_blank">Twig-Syntax</a> peuvent être utilisés, par exemple<br><code>{{ Feld1 * Feld2 }}</code><br><br>oder<br><br><code>{% if Feld1 != '' %}<br>&nbsp;&nbsp;{{ Feld1 }}<br>{% else %}<br>&nbsp;&nbsp;{{ Feld2 }}<br>{% endif %}</code><br><br>Les Data Query Selectors proviennent de Blackbit Data Director (syntaxe inchangée). Voir <a href="https://www.youtube.com/watch?v=mAu_5Eg3q_o&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=9&t=1954s&pp=iAQB" target="_blank">tutoriel YouTube</a> et le <a href="https://blackbitdigitalcommerce.github.io/pimcore-data-director/#data-query-selectors" target="_blank">manuel Blackbit Data Director</a>.
+pim.dataport.opendxp.fields.your_input: Terminé (ne pas ajouter d'autre opération pour ce champ)
+pim.dataport.opendxp.fields.in_requested_language: dans la langue demandée
+pim.dataport.opendxp.fields.in_all_languages: dans toutes les langues
+pim.dataport.opendxp.fields.core_functions.md5: MD5-Hash
+pim.dataport.opendxp.fields.core_functions.mb_strtolower: convertir en minuscules
+pim.dataport.opendxp.fields.core_functions.mb_strtoupper: convertir en majuscules
+pim.dataport.opendxp.fields.core_functions.strip_tags: HTML-Tags supprimer (balises HTML autorisées possibles en tant que paramètres)
+pim.dataport.opendxp.fields.core_functions.str_replace: Remplacer des parties de texte
+pim.dataport.opendxp.fields.core_functions.explode: convertir en Array
+pim.dataport.opendxp.fields.core_functions.translate: Traduire (avec les traductions OpenDXP)
+pim.dataport.opendxp.fields.core_functions.add: Additionner un nombre
+pim.dataport.opendxp.fields.core_functions.subtract: Soustraire un nombre
+pim.dataport.opendxp.fields.core_functions.multiply: Multiplier un nombre
+pim.dataport.opendxp.fields.core_functions.divide: Diviser un nombre
+pim.dataport.opendxp.fields.core_functions.number_format: "Formater le nombre (paramètres : Nombre de décimales, séparateur décimal, séparateur de milliers)"
+pim.dataport.opendxp.fields.core_functions.implode: assembler en texte
+pim.dataport.opendxp.fields.ancestors: tous les éléments parents de la même classe
+pim.dataport.opendxp.fields.descendants: tous les éléments sous-jacents de la même classe
+pim.dataport.opendxp.fields.before: version précédente
+pim.dataport.opendxp.fields.labels: Key-Value-Array avec des titres de champs comme noms de champs
+pim.dataport.opendxp.fields.fields: Définitions de champs
+pim.dataport.opendxp.variable_preview_object: Objet / élément actuel
+pim.dataport.files.fields.command: Commande en ligne de commande
+pim.dataport.fixed_length_file.fields.length: Longueur du champ (nombre de caractères)
+pim.versions.compare_with_current: Cliquez à gauche sur une version pour la comparer à la configuration actuelle
+pim.versions.add_to_git: Les versions de cette vue sont conservées pendant 90 jours. Pour un meilleur archivage et un enregistrement des modifications de vos configurations de ports de données, il est recommandé d'ajouter le dossier %s à Git. Dans ce contexte, il est également possible d'activer le déploiement automatique des ports de données via la commande <code>bin/console data-bridge:deployment:dataport-rebuild</code> être utile.
+pim.rawdatafield: Champ de données brutes
+pim.rawdatafields: Champs de données brutes
+pim.rawdatafields.bulk_edit: Traitement en masse
+pim.rawdatafields.bulk_edit.description: Listez les champs de données brutes sous forme de valeurs séparées par des virgules (CSV). Une ligne définit les propriétés d'un champ de données brutes. Veuillez indiquer les champs suivants dans chaque ligne
+pim.rawdatafields.object_tree: Sélection des champs de classe
+pim.transformations: Transformations
+pim.error_loading_dataport: Erreur lors du chargement du port de données
+pim.dataport_rawitemfield_id: ID des données brutes
+pim.dataport_rawitemfield_updated: modifié
+pim.preview.remove_column_sort: Supprimer le tri
+pim.preview.minimize_column_width: Réduire toutes les colonnes
+pim.preview.maximize_column_width: Agrandir toutes les colonnes
+pim.preview.hide_columns_without_search_term: Cacher les colonnes sans correspondance de recherche
+pim.preview.no_records: Actuellement, aucune donnée brute n'est disponible pour ce port de données.
+pim_error_loadmapping: Erreur lors du chargement de l'association d'attributs
+pim.reload: Recharger
+pim.loading: Charge ...
+pim.error_rawdatafields: Erreur lors du chargement des désignations de champ
+pim.settingspanel.caption: Réglages
+pim.mapping.field: Champ
+pim.mapping.field.difference: Différence
+pim.mapping.target_class_field: Champ de classe cible
+pim.mapping.visualize_dependencies: Importations & exportations dépendantes du champ '%s
+pim.mapping.visualize_dependencies.tooltip: Cliquer pour ouvrir le diagramme de traçabilité
+pim.mapping.savebutton: Enregistrer
+pim.mapping.uncommitted_changes: Modifications non enregistrées
+pim.mapping.uncommitted_changes.question: Il y a des modifications non enregistrées. Que voulez-vous faire ?
+pim.mapping.show_only_mapped: Champs associés uniquement
+pim.mapping.auto_map: Affecter automatiquement les champs de données brutes
+pim.mapping.auto_map.tooltip: Les champs déjà attribués ne sont pas modifiés
+pim.mapping.auto_map.success: L'affectation a réussi
+pim.mapping.auto_map.unmapped_fields: "Les champs de données brutes suivants n'ont cependant pas pu être attribués : %sVeuillez adapter les noms des champs de données brutes aux noms des champs OpenDXP ou assigner manuellement les champs de données brutes."
+pim.mapping.auto_map.success.save_hint: Une fois que vous avez vérifié les attributions, utilisez le bouton en bas à droite pour les enregistrer.
+pim.mapping.init_action: Fonction d'initialisation
+pim.mapping.init_action.hint: Fonction qui est exécutée avant le traitement des données brutes. Si elle renvoie false, l'importation est interrompue.
+pim.mapping.result_callback: Fonction de création de résultats
+pim.mapping.result_callback.hint: Fonction de création du document de réponse
+pim.mapping.result_action: Action de document de résultats
+pim.mapping.result_action.hint: Fonction permettant de définir ce qui doit être fait avec le document de réponse
+pim.mapping.remove_mapping: Supprimer l'affectation
+pim.mapping.path: Chemin d'objet / Élément parent
+pim.mapping.id.tooltip: "La valeur n'est pas écrite (champ d'incrémentation automatique), ne peut être utilisée que comme champ clé.<br>Créez un champ distinct dans l'objet de données pour les identifiants des systèmes externes."
+pim.mapping.key: Nom de l'objet
+pim.mapping.key.tooltip: Nom de l'objet dans l'arborescence des éléments
+pim.mapping.deleteElement: Supprimer un élément
+pim.mapping.deleteElement.tooltip: Si la fonction callback renvoie <code>true</code>, les éléments trouvés sont supprimés.
+pim.mapping.stream: Chemin d'accès au fichier / contenu
+pim.mapping.used_as_virtual_field.tooltip: est utilisé comme champ virtuel
+pim.mapping.virtual_field.tooltip: champ virtuel
+pim.mapping.auto_translate: Traduire automatiquement de
+pim.mapping.deeplApiKey: "<a href=\"https://www.deepl.com/de/docs-api/api-access/authentication/\" target=\"_blank\">DeepL-API-Clé</a>"
+pim.mapping.openAiKey: "<a href=\"https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key\" target=\"_blank\">OpenAI-API-Clé</a>"
+pim.mapping.auto_generate.textLength: Longueur du texte
+pim.mapping.auto_generate.textLength.tooltip: Les textes plus longs offrent plus de détails, mais sont aussi plus longs à générer et entraînent des coûts plus élevés.
+pim.mapping.auto_generate.textLength.short: Court (environ 1 paragraphe)
+pim.mapping.auto_generate.textLength.medium: Moyen (environ 2 paragraphes)
+pim.mapping.auto_generate.textLength.long: Long (env. 3 paragraphes)
+pim.mapping.auto_generate: Générer automatiquement
+pim.mapping.auto_generate.tooltip: Créer du texte à l'aide de l'intelligence artificielle sur la base des informations textuelles fournies par le champ de données brutes / la fonction de rappel
+pim.mapping.infer: Déterminer automatiquement à partir du texte
+pim.mapping.infer.advanced-relations: Champs à déterminer automatiquement
+pim.mapping.infer.tooltip: Déduire la valeur d'un texte donné à l'aide de l'intelligence artificielle
+pim.mapping.auto_detect_language: Détection automatique
+pim.mapping.auto_classification: Attribuer automatiquement
+pim.mapping.auto_create_references: Créer automatiquement des objets référencés inexistants
+pim.mapping.auto_create_options: Créer automatiquement les options manquantes
+pim.mapping.callback_function.confirm_delete: Supprimer la fonction callback ?
+pim.mapping.callback_function.unexpected_output: Une dépense inattendue
+pim.mapping.callback_function.no_rawdata_field_assigned: La fonction callback accède à $params['value'], mais aucun champ de données brutes n'a été attribué
+pim.mapping.template.group.generic_exports: Exportations génériques
+pim.mapping.template.rawdata_as_xml: Sortir les données brutes en XML
+pim.mapping.template.rawdata_as_zipped_xml: Données brutes en XML, compressées en Zip, y compris les assets
+pim.mapping.template.rawdata_as_csv: Sortir les données brutes au format CSV
+pim.mapping.template.rawdata_as_excel: Sortir les données brutes sous forme de fichier Excel
+pim.mapping.template.rawdata_as_zipped_excel: Données brutes en Excel, en Zip, y compris les assets
+pim.mapping.template.rawdata_as_zipped_csv: Données brutes au format CSV, compactées au format Zip, y compris les assets
+pim.mapping.template.rawdata_as_json: Sortir les données brutes en JSON
+pim.mapping.template.rawdata_as_zipped_json: Données brutes en JSON, compressées en Zip, y compris les assets
+pim.mapping.template.visualization: Graphique de dépendance
+pim.mapping.template.dependent_import: Exécuter le port de données suivant
+pim.mapping.template.parametrize_dependent_import: Paramétrer le port de données suivant
+pim.mapping.template.dependent_import_with_result_document: Exécution du port de données suivant avec le document de résultat comme source d'importation
+pim.mapping.template.dependent_import_url: Afficher l'URL du port de données suivant
+pim.mapping.template.save_to_website_settings: Enregistrer dans les paramètres du site Web
+pim.mapping.template.fetch_data_from_dependent_import: Générer des données à partir du document de résultats d'un autre port de données
+pim.mapping.template.raw_data_table: Sortir les données brutes sous forme de tableau HTML
+pim.mapping.template.error_output: Afficher les erreurs d'importation sous forme de texte
+pim.mapping.template.action.output: Éditer le document
+pim.mapping.template.action.save_as_asset: Enregistrer en tant que assets
+pim.mapping.template.action.save_as_zipped_asset: Enregistrer en tant que Zip-asset
+pim.mapping.template.action.ftp: Téléchargement par FTP(S)
+pim.mapping.template.action.sftp: Téléchargement par  SFTP
+pim.mapping.template.action.s3: Téléchargement vers AWS S3
+pim.mapping.template.action.gcp: Télécharger vers Google Cloud Storage
+pim.mapping.template.action.email: Envoyer un email
+pim.mapping.template.action.commands: Commands
+pim.mapping.template.action.commands.run: "Effectuer %s"
+pim.mapping.template.init.abort_if_other_processes_running: Annuler si un autre processus d'importation est déjà en cours pour ce port de données
+pim.mapping.template.init.queue_bulk_export_if_too_many_incremental_exports_queued: Traitement en masse de plus de x tâches incrémentielles en file d'attente
+pim.mapping.template.init.only_execute_every_x_hours: Exécuter seulement toutes les x heures (Cronjob)
+pim.mapping.template.init.cronjob: Exécuter en tant que tâche cron (Cronjob)
+pim.mapping.template.init.parameter-dependent-run: Collecter uniquement les données. Exécuter le port de données uniquement si le paramètre "run" est activé
+pim.mapping.template.textarea.concatenate_raw_data_fields: Afficher tous les champs de données brutes sous forme de liste
+pim.mapping.assign_field_by: "%s-Objet attribuer par %s"
+pim.mapping.assign_field_by_empty: "pas de %s"
+pim.mapping.assign_asset_by_query: Attribuer un %s existant
+pim.mapping.assign_asset_by_url: Charger %s du fichier / de l'URL
+pim.mapping.assign_asset_by_meta_field: Trouver un %s existant via le champ de métadonnées %s
+pim.mapping.assign_metadata: Attribuer des métadonnées
+pim.mapping.asset_generate_barcode: Créer un barcode 
+pim.mapping.asset_generate_qrcode: Créer un code QR
+pim.mapping.add_index: oqui permet d'ajouter un index (unique) à un champ à utiliser pour l'affectation dans la classe %s
+pim.mapping.variant: Créer des variantes d'objets au lieu d'objets normaux
+pim.mapping.always_publish: Publier tout
+pim.mapping.always_unpublish: Tous les inédits
+pim.mapping.always_enable: Toujours activer
+pim.mapping.always_disable: Toujours désactiver
+pim.mapping.date.now: Date actuelle
+pim.mapping.user.current_user: Utilisateur exécutant
+pim.mapping.assign_link_path: Champ de données brutes comme cible du lien
+pim.mapping.assign_fieldcollection: Importer dans la collecte de champs %s
+pim.mapping.translate_fieldcollection: Traduire les champs localisés dans la collection de champs
+pim.mapping.assign_quantity_value: "%s importer"
+pim.mapping.generate_pdf_from_html: Créer un PDF à partir de HTML
+pim.mapping.generate_pdf_from_document: Créer un PDF à partir d'un document OpenDXP
+pim.mapping.import_only_for_new_objects: Importer la valeur uniquement pour les nouveaux objets. Conserver la valeur actuelle pour les objets existants
+pim.mapping.prepend_input: Faire précéder d'un autre champ
+pim.mapping.append_input: Ajouter un autre champ
+pim.mapping.generate_url: générer URL-Slug
+pim.mapping.deepl_translation: DeepL Traduction
+pim.mapping.calculatedValue.asset_absolute_url: Générer une URL absolue / Préfixer le domaine
+pim.mapping.calculatedValue.html_to_text: Convertir le HTML en texte
+pim.mapping.calculatedValue.html_to_markdown: Convertir le HTML en Markdown
+pim.mapping.calculatedValue.number_format: Formater le nombre en fonction de la langue d'exportation
+pim.mapping.calculatedValue.data_quality: Vérifier la qualité des données
+pim.mapping.calculatedValue.data_quality.invalid_data: Contenu de champ non valide
+pim.mapping.calculatedValue.nodes_visualization: Données de nœud pour le graphe de dépendance
+pim.mapping.classificationStore.auto_generate_fields: Créer automatiquement des champs inexistants
+pim.mapping.block.auto_create: Créer automatiquement des options de sélection et des unités d'ensemble inexistantes
+pim.mapping.checkbox.data_quality: Désactiver si la qualité des données est insuffisante
+pim.mapping.example.raw: Exemple de résultat
+pim.mapping.example.parsed: Traite
+pim.mapping.preview_hint: Cette valeur est basée sur l'ensemble actuel de données brutes d'aperçu - pour le test / Débogage, vous pouvez adapter les valeurs dans le Preview-Panel ou sélectionner un autre enregistrement dans la colonne 'Résultat d'exemple'.
+pim.mapping.key_attribute: Attribut clé
+pim.mapping.key_attribute_missing_index: Attribut clé (pour une meilleure performance, activer la case à cocher 'Indexé' lors de la définition du champ)
+pim.mapping.data_query_selector_missing_index: Pour de meilleures performances, cocher la case 'Indexé' pour le champ "%s" dans la classe "%s".
+pim.mapping.key_attribute.skipping.key_field_null: Enregistrement ignoré car le champ clé « %s » est null
+pim.mapping.key_attribute.skipping.create_not_allowed: Enregistrement ignoré car le mode d'importation est défini sur « Modifier uniquement les objets existants »
+pim.mapping.key_attribute.skipping.edit_not_allowed: Enregistrement ignoré car le mode d'importation est défini sur « Créer uniquement de nouveaux objets ».
+pim.mapping.write-protected: Ne pas écraser si déjà rempli
+pim.mapping.truncate_before_import: Vider le contenu avant l'importation
+pim.mapping.truncate_before_import.objectbricks: Vider les champs de relation utilisés avant l'importation
+pim.mapping.delete_children_before_import: Supprimer les éléments enfants avant l'importation
+pim.mapping.overwrite_images: Écraser une ou plusieurs images
+pim.mapping.prevent_duplicates: Éviter les doublons
+pim.mapping.decimal_separator: Séparateur de décimales
+pim.mapping.thousands_separator: Séparateur de milliers
+pim.mapping.auto_create_units: Créer automatiquement des unités inexistantes
+pim.mapping.optimize: Optimiser
+pim.mapping.optimize.none: Désactivé
+pim.mapping.optimize.minimize: Minimisen
+pim.mapping.optimize.maximize: Maximiser
+pim.mapping.optimize.tooltip: Cette fonction tente d'optimiser la valeur de ce champ en modifiant les autres champs mappés dans ce port de données.
+pim.mapping.copied_to_clipboard: La variable a été copiée dans le presse-papier. Veuillez la coller dans la fonction de callback à l'endroit souhaité.
+pim.mapping.copied_to_clipboard_mapping: La valeur a été copiée dans le presse-papiers.
+pim.mapping.variables.double_click: Double-cliquez pour voir la variable dans une nouvelle fenêtre.
+pim.mapping.variables.tooltip: Valeur de la variable "%s"
+pim.mapping.variables.variable.not_in_use: non utilisé
+pim.mapping.variables.variable: Variable
+pim.mapping.variables.available_variables: Variables disponibles
+pim.mapping.variables.history: Historique
+pim.mapping.variables.history.compare_with: Comparaison des fonctions de callback
+pim.mapping.variables.generic: Variables génériques
+pim.mapping.variables.mapped: Champs associés
+pim.mapping.variables.value: Valeur du champ de données brutes associé telle qu'elle a été importée de la source d'importation
+pim.mapping.variables.rawItemData: Valeurs de tous les champs de données brutes de l'ensemble de données brutes actuel
+pim.mapping.variables.rawItemData.single: Valeur du champ de données brutes "%s"
+pim.mapping.variables.currentValue: Contenu actuel du champ %s dans l'objet trouvé par les champs clés, <i>non disponible en phase de champ clé</i>
+pim.mapping.variables.currentObjectData: Array avec les valeurs actuelles de tous les champs de l'élément trouvé par les champs clés (array associatif avec les noms de champs de l'objet comme indices), <i>non disponible dans la phase des champs clés</i>
+pim.mapping.variables.currentObjectData.single: Valeur actuelle dans le champ "%s"
+pim.mapping.variables.keyValues: Array associatif contenant les valeurs des champs clés avec leurs noms de champ comme indices, <i>non disponible dans la phase de champ clé</i>
+pim.mapping.variables.response: Document de réponse HTTP actuel, créé par cette fonction de rappel à partir d'éléments de données brutes déjà traités, initialement vide<code>Response</code>-objet  - le document de réponse peut être soit <code>$params['response']->setContent('Ma réponse');</code> ou <code>return "Ma réponse;</code> être remplis.<br>HTTP-Header können mittels <code>$params['response']->headers->set('Header-Nom', 'Header-Valeur');</code> être placés.
+pim.mapping.variables.request: Objet de requête actuel - particulièrement intéressant lorsque le comportement doit être modifié à l'aide de paramètres URL lors d'appels à l'API REST. L'accès aux paramètres se fait via <code>$params['request']->get('parameterName')</code>
+pim.mapping.variables.context: Contexte du traitement actuel
+pim.mapping.variables.logs: Logs survenus lors du traitement de l'ensemble de données brutes actuel
+pim.mapping.variables.objectIDs: Array avec les ID des éléments qui ont été traités par l'enregistrement brut actuel
+pim.mapping.variables.lastCall: <i>true</i>, si l'enregistrement brut actuel est le dernier de l'importation / exportation en cours, sinon <i>false</i>
+pim.mapping.variables.transfer: Objet permettant de conserver les données entre les différents passages de données brutes, initialement l'objet est vide
+pim.mapping.variables.translator: Objet permettant d'accéder aux traductions OpenDXP, par exemple <code>$params['translator']->translate('Translation Key');</code> ou <br><code>$params['translator']->translate('Translation Key', 'en');</code><br>Fonctionne aussi bien avec les traductions admin qu'avec les traductions partagées
+pim.mapping.variables.response.action: Document de réponse créé par la fonction de création de résultats
+pim.mapping.variables.transfer.action: Objet de transfert éventuellement rempli par la fonction de création de résultats
+pim.mapping.variables.logger: PSR-3-Logger-Objet, par exemple pour Debugging <code>$params['logger']->info($myVariable);</code>
+pim.manual.title: Lancer l'historique & l'importation
+pim.manual.title.export: Lancer l'historique & l'exportation
+pim.manual.importForm.title: Importer une source de données brutes
+pim.manual.importForm.start: Extraire les données brutes de la source d'importation
+pim.manual.startimport.rawdata: Démarrer l'importation des données brutes
+pim.manual.startimport.rawdata.export: Charger les données brutes pour l'exportation
+pim.manual.startimport.pim: Lancer l'importation d'objets
+pim.manual.startimport.pim.export: Démarrer l'exportation avec les données brutes actuelles
+pim.manual.startimport.complete: Lancer l'importation complète
+pim.manual.startimport.complete.export: Lancer l'exportation complète
+pim.manual.startimport.dry-run: Vérification des données (indiquer ce qui serait modifié)
+pim.manual.startimport.dry-run.importType: Vérification des données
+pim.manual.startimport.open-changed-elements: Ouvrir les objets modifiés
+pim.manual.startimport.open-changed-elements.confirm: "%s objets ont été modifiés. Faut-il vraiment les ouvrir tous ?"
+pim.manual.startimport.summary: Résumé
+pim.manual.startimport.summary.old: Valeur précédente
+pim.manual.startimport.summary.new: Nouvelle valeur
+pim.manual.startimport.summary.diff: Modification
+pim.manual.startimport.summary.logs: Voir les logs
+pim.manual.startimport.summary.finished_in: Prêt en
+pim.manual.startimport.summary.errors: Erreurs
+pim.manual.startimport.summary.changes: Changements
+pim.manual.startimport.summary.changes.none: Aucun changement
+pim.manual.startimport.summary.output: Sortir
+pim.manual.startimport.popup_blocked: Votre navigateur a bloqué la fenêtre pop-up. <a href="%s" target="_blank">Cliquez ici pour commencer l'importation complète</a>.
+pim.manual.startimport.export.next: Continuer
+pim.manual.statusgrid.title: Statut et historique des importations
+pim.manual.statusgrid.dataport: Port de données
+pim.manual.statusgrid.startDate: Heure de début
+pim.manual.statusgrid.duration: Durée
+pim.manual.statusgrid.duration.remaining: se termine dans
+pim.manual.statusgrid.click_to_open_archive_file: Ouvrir la source d'importation dans le dossier d'archives
+pim.manual.statusgrid.status: Statut
+pim.manual.statusgrid.status.0: En cours de traitement ...
+pim.manual.statusgrid.status.1: Terminé avec succès
+pim.manual.statusgrid.status.2: Annulé
+pim.manual.statusgrid.status.queued: En file d'attente
+pim.manual.statusgrid.status.error_occurred: Une erreur s'est produite lors d'un des derniers passages.
+pim.manual.statusgrid.status.unused: Le port de données n'a pas été appelé depuis longtemps et peut être supprimé le cas échéant.
+pim.manual.statusgrid.status.EMERGENCY: Terminé avec urgence
+pim.manual.statusgrid.status.CRITICAL: Terminé avec des erreurs critiques
+pim.manual.statusgrid.status.ALERT: Terminé avec des erreurs alarmantes
+pim.manual.statusgrid.status.ERROR: Terminé avec des erreurs
+pim.manual.statusgrid.status.WARNING: Se termine par des avertissements
+pim.manual.statusgrid.status.NOTICE: Terminé avec des indices
+pim.manual.statusgrid.progress: Progrès
+pim.manual.statusgrid.type: Type d'importation
+pim.manual.statusgrid.type.unknown: Inconnu
+pim.manual.statusgrid.type.4: Extraire les données brutes
+pim.manual.statusgrid.type.8: Traitement des données brutes
+pim.manual.statusgrid.type.32: "Complet"
+pim.manual.statusgrid.type.32.1: "Complet (1/2 : extraire les données brutes)"
+pim.manual.statusgrid.type.32.2: "Complet (2/2 : traitement)"
+pim.manual.importForm.emptyUpload: Laisser vide pour importer le fichier par défaut
+pim.manual.importForm.uploadLabel: Fichier
+pim.manual.importForm.waitMsg: Préparation ...
+pim.manual.importForm.success: Le port de données a été lancé.
+pim.manual.importForm.failure: Une erreur est survenue. Le port de données n'a pas pu être démarré.
+pim.manual.importForm.file_too_large: Le fichier n'a pas pu être chargé, il est peut-être plus grand que %s
+pim.manual.importForm.cancel: Interrompre l'importation
+pim.manual.importForm.cancel.failure: Une erreur est survenue. L'importation n'a pas pu être arrêtée.
+pim.manual.importForm.redo: Exécuter à nouveau
+pim.manual.error.noPhpCli: Aucun PHP-Binary exécutable n'a été trouvé.
+pim.manual.startimport.pim.title: Traitement des données brutes
+pim.manual.startimport.pim.text: Exécuter le port de données avec les données brutes actuelles ?
+pim.manual.startimport.pim.force: Sauter les enregistrements déjà importés
+pim.manual.startimport.pim.force.export: Utiliser le cache de sortie si l'enregistrement brut le plus récent n'est pas plus récent que le cache
+pim.manual.startimport.single: Le traitement du port de données doit-il être lancé pour cet enregistrement brut ?
+pim.dataport.clone: Clonage
+pim.dataport.import: Importer un port de données
+pim.dataport.import.confirm: Toutes les configurations de ce port de données seront remplacées par celles du fichier d'importation. Vous voulez continuer ?
+pim.dataport.import.start: Démarrer l'importation
+pim.dataport.import.success: Port de données importé avec succès
+pim.dataport.import.failure: Le fichier d'importation n'a pas pu être traité
+pim.dataport.import.open_objects_by_key_fields: Ouvrir les objets correspondant aux champs clés
+pim.dataport.import.no_matching_objects_found: Actuellement, il n'existe aucun objet pour cet ensemble de données brutes - veuillez d'abord lancer l'importation
+pim.dataport.noname: Pas de nom indiqué
+pim.dataport.nametaken: Il existe déjà un port de données portant ce nom
+pim.dataport.invalidid: Port de données non valide
+pim.manual.delete.rawdata: Supprimer les données brutes
+pim.manual.delete.rawdata.success: Les données brutes ont été supprimées.
+pim.manual.delete.rawdata.failure: Une erreur s'est produite. Les données brutes n'ont pas été supprimées
+pim.manual.delete.rawdata.running_process_rawdata: Certaines données brutes n'ont pas pu être supprimées, car des tâches en cours de traitement les traitent. Supprimer quand même ?
+pim.manual.start_queue_processor: Démarrer le processeur de la queue
+pim.manual.start_queue_processor.tooltip: Dès que des jobs sont ajoutés à la file d'attente, le processing de la queue est normalement lancé automatiquement. Cela n'a malheureusement pas fonctionné dans ce cas. Vous pouvez lancer ce processus de queue manuellement en cliquant sur ce bouton. Si ce bouton apparaît plus souvent, quelque chose n'est pas configuré correctement dans votre système, ce qui fait que le Queue Processor ne peut pas être démarré automatiquement.
+pim.manual.start_queue_processor.started: Processeur de file d'attente lancé avec succès
+pim.manual.queue_processor_monitor: Processeur de queue statut
+pim.manual.filter.successful: Processus achevés avec succès
+pim.manual.filter.errors: Processus avec erreurs
+pim.manual.filter.aborted: Processus interrompus
+pim.manual.filter.queued: Emplois en queue
+pim.manual.filter.running: Processus en cours
+pim.manual.filter.done: Filtrer selon les enregistrements traités (nombre modifiable)
+pim.manual.filter.total: Filtrer par nombre total (nombre modifiable)
+pim.dataport_importer_class: Classe Importer
+pim.dataport_javascriptEngine: Moteur de fonctions de rappel
+pim.jsengine.spidermonkeyLegacy: Spidermonkey (legacy)
+pim.jsengine.spidermonkey: Spidermonkey avec wrapper fonctionnel
+pim.jsengine.v8Js: V8
+pim.jsengine.php: PHP
+pim.jsengine.unavailable: non disponible
+pim.jsengine.none: Keine (Javascript-Traitement désactivé)
+pim.rest_api.documentation: REST API Documentation
+pim.rest_api.authentication: Authentification
+pim.rest_api.api_keys: API-Keys
+pim.rest_api.api_key: REST API-Key
+pim.rest_api.api_key_valid_to: API-Key valable jusqu'au
+pim.rest_api.user_disabled: L'utilisateur est désactivé
+pim.rest_api.api_key_expired: API-Key n'est plus valable
+pim.permission_missing_targetType: L'utilisateur n'a pas d'autorisation pour le domaine '%s'
+pim.permission_missing_targetClass: L'utilisateur n'a pas d'autorisation pour la classe '%s'
+pim.permission_execution: Version
+pim.permission_no_execution: Pas d'autorisation d'exécution, seule la configuration est autorisée
+pim.permission_missing_create_dataport: Pas d'autorisation de créer des ports de données
+pim.permission_missing: Absence d'autorisation '%s'
+pim.conflict.title: Conflit dans les paramètres du port de données
+pim.conflict: Le port de données a été modifié entre-temps par %s. Remplacer les modifications ?
+pim.conflict.force: Enregistrer quand même
+pim.conflict.check_versions: Vérifier les versions
+pim.conflict.cancel: Annuler
+pim.import.editlock.notification.title: Mise à jour pour les sites que vous avez ouverts %elementType%
+pim.import.editlock.notification.text: Les données de %elementType% %elementPath% devraient bientôt être mises à jour automatiquement (Port de données '%dataportName%' (ID %dataportId%)). Veuillez terminer les travaux sur cet objet et le fermer ensuite.
+pim.grid-export.warning: La structure du document d'exportation ainsi que les champs à exporter dépendent uniquement de la configuration du port de données à sélectionner ci-dessous. Les colonnes actuellement affichées dans le grid ne jouent aucun rôle dans le document d'exportation. Le port de données sélectionné est exécuté pour tous les enregistrements sélectionnés / filtrés dans le grid actuel.
+pim.grid-export.no_dataports_found: Aucun port de données trouvé pour les objets de ce dossier.
+pim.grid-export.select_dataport: Choisir le port de données.
+pim.grid-export.csv: CSV (Data Bridge)
+pim.grid-export.json: JSON (Data Bridge)
+pim.grid-export.xml: XML (Data Bridge)
+pim.grid-export.import_excel: Importation XLSX
+pim.grid-export.import_excel.warning: Veuillez utiliser une feuille de calcul Excel contenant la colonne « ID » (identifiant de l’objet OpenDXP). Toutes les autres colonnes peuvent être référencées par leur nom ou leur titre.
+pim.field-type.calculated-value-data-query-selector: Valeur calculée (Data Query Selector)
+pim.field-type.input-with-placeholders: Champ de saisie avec variables
+pim.field-type.textarea-with-placeholders: Champ de texte avec variables
+pim.field-type.wysiwyg-with-placeholders: WYSIWYG-champ avec variables
+dd_htmlContainer: HTML-Container
+pim.report.force: Toujours recharger les données
+pim.report.force.tooltip: Si la case n'est pas cochée, les données brutes du port de données ne sont récupérées que s'il n'y en a pas.
+pim.update-available.installed_version: Version installée
+pim.update-available.latest_version: Dernière version disponible
+pim.update-available.changes_since: Changements depuis %s
+pim.portlets.queue-monitor: Data Bridge Queue-Statut
+pim.portlets.error-monitor: Data Bridge Erreur
+pim.portlets.tagged-elements: Éléments avec Tag
+pim.perspective.PIM: PIM
+pim.perspective.default: Standard
+pim.error: Une erreur est survenue
+pim.error.retry: Essayer à nouveau
+pim.direct_open: Ouvrir en %s
+pim.direct_open.tooltip: Modifier directement ce fichier dans %s. Dès que vous enregistrez, le fichier est automatiquement sauvegardé dans OpenDXP.
+pim.restore_version: Restaurer version
+pim.restore_version.baseObject: Objets
+pim.restore_version.mode: Mode
+pim.restore_version.mode.objects: Seulement cet objet
+pim.restore_version.mode.descendants: Enfants et descendants de ces objets
+pim.restore_version.fields: Champs
+pim.restore_version.startButton: Restaurer
+pim.restore_version.errors.none: Aucune erreur

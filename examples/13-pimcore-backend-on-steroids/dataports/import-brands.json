@@ -1,0 +1,57 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 2,
+        "name": "Import Brands",
+        "description": "",
+        "sourcetype": "csv",
+        "sourceconfig": "a:9:{s:6:\"fields\";a:1:{s:8:\"field_22\";a:1:{s:6:\"column\";s:5:\"brand\";}}s:4:\"file\";s:34:\"/flipkart_com-ecommerce_sample.csv\";s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:11:\"assetSource\";s:1:\"/\";s:13:\"archiveFolder\";s:0:\"\";s:9:\"hasHeader\";b:1;s:9:\"separator\";s:1:\",\";s:5:\"quote\";s:1:\"\"\";}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:5:\"Brand\";s:10:\"itemFolder\";s:9:\"/Products\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:15:\"/product-images\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 2,
+            "fieldName": "images",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:5:{s:9:\"overwrite\";b:1;s:10:\"purgeitems\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "return 'Asset:id:10';",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "key",
+            "locale": "",
+            "fieldNo": 22,
+            "keyMapping": 0,
+            "format": "a:3:{s:21:\"translateFromLanguage\";s:0:\"\";s:12:\"generateText\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 2,
+            "fieldName": "name",
+            "locale": "",
+            "fieldNo": 22,
+            "keyMapping": 1,
+            "format": "a:3:{s:21:\"translateFromLanguage\";s:0:\"\";s:12:\"generateText\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 2,
+            "fieldNo": 22,
+            "name": "brand",
+            "priority": 0
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

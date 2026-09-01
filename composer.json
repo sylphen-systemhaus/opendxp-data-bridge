@@ -1,0 +1,100 @@
+{
+  "name": "sylphen/opendxp-data-bridge",
+  "description": "Sylphen Data Bridge for OpenDXP (based on Blackbit Data Director 3.10.4, adapted for OpenDXP)",
+  "minimum-stability": "stable",
+  "license": "GPL-3.0-or-later",
+  "type": "opendxp-bundle",
+  "authors": [
+    {
+      "name": "Sylphen GmbH",
+      "email": "info@sylphen.com",
+      "homepage": "https://sylphen.com"
+    }
+  ],
+  "homepage": "https://github.com/sylphen-systemhaus/opendxp-data-bridge",
+  "support": {
+    "issues": "https://github.com/sylphen-systemhaus/opendxp-data-bridge/issues",
+    "source": "https://github.com/sylphen-systemhaus/opendxp-data-bridge"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sylphen\\DataBridgeBundle\\": "",
+      "InSquare\\OpendxpProcessManagerBundle\\": "lib/compat/InSquare/OpendxpProcessManagerBundle/"
+    }
+  },
+  "suggest": {
+    "in-square/opendxp-process-manager-bundle": "Process Manager integration (import commands, templates menu, monitoring items)"
+  },
+  "require": {
+    "php": ">=8.3",
+    "ext-json": "*",
+    "ext-dom": "*",
+    "ext-zip": "*",
+    "ext-curl": "*",
+    "psr/log": "*",
+    "open-dxp/opendxp": "^1.3",
+    "open-dxp/admin-bundle": "^1.3",
+    "phpoffice/phpspreadsheet": "^2.2 || ^3.3",
+    "neitanod/forceutf8": "2.*",
+    "deeplcom/deepl-php": "<2",
+    "halaxa/json-machine": "1.*",
+    "mtdowling/jmespath.php": "2.*",
+    "phpdocumentor/reflection-docblock": ">=4",
+    "prewk/xml-string-streamer": "<2",
+    "rubix/ml": "*",
+    "wamania/php-stemmer": "1.*|2.*|3.*",
+    "voku/stop-words": "2.*",
+    "voku/portable-ascii": "1.*|2.*",
+    "marcj/topsort": "1.*",
+    "league/flysystem": "^3.12",
+    "league/flysystem-sftp-v3": "^3.0",
+    "laminas/laminas-barcode": "^2.14",
+    "league/flysystem-ftp": "*",
+    "phpseclib/phpseclib": "^3.0",
+    "league/flysystem-aws-s3-v3": "*",
+    "league/flysystem-google-cloud-storage": "*",
+    "phpmyadmin/sql-parser": "5.*",
+    "endroid/qr-code": "^4 || ^5.1",
+    "speckcommerce/speck-uom": "1.*",
+    "php-unit-conversion/php-unit-conversion": "1.*",
+    "php-science/textrank": "1.*",
+    "nlgen/nlgen": "*",
+    "rinvex/countries": "6.*|7.*",
+    "php-http/discovery": "^1.0",
+    "geocoder-php/google-maps-provider": "*",
+    "geocoder-php/nominatim-provider": "*",
+    "symfony/http-client": "*",
+    "symfony/var-dumper": "*",
+    "php-http/message": "*",
+    "henck/rtf-to-html": "1.*",
+    "jfcherng/php-diff": "6.*",
+    "ramsey/uuid": "^4.0",
+    "league/commonmark": "^2.9",
+    "soundasleep/html2text": "*",
+    "phpseclib/bcmath_compat": ">=1",
+    "vrana/adminer": "4.* | 5.*",
+    "league/html-to-markdown": "*",
+    "fidry/cpu-core-counter": "1.*",
+    "avadim/fast-excel-reader": "1.*|2.*",
+    "dragonmantank/cron-expression": "3.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-main": "1.0.x-dev"
+    },
+    "opendxp": {
+      "bundles": [
+        "Sylphen\\DataBridgeBundle\\SylphenDataBridgeBundle"
+      ]
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": false,
+      "symfony/runtime": false
+    }
+  },
+  "bin": [
+    "Tools/install-data-bridge"
+  ]
+}

@@ -1,0 +1,550 @@
+plugin_sylphen_data_bridge: Create Dataports
+plugin_sylphen_data_bridge_admin_permission: Data Bridge Admin (configure and execute all dataports)
+no_objects_found: No objects found
+flexibleTable_type_text: Text
+flexibleTable_type_number: Number
+flexibleTable_type_bool: Checkbox
+deleted: deleted
+DD.WorkflowTransition: Workflow Transition
+pim:
+  "true": Yes
+  "false": No
+  each: each item
+  Imports: Dataports
+  PIM config: Data Bridge
+  mapping_config: Attribute mapping
+  delete_rawdata: Delete raw data
+  delete_rawdata.confirm: Do you really want to delete this raw data item?
+  copy_dataport: Copy dataport
+  compatibilityMode: Compatibility Mode
+  compatibilityMode.tooltip: In compatibility mode OpenDXP's default save logic is used. This does more database operations than necessary and thus is much slower.
+  dataport:
+    notfound: Dataport does not exist
+pim.add_dataport: Add dataport
+pim.add_dataport.no_template: No template available
+pim.dataport_configuration: All Dataports
+pim.dataport.import_configuration: Import configuration
+pim.dataport.export_configuration: Export configuration
+pim.dataport.favorite.add: Add to main menu
+pim.dataport.favorite.remove: Remove from main menu
+pim.dataport.favorite.personal: current user
+pim.enter_new_dataport_name: Dataport name
+pim.error_creating_dataport: Error creating dataport
+pim.delete_dataport_message: Do you really want to delete this dataport? All raw data will be removed as well.
+pim.dataport_empty_tree: No dataports found
+pim.dataport_create: Create dataport %s
+pim.dataport.create_report: Create raw data report
+pim.dataport.open_report: View raw data report
+pim.dataport_loading: Loading ...
+pim.dataport_configpanel: Settings
+pim.dataport_previewpanel: Preview
+pim.dataport.tab.back: "Back to previous tab"
+pim.dataport.tab.forward: "Forward to next tab"
+pim.dataport.tab.close_left: Close tabs to the left
+pim.dataport.tab.close_right: Close tabs to the right
+pim.dataport_name: Name
+pim.dataport_description: Description
+pim.dataport_sourcetype: Source data type
+pim.dataport_sourcetype.fixed_length_file: Fixed-length File
+pim.dataport_sourcetype.pimcore_elements: OpenDXP Elements
+pim.dataport_sourcetype.pimcore_reports: OpenDXP Report
+pim.dataport_sourcetype.pimcore_reports.install_report_bundle: Please install <a href="https://docs.opendxp.io/docs/core-framework/Tools_and_Features/Custom_Reports/" target="_blank">OpenDXP Custom Reports bundle</a> to use reports as data resource.
+pim.dataport_sourcetype.pimcore_grid_config: OpenDXP Grid Configuration
+pim.dataport_sourcetype.files: File system
+pim.dataport_sourcetype.object-wizard: Object Wizard
+pim.dataport.object_wizard.fields.field-type: Field Type
+pim.dataport_sourcetype.change.question: Change data type?
+pim.dataport_sourcetype.change.warning: Changing data type leads to data loss<br /> of already inserted raw data.<br /><br />Do you really want to change the data type?
+pim.dataport_sourceClass: Source data class
+pim.dataport_targetclass: Target class
+pim.dataport_targetclass.core_classes: Core classes
+pim.dataport_targetclass.data_object_classes: Data Object classes
+pim.dataport_mode: Import mode
+pim.dataport_mode.create_only: Create new objects, do not edit existing ones
+pim.dataport_mode.edit_only: Edit existing objects, do not create new ones
+pim.dataport_mode.create_and_edit: Create and edit objects
+pim.dataport_targetfolder: Target folder
+pim.dataport_optimize_inheritance: Optimize inheritance
+pim.dataport_optimize_inheritance.tooltip: Data gets set on a parent / ancestor element of the imported object if all of the parent's siblings have the same value in the respective field
+pim.dataport_parallel_processes: Execute with parallel processes
+pim.dataport_parallel_processes.tooltip: Import gets split to multiple parallel processes for optimal performance
+pim.dataport_parallel_processes.updated: Number of parallel processes got updated successfully
+pim.dataport.send_error_notification: Error notification recipients
+pim.dataport_skip_versioning: Disable versioning
+pim.dataport_skip_versioning.tooltip: Every time an asset gets saved a copy of it gets saved as version. Depending on the asset's file size this can use a lot of disk space.
+pim.dataport_assetfolder: Asset target folder
+pim.dataport_archiveFolder: Archive folder
+pim.dataport_importstatus: Publish object
+pim.dataport_idprefix: Object key prefix
+pim.dataport_advancedOptions: Advanced Settings
+pim.dataport_categoryclass: Category class
+pim.dataport_fieldnameProducts: Field name for products
+pim.dataport.folder.pimcore_or_filesystem: OpenDXP or filesystem folder (OpenDXP folder can be assigned via drag & drop)
+pim.dataport-fields.sorting-direction.asc: Records get sorted ascending by this field. Switch to descending order by clicking this cell.
+pim.dataport-fields.sorting-direction.desc: Records get sorted descending by this field. Please click to sort ascending.
+pim.dataport-fields-name: Field name
+pim.dataport-fields-multivalues: Multivalue
+pim.dataport-fields-ex1: Example data
+pim.dataport-fields.duplicate: There already is a field with this field identifier
+pim.dataport.file: Import source (file, folder, URL, cURL command, PHP script)
+pim.dataport.file.files: Path to import files
+pim.dataport.file.suggest.soap: SOAP API call
+pim.dataport.file.suggest.http_post: URL with HTTP POST
+pim.dataport.file.suggest.http_basic_auth: URL with Basic Authentication
+pim.dataport.file.suggest.icecat: Icecat product data
+pim.dataport.file.suggest.aws.hint: check ~/.aws/credentials to get your key + secret (after you have executed "aws configure")
+pim.dataport.auto-import: Run automatically on new data
+pim.dataport.auto-import.tooltip: Automatic execution of dataport when saving elements for source data type 'OpenDXP objects', for dynamic import resources with placeholders which reference fields of the target class and for dataports whose import source files are OpenDXP assets. For all other data sources the dataport gets executed together with OpenDXP's maintenance job (frequency can be adjusted with 'Execute every x hours' in attribute mapping).
+pim.dataport.auto-import.tooltip.export: Update raw data when object of source class gets saved. Improves export performance because raw data is always up-to-date, thus raw data extraction step can be skipped when export is requested.
+pim.dataport.incremental_export: Incremental Export
+pim.dataport.incremental_export.tooltip: Export only data from objects which have been changed after last successful export
+pim.dataport.incremental_export.draft_versions: Execute also for draft versions
+pim.dataport.incremental_export.draft_versions.tooltip: A draft version gets created when the 'Save' button gets clicked instead of the 'Save & Publish'. Especially when your role / user permissions do not allow publishing changes, this option needs to be set to automatically run the dataport.
+pim.dataport_xml_itemxpath: XPath expression per item
+pim.dataport-fields-xpath: XPath expression
+pim.dataport-fields-json-path: JMESPath expression
+pim.dataport.json.item-json-path: JMESPath expression for items
+pim.dataport.change-order-hint: Order of fields defines import / export order
+pim.dataport.move-to-top: Move to top (import order)
+pim.dataport.move-to-selection: Move after "%s"
+pim.dataport.sort-descending: During processing, sort descending
+pim.dataport.sort-ascending: During processing, sort ascending
+pim.dataport.order_by_in_condition: You have used an "ORDER BY" statement. But this field is really only for the SQL condition (WHERE). You can adjust the sorting at the processing of raw data by changing the order of raw data fields in the table below.
+pim.dataport.auto_create: Auto create
+pim.dataport.auto_create.window.title: Upload example file to create raw data fields
+pim.dataport.auto_create.window.button: Create raw data fields
+pim.dataport.csv.fields.name: Field name or number (source)
+pim.dataport.csv.hasHeader: Field name in first row
+pim.dataport.csv.separator: Column separator
+pim.dataport.csv.quote: Text delimiter
+pim.dataport.csv.assetSource: Asset source folder
+pim.dataport.excel.fields.name: Field name or number (source)
+pim.dataport.excel.hasHeader: Field name in first row
+pim.dataport.excel.assetSource: Asset source folder
+pim.dataport.excel.sheet: Datasheet
+pim.dataport.excel.dataArea: Data area
+pim.dataport.excel.dataArea.tooltip: "e.g. <code>A2:</code> (all columns and rows beginning from row (including header row)) or <code>A:F</code> (all rows in columns A to F)"
+pim.dataport.opendxp.condition.suggest.like: contains certain value, % sign can be used as placeholder
+pim.dataport.opendxp.condition.suggest.unreferenced_elements: Unreferenced objects
+pim.dataport.opendxp.fields.method: Method
+pim.dataport.opendxp.fields.parameters: Parameters (comma-separated)
+pim.dataport.opendxp.fields.data_query_selector: Data Query Selector / PHP code
+pim.dataport.opendxp.fields.data_query_selector.hint: Access other fields via <code>Fieldname</code> or <code>{{ Fieldname }}</code>.<br>You can chain data query selectors, e.g. <code>ManyToOneRelation:FieldOfRelatedObject</code>.<br>For logic operations, you can use <a href="https://twig.symfony.com/doc/3.x/templates.html" target="_blank">Twig syntax</a>, e.g.<br><code>{{ Field1 * Field2 }}</code><br><br>or<br><br><code>{% if Field1 != '' %}<br>&nbsp;&nbsp;{{ Field1 }}<br>{% else %}<br>&nbsp;&nbsp;{{ Field2 }}<br>{% endif %}</code><br><br>Alternatively, you can use PHP code, for example<br><code>return strlen({{ description }});</code><br><br>or<br><br><code>foreach({{ relationalField:each:(validFrom;price) }} as $price) {<br>&nbsp;&nbsp;if($price['validFrom'] > time()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;return $price['price'];<br>&nbsp;&nbsp;}<br>}</code><br><br>Data Query Selectors originate from Blackbit Data Director (syntax unchanged). See the <a href="https://www.youtube.com/watch?v=mAu_5Eg3q_o&list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt&index=9&t=1954s&pp=iAQB" target="_blank">YouTube tutorial</a> and the <a href="https://blackbitdigitalcommerce.github.io/pimcore-data-director/#data-query-selectors" target="_blank">Blackbit Data Director handbook</a>.
+pim.dataport.opendxp.fields.your_input: Finished (add no further operation for this field)
+pim.dataport.opendxp.fields.in_requested_language: in requested language
+pim.dataport.opendxp.fields.in_all_languages: in all languages
+pim.dataport.opendxp.fields.core_functions.md5: MD5 hash
+pim.dataport.opendxp.fields.core_functions.mb_strtolower: Convert to lower case
+pim.dataport.opendxp.fields.core_functions.mb_strtoupper: Convert to upper case
+pim.dataport.opendxp.fields.core_functions.strip_tags: Strip HTML tags (allowed tags providable as parameter)
+pim.dataport.opendxp.fields.core_functions.str_replace: Replace text parts
+pim.dataport.opendxp.fields.core_functions.explode: Convert to array
+pim.dataport.opendxp.fields.core_functions.translate: Translate (with OpenDXP translations)
+pim.dataport.opendxp.fields.core_functions.add: Add number
+pim.dataport.opendxp.fields.core_functions.subtract: Subtract number
+pim.dataport.opendxp.fields.core_functions.multiply: Multiply number
+pim.dataport.opendxp.fields.core_functions.divide: Divide number
+pim.dataport.opendxp.fields.core_functions.number_format: "Format number (parameters: Number of decimals, decimal separator, thousands separator)"
+pim.dataport.opendxp.fields.core_functions.implode: Concatenate to text
+pim.dataport.opendxp.fields.ancestors: all ancestor elements of the same class
+pim.dataport.opendxp.fields.descendants: all descendant elements of the same class
+pim.dataport.opendxp.fields.before: previous version
+pim.dataport.opendxp.fields.labels: Key value array with field titles as keys
+pim.dataport.opendxp.fields.fields: Field definitions
+pim.dataport.opendxp.variable_preview_object: Current object / element
+pim.dataport.files.fields.command: CLI command
+pim.dataport.fixed_length_files.fields.length: Field length (Count of characters)
+pim.versions.compare_with_current: Select a version on the left to compare with current configuration
+pim.versions.identical: Both versions are identical
+pim.versions.add_to_git: The versions shown here are kept for 90 days. For better archiving and to record changes of your dataport configurations it is recommended to track the folder %s in Git. In this context automatic deployment via the command <code>bin/console data-bridge:deployment:dataport-rebuild</code> can be useful.
+pim.rawdatafield: Raw Data Field
+pim.rawdatafields: Raw Data Fields
+pim.rawdatafields.bulk_edit: Bulk edit
+pim.rawdatafields.bulk_edit.description: List raw data fields as comma-separated list of values (CSV). Every row contains the configuration of one raw data field. Please provide the following fields in every row
+pim.rawdatafields.object_tree: Select class fields
+pim.transformations: Transformations
+pim.error_loading_dataport: Error loading dataport
+pim.dataport_rawitemfield_id: Raw data ID
+pim.dataport_rawitemfield_updated: modified
+pim.preview.remove_column_sort: Remove sorting
+pim.preview.minimize_column_width: Minimize all columns
+pim.preview.maximize_column_width: Maximize all columns
+pim.preview.hide_columns_without_search_term: Hide columns without search term match
+pim.preview.no_records: Currently this dataport does not have any raw data
+pim_error_loadmapping: Error loading attribute mapping
+pim.reload: Reload
+pim.loading: Loading ...
+pim.error_rawdatafields: Error loading field names
+pim.settingspanel.caption: Settings
+pim.mapping.field: Field
+pim.mapping.field.difference: Difference
+pim.mapping.target_class_field: Target Class Field
+pim.mapping.visualize_dependencies: Dependent imports & exports of field '%s'
+pim.mapping.visualize_dependencies.tooltip: Click to see in which dataports this field is being used
+pim.mapping.savebutton: Save
+pim.mapping.uncommitted_changes: Uncommited changes
+pim.mapping.uncommitted_changes.question: There are uncommitted changes. What to do?
+pim.mapping.show_only_mapped: Only mapped fields
+pim.mapping.auto_map: Auto-assign raw data fields
+pim.mapping.auto_map.tooltip: Fields with assignment do not get changed
+pim.mapping.auto_map.success: Successfully mapped raw data fields
+pim.mapping.auto_map.unmapped_fields: "Following raw data fields could not be assigned: %sPlease adjust raw data field names to match the field names in OpenDXP or map these fields manually."
+pim.mapping.auto_map.success.save_hint: After you have checked the mapping, please use the save button on the bottom right.
+pim.mapping.init_action: Initialization function
+pim.mapping.init_action.hint: Function which gets executed before raw data processing starts. If it returns false, import gets aborted
+pim.mapping.result_callback: Result callback function
+pim.mapping.result_callback.hint: Function to generate result document
+pim.mapping.result_action: Result document action
+pim.mapping.result_action.hint: Function to define what to do with the result document
+pim.mapping.remove_mapping: Remove assignment
+pim.mapping.path: Object path / parent element
+pim.mapping.id.tooltip: "Value cannot be written (Auto Increment field), only usable as key field.<br>For IDs from external systems, please use an extra data object field."
+pim.mapping.key: Object name
+pim.mapping.key.tooltip: "Node name for element tree (technical name: key)"
+pim.mapping.deleteElement: Delete element
+pim.mapping.deleteElement.tooltip: Return <code>true</code> to delete the found element(s)
+pim.mapping.completeObject: Complete Element
+pim.mapping.completeObject.tooltip: This field is primarily used to synchronize data between different OpenDXP instances. Use the raw data field which you defined in the export using the data query selector <code>self</code>.
+pim.mapping.stream: File path / content
+pim.mapping.used_as_virtual_field.tooltip: is used as virtual field
+pim.mapping.virtual_field.tooltip: virtual field
+pim.mapping.auto_translate: Auto-translate from
+pim.mapping.deeplApiKey: "<a href=\"https://www.deepl.com/de/docs-api/api-access/authentication/\" target=\"_blank\">DeepL API key</a>"
+pim.mapping.openAiKey: "<a href=\"https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key\" target=\"_blank\">OpenAI API key</a>"
+pim.mapping.auto_generate.textLength: Text length
+pim.mapping.auto_generate.textLength.tooltip: Longer texts will provide more details but also need more time to generate / cause higher costs.
+pim.mapping.auto_generate.textLength.short: Short (approx. 1 paragraph)
+pim.mapping.auto_generate.textLength.medium: Medium (approx. 2 paragraphs)
+pim.mapping.auto_generate.textLength.long: Long (approx. 3 paragraphs)
+pim.mapping.auto_generate: Automatically generate
+pim.mapping.auto_generate.tooltip: Generate text with artificial intelligence based on the information which get provided via raw data field / callback function
+pim.mapping.infer: Automatically infer from given text
+pim.mapping.infer.advanced-relations: Fields to be automatically infered
+pim.mapping.infer.tooltip: Infer value from the given text via artificial intelligence
+pim.mapping.auto_detect_language: Auto-Detect
+pim.mapping.auto_classification: Automatically assign
+pim.mapping.auto_create_references: Automatically create non-existing referenced objects
+pim.mapping.auto_create_options: Automatically create missing options
+pim.mapping.callback_function.code_placeholder: "// Here you can apply transformations to the extracted data.\n// On the right side you see all available input parameters.\n// Use any valid PHP code - incl. conditions, loops, call own classes / OpenDXP classes / libraries etc.\n// Example:\nreturn $params['value'];"
+pim.mapping.callback_function.confirm_delete: Delete callback function?
+pim.mapping.callback_function.unexpected_output: Unexpected output
+pim.mapping.callback_function.no_rawdata_field_assigned: In the callback function $params['value'] gets accessed but no raw data field has been assigned
+pim.mapping.template.group.generic_exports: Generic Exports
+pim.mapping.template.group.excel_exports: Excel Exports
+pim.mapping.template.fill_excel: "Fill %s with data"
+pim.mapping.template.fill_excel_zipped: "Fill %s with data (incl. assets as zip archive)"
+pim.mapping.template.group.csv_exports: CSV Exports
+pim.mapping.template.group.xml_exports: XML Exports
+pim.mapping.template.group.json_exports: JSON Exports
+pim.mapping.template.group.start_follow-up: Start follow-up dataports / pipelines
+pim.mapping.template.rawdata_as_xml: Output raw data as XML
+pim.mapping.template.rawdata_as_zipped_xml: Raw data as XML, packed as Zip file incl. referenced assets
+pim.mapping.template.rawdata_as_csv: Output all raw data fields as CSV
+pim.mapping.template.rawdata_as_excel: Output all raw data fields as Excel file
+pim.mapping.template.rawdata_as_zipped_excel: Raw data as Excel, packed as Zip file incl. referenced assets
+pim.mapping.template.rawdata_as_excel_from_template: Output all raw data fields as Excel file from Excel template file
+pim.mapping.template.rawdata_as_zipped_csv: Raw data as CSV, packed as Zip file incl. referenced assets
+pim.mapping.template.rawdata_as_json: Output raw data as JSON
+pim.mapping.template.rawdata_as_zipped_json: Raw data as JSON, packed as Zip file incl. referenced assets
+pim.mapping.template.visualization: Dependency graph
+pim.mapping.template.predecessor_import: Start predecessor dataport
+pim.mapping.template.dependent_import: Start follow-up dataport
+pim.mapping.template.parametrize_dependent_import: Parametrize follow-up dataport (Fill object wizard)
+pim.mapping.template.dependent_import_with_result_document: Start follow-up dataport with result document as import source
+pim.mapping.template.dependent_import_url: Return URL to start other dataport
+pim.mapping.template.save_to_website_settings: Save to website settings
+pim.mapping.template.fetch_data_from_dependent_import: Generate data from result document of another dataport
+pim.mapping.template.raw_data_table: Output raw data as HTML table
+pim.mapping.template.error_output: Output import errors as text
+pim.mapping.template.action.output: Output document
+pim.mapping.template.action.save_as_asset: Save as asset
+pim.mapping.template.action.save_as_zipped_asset: Save as zip asset
+pim.mapping.template.action.ftp: Upload via FTP / FTPS
+pim.mapping.template.action.sftp: Upload via SFTP
+pim.mapping.template.action.s3: Upload via AWS S3
+pim.mapping.template.action.gcp: Upload zu Google Cloud Storage
+pim.mapping.template.action.email: Send email
+pim.mapping.template.action.commands: Run CLI commands
+pim.mapping.template.action.commands.run: "Run %s"
+pim.mapping.template.init.abort_if_other_processes_running: Abort if another import process for this dataport is running
+pim.mapping.template.init.queue_bulk_export_if_too_many_incremental_exports_queued: Bulk processing of there are more than x queued incremental jobs
+pim.mapping.template.init.only_execute_every_x_hours: Only execute every x hours (Cronjob)
+pim.mapping.template.init.cronjob: Execute at certain points in time (Cronjob)
+pim.mapping.template.init.parameter-dependent-run: Only extract raw data. Process raw data only if parameter "run" is set
+pim.mapping.template.textarea.concatenate_raw_data_fields: Output all raw data fields as list
+pim.mapping.assign_field_by: Assign %s object by %s
+pim.mapping.assign_field_by_empty: "without %s"
+pim.mapping.assign_asset_by_query: Assign existing %s
+pim.mapping.assign_asset_by_url: Fetch %s from file / URL
+pim.mapping.assign_asset_by_meta_field: Search for existing %s by metadata field %s
+pim.mapping.assign_metadata: Assign Metadata
+pim.mapping.assign_metadata_predefined: "Assign %s metadata"
+pim.mapping.assign_metadata_predefined_default: Predefined
+pim.mapping.asset_generate_barcode: Generate barcode
+pim.mapping.asset_generate_qrcode: Generate QR code
+pim.mapping.add_index: or add (unique) index to query field in class %s
+pim.mapping.variant: Create object variants instead of normal objects
+pim.mapping.always_publish: Publish all
+pim.mapping.always_unpublish: Unpublish all
+pim.mapping.always_enable: Always enable
+pim.mapping.always_disable: Always disable
+pim.mapping.date.now: Current date
+pim.mapping.user.current_user: Executing user
+pim.mapping.assign_link_path: Raw data field as link target
+pim.mapping.assign_fieldcollection: Import to field collection %s
+pim.mapping.translate_fieldcollection: Translate localized fields in field collection
+pim.mapping.assign_quantity_value: Import %s
+pim.mapping.generate_pdf_from_html: Create PDF from HTML
+pim.mapping.generate_pdf_from_document: Create PDF from OpenDXP document
+pim.mapping.import_only_for_new_objects: Only import for newly created objects. Keep current value for existing objects.
+pim.mapping.prepend_input: Prepend other field
+pim.mapping.append_input: Append other field
+pim.mapping.generate_url: Generate URL slug
+pim.mapping.deepl_translation: DeepL Translation
+pim.mapping.calculatedValue.asset_absolute_url: Generate absolute URL / prepend domain
+pim.mapping.calculatedValue.html_to_text: Convert HTML to text
+pim.mapping.calculatedValue.html_to_markdown: Convert HTML to Markdown
+pim.mapping.calculatedValue.html_convert_to_absolute_urls: "HTML: Convert relative URLs to absolute"
+pim.mapping.calculatedValue.number_format: Format number according to export language
+pim.mapping.calculatedValue.data_quality: Check data quality
+pim.mapping.calculatedValue.data_quality.invalid_data: Invalid field value
+pim.mapping.calculatedValue.nodes_visualization: Node data for dependency graph
+pim.mapping.classificationStore.auto_generate_fields: Automatically create non-existing fields
+pim.mapping.block.auto_create: Automatically create non-existing select options and units
+pim.mapping.checkbox.data_quality: Disable if data quality is insufficient
+pim.mapping.example.raw: Example result
+pim.mapping.example.parsed: Parsed
+pim.mapping.example.no-preview: No preview available. Please run the dataport to see the result.
+pim.mapping.example.export-hint: Please select an export template by clicking the icon in the "Transformations" column
+pim.mapping.preview_hint: This value is based on the current preview raw data item - for testing / debugging you can add / change rawdata in the preview panel or select another raw data item to be used for preview by clicking a cell in the column 'Example result'
+pim.mapping.key_attribute: Key attribute
+pim.mapping.key_attribute_missing_index: Key attribute (for better performance enable 'Indexed' checkbox at field definition)
+pim.mapping.data_query_selector_missing_index: For better performance check 'Indexed' checkbox for field "%s" in the data object class "%s"
+pim.mapping.key_attribute.skipping.key_field_null: Record skipped because the key field "%s" returns null
+pim.mapping.key_attribute.skipping.create_not_allowed: Record skipped because the import mode is set to "Only edit existing objects"
+pim.mapping.key_attribute.skipping.edit_not_allowed: Record skipped because the import mode is set to "Only create new objects"
+pim.mapping.write-protected: Do not overwrite if already filled
+pim.mapping.truncate_before_import: Truncate before import
+pim.mapping.truncate_before_import.objectbricks: Truncate used relational fields before import
+pim.mapping.delete_children_before_import: Delete child elements before import
+pim.mapping.overwrite_images: Overwrite images
+pim.mapping.prevent_duplicates: Prevent duplicates
+pim.mapping.decimal_separator: Decimal separator
+pim.mapping.thousands_separator: Thousands separator
+pim.mapping.auto_create_units: Auto-create non-existing units
+pim.mapping.ignored_values: Ignored Values
+pim.mapping.ignored_values.tooltip: Some values from the data source have been configured to be ignored. Those values do not get imported.
+pim.mapping.optimize: Optimize
+pim.mapping.optimize.none: Disabled
+pim.mapping.optimize.minimize: Minimize
+pim.mapping.optimize.maximize: Maximize
+pim.mapping.optimize.tooltip: With this function it is tried to find an optimal value in this field by changing the contents of the other mapped fields of this dataport
+pim.mapping.copied_to_clipboard: Variable copied to clipboard. Please paste it at the desired position in the callback function.
+pim.mapping.copied_to_clipboard_mapping: Wert wurde in die Zwischenablage kopiert.
+pim.mapping.variables.double_click: Doubleclick to show variable contents in new window
+pim.mapping.variables.tooltip: Parsed return value of field "%s"
+pim.mapping.variables.variable.not_in_use: not in use
+pim.mapping.variables.variable: Variable
+pim.mapping.variables.available_variables: Available Variables
+pim.mapping.variables.history: History
+pim.mapping.variables.history.compare_with: Compare callback function
+pim.mapping.variables.generic: Generic Variables
+pim.mapping.variables.mapped: Other mapped fields
+pim.mapping.variables.env: Environment variables
+pim.mapping.variables.value: Value of mapped raw data field as imported from import resource
+pim.mapping.variables.rawItemData: Values of all raw data fields of current raw data item
+pim.mapping.variables.rawItemData.single: Value of raw data field "%s"
+pim.mapping.variables.currentValue: Current value of field %s in object which got found via set key fields, <i>not available in object querying phase</i>
+pim.mapping.variables.currentObjectData: Array with all current values from the found OpenDXP element (associative array with element's field names as keys), <i>not available in object querying phase</i>
+pim.mapping.variables.currentObjectData.single: Current value in field "%s"
+pim.mapping.variables.keyValues: Associative array with key values indexed by key field names, <i>not available in object querying phase</i>
+pim.mapping.variables.response: Current HTTP response document generated by this callback function from previously processed raw items, initially empty <code>Response</code> object - via <code>$params['response']->addContent('my response content');</code> you can append data to it. Alternatively, you can populate the response via <code>$params['response']->setContent('my response content');</code> or <code>return "my response content";</code> but this is less performant.<br>Response HTTP headers can be set via <code>$params['response']->headers->set('Header Name', 'Header value');</code>.
+pim.mapping.variables.request: Current Request object - access URL parameters of REST API requests via <code>$params['request']->get('parameterName')</code>. <br>Access current language via <code>$params['request']->getLocale()</code>.
+pim.mapping.variables.context: Context of the current processing
+pim.mapping.variables.logs: Logs for events which happened during processing of current raw item
+pim.mapping.variables.objectIDs: Array with the IDs of the elements which got changed by the current raw data item
+pim.mapping.variables.lastCall: <i>true</i> if the current raw data item is the last one for this import / export, else <i>false</i>
+pim.mapping.variables.transfer: Object for storing data to be reused / processed on later raw item datasets, the object is initially empty
+pim.mapping.variables.translator: Object to access OpenDXP translations, e.g. <code>$params['translator']->translate('Translation Key');</code> or <br><code>$params['translator']->translate('Translation Key', 'en');</code><br>Works with admin and shared translations.
+pim.mapping.variables.response.action: Response document which got created by result callback function
+pim.mapping.variables.transfer.action: Transfer object which eventually got filled by the result callback function
+pim.mapping.variables.logger: PSR-3 Logger object, e.g. for debugging <code>$params['logger']->info($myVariable);</code>
+pim.manual.title: History & Run import
+pim.manual.title.export: History & Run export
+pim.manual.importForm.title: Import rawdata
+pim.manual.importForm.start: Extract raw data from import source
+pim.manual.startimport.rawdata: Extract raw data from import source
+pim.manual.startimport.rawdata.export: Load raw data for export
+pim.manual.startimport.pim: Import raw data to objects
+pim.manual.startimport.pim.export: Start export with current raw data
+pim.manual.startimport.complete: Start complete import
+pim.manual.startimport.complete.export: Start complete export
+pim.manual.startimport.dry-run: Data review (show what would change but not save anything)
+pim.manual.startimport.dry-run.importType: Data review
+pim.manual.startimport.open-changed-elements: Open changed elements
+pim.manual.startimport.open-changed-elements.confirm: "%s objects have been changed. Shall they really be opened?"
+pim.manual.startimport.summary: Summary
+pim.manual.startimport.summary.dry-run.lock: Approve
+pim.manual.startimport.summary.dry-run.lock.tooltip: Allow or ignore the value in "New" column to be imported in future imports
+pim.manual.startimport.summary.dry-run.lock-field-for-all-objects: Ignore this field for all objects of this run
+pim.manual.startimport.summary.dry-run.lock-field-for-all-objects.confirm: Shall all import values for this field for all objects get ignored for future imports?
+pim.manual.startimport.summary.dry-run.allow-field-for-all-objects: Allow this field to be imported for all objects of this run
+pim.manual.startimport.summary.dry-run.lock-all-fields-in-objects: Ignore all field values for selected object
+pim.manual.startimport.summary.dry-run.allow-all-fields-in-objects: Allow all field values for selected object
+pim.manual.startimport.summary.dry-run.allow-all-values-for-field: Allow all values for all objects
+pim.manual.startimport.summary.dry-run.allow-all-values-for-field.confirm: Shall all ignored import values for this field get allowed again, so that they will get imported?
+pim.manual.startimport.summary.dry-run.ignore-all-values-for-all-objects: Ignore all import values for all objects
+pim.manual.startimport.summary.dry-run.lock-not-allowed.new-object: '{0} value(s) could not be ignored because the following object(s) do not exist with the corresponding object ID(s) from this run (they may not be created yet, recreated with another object ID or removed):<br/>{1}<br/><br/>To change the strategy to Path-based, disable the <span style="font-weight:bold">sylphen_data_bridge.import_ignore.use_object_id</span> config option.'
+pim.manual.startimport.summary.old: Old value
+pim.manual.startimport.summary.new: New value
+pim.manual.startimport.summary.diff: Diff
+pim.manual.startimport.summary.logs: See logs
+pim.manual.startimport.summary.finished_in: Finished in
+pim.manual.startimport.summary.errors: Errors
+pim.manual.startimport.summary.changes: Changes
+pim.manual.startimport.summary.changes.none: No changes
+pim.manual.startimport.summary.changes.filter.changed: Changed elements
+pim.manual.startimport.summary.changes.filter.unchanged: Unchanged elements
+pim.manual.startimport.summary.changes.filter.new: New elements
+pim.manual.startimport.summary.output: Output
+pim.manual.startimport.popup_blocked: Your browser blocked the popup window. <a href="%s" target="_blank">Click here to run the complete import</a>.
+pim.manual.startimport.export.next: Next
+pim.manual.statusgrid.title: Importstatus and history
+pim.manual.statusgrid.dataport: Dataport
+pim.manual.statusgrid.startDate: Start
+pim.manual.statusgrid.duration: Duration
+pim.manual.statusgrid.duration.remaining: finishes in
+pim.manual.statusgrid.click_to_open_archive_file: Open used import files in archive folder
+pim.manual.statusgrid.status: Status
+pim.manual.statusgrid.status.0: Running ...
+pim.manual.statusgrid.status.1: Finished successfully
+pim.manual.statusgrid.status.2: Canceled
+pim.manual.statusgrid.status.queued: Queued
+pim.manual.statusgrid.status.error_occurred: An error occurred during a recent run
+pim.manual.statusgrid.status.unused: Dataport hasn't been run for some time and probably can be removed
+pim.manual.statusgrid.status.EMERGENCY: Finished with emergency
+pim.manual.statusgrid.status.CRITICAL: Finished with critical errors
+pim.manual.statusgrid.status.ALERT: Finished with alerts
+pim.manual.statusgrid.status.ERROR: Finished with errors
+pim.manual.statusgrid.status.WARNING: Finished with warnings
+pim.manual.statusgrid.status.NOTICE: Finished with notices
+pim.manual.statusgrid.progress: Progress
+pim.manual.statusgrid.type: Import type
+pim.manual.statusgrid.type.unknown: Unknown
+pim.manual.statusgrid.type.4: Extract raw data
+pim.manual.statusgrid.type.8: Process raw data
+pim.manual.statusgrid.type.32: "Complete"
+pim.manual.statusgrid.type.32.1: "Complete (1/2: Rawdata)"
+pim.manual.statusgrid.type.32.2: "Complete (2/2: Processing)"
+pim.dataport.download-filesystem-path: Open / Download log file
+pim.dataport.copy-filesystem-path: Copy log file system path
+pim.manual.importForm.emptyUpload: Leave blank to import the default file
+pim.manual.importForm.uploadLabel: File
+pim.manual.importForm.waitMsg: Preparing ...
+pim.manual.importForm.success: Dataport has been started
+pim.manual.importForm.failure: An error occurred. Dataport has not been started
+pim.manual.importForm.file_too_large: File could not be uploaded, perhaps it is larger than %s
+pim.manual.importForm.cancel: Abort import
+pim.manual.importForm.cancel.failure: An error occurred. Import has not been cancelled
+pim.manual.importForm.redo: Execute again
+pim.manual.error.noPhpCli: No executable PHP-Binary found.
+pim.manual.startimport.pim.title: Process raw data
+pim.manual.startimport.pim.text: Execute dataport with current raw data?
+pim.manual.startimport.pim.force: Skip already imported raw data items
+pim.manual.startimport.pim.force.export: Use output cache if newest raw data item is not newer than cache
+pim.manual.startimport.single: Start dataport processing for this raw item?
+pim.dataport.clone: Clone
+pim.dataport.import: Import dataport
+pim.dataport.import.confirm: All configurations of this dataport get overwritten by the settings of the selected import file. Do you want to proceed?
+pim.dataport.import.start: Start import
+pim.dataport.import.success: Dataport successfully imported
+pim.dataport.import.failure: Could not read import file
+pim.dataport.noname: No name entered
+pim.dataport.nametaken: This dataport name is already used by another dataport
+pim.dataport.invalidid: Invalid dataport
+pim.manual.delete.rawdata: Delete raw data
+pim.manual.delete.rawdata.success: Raw data entries have been deleted.
+pim.manual.delete.rawdata.failure: An error occurred. The raw data entries have not been deleted.
+pim.manual.delete.rawdata.running_process_rawdata: Some raw data could not be deleted because running jobs are processing it. Delete anyway?
+pim.dataport.import.open_objects_by_key_fields: Open objects referenced by key fields
+pim.dataport.import.no_matching_objects_found: No matching objects found - please start the import first
+pim.manual.start_queue_processor: Start queue processor
+pim.manual.start_queue_processor.tooltip: When jobs get queued, queue processing will be started automatically. In this case this did not work. You can start queue processing manually with this button. If this button appears frequently, something is not configured correctly, which prevents automatic start of the queue processing.
+pim.manual.start_queue_processor.started: Queue processor successfully started
+pim.manual.queue_processor_monitor: Queue Processor Monitor
+pim.manual.filter.successful: Successful finished jobs
+pim.manual.filter.errors: Jobs with errors
+pim.manual.filter.aborted: Aborted jobs
+pim.manual.filter.queued: Jobs in queue
+pim.manual.filter.running: Currently running jobs
+pim.manual.filter.done: Filter by processed items (count changeable)
+pim.manual.filter.total: Filter by total items (count changeable)
+pim.dataport_importer_class: Importer class
+pim.dataport_javascriptEngine: Callback function interpreter
+pim.jsengine.spidermonkeyLegacy: Spidermonkey (legacy)
+pim.jsengine.spidermonkey: Spidermonkey with function wrapper
+pim.jsengine.v8Js: V8
+pim.jsengine.php: PHP
+pim.jsengine.unavailable: not available
+pim.jsengine.none: None (Javascript processing deactivated)
+pim.rest_api.documentation: REST API Documentation
+pim.rest_api.authentication: Authentication
+pim.rest_api.api_keys: API Keys
+pim.rest_api.api_key: REST API Key
+pim.rest_api.api_key_valid_to: API key valid until
+pim.rest_api.user_disabled: User is disabled
+pim.rest_api.api_key_expired: API key is not valid anymore
+pim.permission_missing_targetType: User is missing permission '%s'
+pim.permission_missing_targetClass: User is missing permission for class '%s'
+pim.permission_execution: Run
+pim.permission_no_execution: No Permission to run, only configuration allowed
+pim.permission_missing_create_dataport: Missing permission to create dataports
+pim.permission_missing: Missing permission '%s'
+pim.conflict.title: Dataport setting conflict
+pim.conflict: Meanwhile this dataport got changed by %s. Overwrite changes?
+pim.conflict.force: Save anyway
+pim.conflict.check_versions: Check versions
+pim.conflict.cancel: Cancel
+pim.import.editlock.notification.title: Update of currently open %elementType%
+pim.import.editlock.notification.text: There is an upcoming update of %elementType% %elementPath% (Dataport '%dataportName%' (ID %dataportId%)). Please finish your work on this element and close it afterwards.
+pim.grid-export.warning: The structure of the export document and the fields to be exported are only defined in the dataport configuration. It does not matter which fields are currently displayed in the grid. The selected dataport will get executed for all selected / filtered items in the current grid.
+pim.grid-export.no_dataports_found: No dataports for objects in this folder found
+pim.grid-export.select_dataport: Select dataport
+pim.grid-export.csv: CSV (Data Bridge)
+pim.grid-export.json: JSON (Data Bridge)
+pim.grid-export.xml: XML (Data Bridge)
+pim.grid-export.import_excel: XLSX Import
+pim.grid-export.import_excel.warning: Please use an Excel spreadsheet which contains the column "ID" (OpenDXP object id). All other columns can be referenced via field name or title.
+pim.field-type.calculated-value-data-query-selector: Calculated Value (Data Query Selector)
+pim.field-type.input-with-placeholders: Input with variables
+pim.field-type.textarea-with-placeholders: Textarea with variables
+pim.field-type.wysiwyg-with-placeholders: WYSIWYG field with variables
+dd_htmlContainer: HTML container
+dd_button: Dataport button
+pim.button.permission_missing: You are missing the permission to execute this function. Please ask your administrator.
+pim.report.force: Always refresh data
+pim.report.force.tooltip: If checkbox is disabled, raw data of the dataport will only get fetched if no raw data exists
+pim.update-available.installed_version: Installed version
+pim.update-available.latest_version: Current stable version
+pim.update-available.changes_since: Changes since %s
+pim.portlets.queue-monitor: Data Bridge Queue Monitor
+pim.portlets.error-monitor: Data Bridge Errors
+pim.portlets.tagged-elements: Elements with Tag
+pim.perspective.PIM: PIM
+pim.perspective.default: Default
+pim.error: Es ist ein Fehler aufgetreten
+pim.error.retry: Retry
+pim.direct_open: Open in %s
+pim.direct_open.tooltip: Direct editing of this file in %s. As soon as you save, the file will get saved in OpenDXP.
+pim.searchByField: "Open %class% by %field%"
+pim.searchByField.prompt: Which %field% value do you want to search for? You can enter multiple values comma-separated to open multiple %class% objects.
+pim.searchByField.not_found: No %class% object with %field%=%value% could be found
+pim.restore_version: Restore version
+pim.restore_version.baseObject: Objects
+pim.restore_version.mode: Mode
+pim.restore_version.mode.objects: Only this object
+pim.restore_version.mode.descendants: Children and descendants of this objects
+pim.restore_version.fields: Fields
+pim.restore_version.startButton: Restore
+pim.restore_version.errors.none: No errors
+database_administration: Database Administration

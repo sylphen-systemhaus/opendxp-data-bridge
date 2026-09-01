@@ -1,0 +1,91 @@
+<html lang="en">
+<head>
+    <title>Data Bridge Queue Processing Monitor</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+        body {
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        .progressWrapper {
+            margin: 16px 0;
+        }
+
+        .progressBar {
+            width: 100%;
+            background-color: #e0e0e0;
+            padding: 3px;
+            border-radius: 3px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, .2);
+            float: left;
+            position: relative;
+        }
+
+        .progress {
+            color: #fff;
+            background-color: #659cef;
+            border-radius: 3px;
+            height: 22px;
+        }
+
+        .progressCount {
+            position: absolute;
+            top: 5px;
+            color: #666;
+        }
+
+        .status {
+            line-height: 30px;
+            margin-left: 10px;
+        }
+    </style>
+    <script{% if opendxp_csp is defined and opendxp_csp %}{{ opendxp_csp.getNonceHtmlAttribute()|raw }}{% endif %}>
+        var timeout;
+        function refresh () {
+            if (typeof fetch === 'function') {
+
+                fetch('/admin/SylphenDataBridge/import/queue-processor-monitor-ajax?n=' + new Date().getTime())
+                    .then(response => response.json())
+                    .then(function (data) {
+                        if(data.progress) {
+                            document.getElementById('queue-monitor').innerHTML = data.progress;
+                        }
+
+                        timeout = setTimeout(refresh, 1000);
+                    }).catch((error) => {
+                        timeout = setTimeout(refresh, 1000);
+                    });
+
+            } else {
+                timeout = setTimeout(function () {
+                    window.location.href = '/admin/SylphenDataBridge/import/queue-processor-monitor?n=' + new Date().getTime();
+                }, 1000);
+            }
+        }
+        refresh();
+
+        document.addEventListener("change", function (e) {
+            if (typeof e.target.name !== "undefined" && e.target.name === 'maxParallelProcesses') {
+                this.parent.opendxp.plugin.Pim.plugin.updateMaxParallelProcessesSetting(e.target.value);
+                refresh();
+            }
+        }.bind(this));
+
+        document.addEventListener("click", function (e) {
+            if (typeof e.target.name !== "undefined" && e.target.name === 'maxParallelProcesses' && timeout) {
+                clearTimeout(timeout);
+            }
+        }.bind(this));
+
+        document.addEventListener("blur", function (e) {
+            if (typeof e.target.name !== "undefined" && e.target.name === 'maxParallelProcesses') {
+                refresh();
+            }
+        }.bind(this));
+    </script>
+</head>
+<body>
+<div id="queue-monitor">{{ progress|raw }}</div>
+</body>
+</html>

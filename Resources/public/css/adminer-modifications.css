@@ -1,0 +1,67 @@
+/*
+ * Sylphen Data Bridge for OpenDXP
+ * Copyright (c) Sylphen GmbH — https://sylphen.com
+ * Based on Blackbit Data Director — Copyright (c) Blackbit digital Commerce GmbH
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+
+.logout {
+    display: none;
+}
+
+#help {
+    display: none;
+}
+
+#menu {
+    z-index: 1002;
+}
+
+#menu h1 {
+    display: none !important;
+}
+
+#menu .logout input {
+    display: none !important;
+}
+
+#menu {
+    width:320px !important;
+    overflow: scroll;
+    position: fixed;
+    height: 100vh;
+    top: 0;
+}
+
+#lang {
+    display: none;
+}
+
+#content {
+    margin-left: 360px !important;
+}
+
+#breadcrumb {
+    left:360px !important;
+}
+
+.js .hidden {
+    display: none !important;
+}
+
+#fieldset-history, #fieldset-export, #fieldset-search, #fieldset-sort {
+    display: block !important;
+}
+
+#dbs {
+    display: none;
+}
+
+#tables li a.select {
+    padding-bottom: 0 !important;
+}
+
+html > /**/ body .links a[href$="&create="] {
+    display: none;
+}

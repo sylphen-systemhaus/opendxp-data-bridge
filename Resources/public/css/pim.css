@@ -1,0 +1,320 @@
+/*
+ * Sylphen Data Bridge for OpenDXP
+ * Copyright (c) Sylphen GmbH — https://sylphen.com
+ * Based on Blackbit Data Director — Copyright (c) Blackbit digital Commerce GmbH
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+
+.pim_calculation {
+	background-color: #9DD7FF;
+}
+
+.pim_calculation_invalid {
+	background-color: #ff0000;
+}
+
+.pim_calculation_warnings {
+	background-color: #fffd9e;
+}
+
+.opendxp_icon_api_documentation {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/fine_print.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_versioning {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/serial_tasks.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_disapprove {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/disapprove.svg) center center no-repeat !important;
+	width: 24px;
+	height: 24px;
+}
+
+.opendxp_icon_approve {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/approve.svg) center center no-repeat !important;
+	width: 24px;
+	height: 24px;
+}
+
+.attribute-is-mapped td {
+	font-weight: bold;
+}
+
+.attribute-is-inherited td {
+	font-style: italic;
+}
+
+.mapping-has-formula {
+	background-color: #9DD7FF;
+}
+
+.mapping-is-key-field-without-index {
+	border-bottom: solid 2px red;
+}
+
+.pim_tree_node_selected {
+	background-color: #0000FF;
+}
+
+.code-toolbar {
+	height: 100%;
+}
+
+.ace_hidden-cursors {
+	opacity: 0;
+}
+
+.x-form-item .ace_editor {
+	color: inherit;
+}
+
+.no-icon .x-tree-icon {
+	display: none;
+}
+
+.x-grid-item-selected {
+	background: #ffefbb;
+}
+
+.no-icon .x-tree-elbow-img.x-tree-elbow-empty, .no-icon .x-tree-elbow-img.x-tree-elbow-end, .no-icon .x-tree-elbow-img.x-tree-elbow {
+	width: 0;
+	margin-right: 0;
+}
+
+.no-icon .x-grid-item-container {
+	padding-top: 0;
+}
+
+.no-icon .x-tree-view .x-grid-item, .no-icon .x-panel-body-default, .no-icon.x-panel-default {
+	background: none;
+}
+
+.no-icon .x-grid-cell, .no-icon .x-grid-item, .no-icon .x-grid-item:last-child, .no-icon .x-grid-body {
+	border-width: 0;
+}
+
+.no-icon .x-tree-node-text {
+	padding-left: 0;
+}
+
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-over) .log-EMERGENCY .x-grid-cell, td.log-EMERGENCY {
+	background-color: #ff85c4;
+}
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-over) .log-ALERT .x-grid-cell, td.log-ALERT {
+	background-color: #ff9e9e;
+}
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-over) .log-CRITICAL .x-grid-cell, td.log-CRITICAL {
+	background-color: #ffd89e;
+}
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-over) .log-ERROR .x-grid-cell, td.log-ERROR {
+	background-color: #fff29e;
+}
+
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-over) .log-WARNING .x-grid-cell, td.log-WARNING {
+	background-color: #fffd9e;
+}
+.x-grid-item:not(.x-grid-item-selected):not(.x-grid-item-over) .log-NOTICE .x-grid-cell, td.log-NOTICE {
+	background-color: #edff9e;
+}
+
+.x-grid-inner-locked .x-grid-header-ct .x-box-inner {
+	border-right: solid 2px #5a5c5e;
+}
+
+.x-grid-scrollbar-clipper-locked .x-grid-empty {
+	display: none;
+}
+
+.opendxp_icon_minimize {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/bearish.svg) center center no-repeat;
+}
+
+.opendxp_icon_maximize {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/bullish.svg) center center no-repeat;
+}
+
+
+.opendxp_icon_autoCreateUnits {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/currency_exchange.svg) center center no-repeat;
+}
+
+.opendxp_icon_truncate {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/trash.svg) center center no-repeat;
+}
+
+.opendxp_icon_overwrite_images {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/edit_image.svg) center center no-repeat;
+}
+
+.x-grid-item pre {
+	font-family: 'Open Sans', 'Helvetica Neue', helvetica, arial, verdana, sans-serif;
+}
+
+.queue-processing-monitor-icon {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/bar_chart.svg) center center no-repeat !important;
+	transform: rotate(90deg);
+}
+
+.opendxp_icon_input_with_variables {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/input.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_textarea_with_variables {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/text.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_wysiwyg_with_variables {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/wysiwyg.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_input_with_variables:before, .opendxp_icon_textarea_with_variables:before, .opendxp_icon_wysiwyg_with_variables:before {
+	position: absolute;
+	width: 12px;
+	height: 12px;
+	bottom: 0;
+	right: 0;
+	content: "";
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/calculator.svg) center center/12px no-repeat !important;
+}
+
+.x-tree-icon-leaf.opendxp_icon_input_with_variables, .x-tree-icon-leaf.opendxp_icon_textarea_with_variables, .x-tree-icon-leaf.opendxp_icon_wysiwyg_with_variables {
+	position: relative;
+}
+
+.x-tree-icon-leaf.opendxp_icon_input_with_variables:before, .x-tree-icon-leaf.opendxp_icon_textarea_with_variables:before, .x-tree-icon-leaf.opendxp_icon_wysiwyg_with_variables:before {
+	bottom: 4px;
+	right: -4px;
+}
+
+.file-does-not-exist {
+	color: red !important;
+}
+
+.opendxp_icon_auto_generate_fields {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/add_database.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_data_bridge {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/feed_in.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_data_bridge_export {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/export.svg) center center no-repeat !important;
+}
+
+.opendxp_icon_overlay_go.opendxp_icon_overlay_actioncolumn:before {
+	bottom: -1px;
+	right: 9px;
+}
+
+.opendxp_icon_hide_column {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/dam.svg) center center no-repeat !important;
+}
+
+.diff-wrapper.diff.summary {
+	border: none;
+	background: none;
+}
+
+.diff-wrapper.diff.summary.diff-html .change .rep {
+	background: none;
+}
+
+.heading-permalink {
+	visibility: hidden;
+	font-size: 0;
+}
+
+.changelog img {
+	max-width: 500px;
+}
+
+/* see https://stephanwagner.me/only-css-loading-spinner */
+@keyframes dd-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.dd-loader:before {
+	content: '';
+	box-sizing: border-box;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 20px;
+	height: 20px;
+	margin-top: -10px;
+	margin-left: -10px;
+	border-radius: 50%;
+	border: 2px solid #fff;
+	border-top-color: #333;
+	animation: dd-spin .6s linear infinite;
+}
+
+.mandatory_field_error {
+	border: solid 1px red;
+}
+
+.opendxp_icon_treeSelect {
+	background: url("/bundles/opendxpadmin/img/flat-color-icons/tree_select.svg") no-repeat scroll center center transparent !important;
+}
+
+.opendxp_icon_dataBridgeCalculatedValueDataQuerySelector {
+	background: url(/bundles/opendxpadmin/img/flat-color-icons/calculator.svg) center center no-repeat !important;
+}
+
+table.tree-tooltip {
+	border-collapse: collapse;
+	width: 100%;
+	text-align: left;
+	line-height: 1;
+}
+
+table.tree-tooltip tr {
+	border-bottom: solid 1px #eee;
+}
+
+table.tree-tooltip tr:last-child {
+	border-bottom: none;
+}
+
+table.tree-tooltip td {
+	padding: 5px 10px 5px 0;
+	vertical-align: top;
+}
+
+table.tree-tooltip ul {
+	margin-top: 0;
+}
+
+.history-grid .x-grid-td {
+	vertical-align: middle;
+}
+
+#opendxp_menu_data_bridge.compatibility {
+	background-image: none !important;
+	text-indent: 0;
+}
+
+#opendxp_menu_data_bridge.compatibility img {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	top: 10px;
+	left: 14px;
+}
+
+.field-type-combo.x-boundlist-item-over, .field-type-combo.x-boundlist-selected {
+	background-color: #3c3f41 !important;
+}
+
+.x-form-display-field strong, .opendxp_editable_dataBridgeWysiwygWithPlaceholders strong {
+	font-weight: bold;
+}
+
+.opendxp_object_grid_panel .x-grid-cell-inner {
+    white-space: normal !important;
+}

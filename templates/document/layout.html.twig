@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% apply spaceless %}
+        {% if document is instanceof('\\OpenDxp\\Model\\Document\\Link') %}
+            {# @var document \OpenDxp\Model\Document\Link #}
+            {% set document = document.getObject() %}
+        {% endif %}
+
+        {% if document is instanceof('\\OpenDxp\\Model\\Document\\Page') %}
+            {% if document.getTitle() is not empty %}
+                {% do opendxp_head_title().set(document.getTitle()) %}
+            {% endif %}
+
+            {% if document.getDescription() is not empty %}
+                {% do opendxp_head_meta().setDescription(document.getDescription()) %}
+            {% endif %}
+        {% endif %}
+
+        {% set isPortal = ((isPortal is defined) and isPortal) %}
+    {% endapply %}
+
+    {# we're using the deferred extension here to make sure this block is rendered after all helper calls #}
+    {% block layout_head_meta %}
+        {{ opendxp_head_title() }}
+        {{ opendxp_head_meta() }}
+
+        {% if opendxp_placeholder('canonical').count() %}
+            <link rel="canonical" href="{{ opendxp_placeholder('canonical') }}"/>
+        {% endif %}
+    {% endblock %}
+
+    {% block head_stylesheets %}
+        {{ opendxp_head_link() }}
+    {% endblock %}
+</head>
+<body>
+<header>
+    {% if document.getProperty('header') %}
+        {{ opendxp_inc(document.getProperty('header')) }}
+    {% endif %}
+</header>
+
+<main role="main">
+    {{ block('content') }}
+</main>
+
+<footer>
+    {% if document.getProperty('footer') %}
+    {{ opendxp_inc(document.getProperty('footer')) }}
+    {% endif %}
+</footer>
+
+{# output scripts added before #}
+{% block headscripts %}
+{{ opendxp_head_script() }}
+{% endblock %}
+
+
+{% block inlinescripts %}
+{{ opendxp_inline_script() }}
+{% endblock %}
+</body>
+</html>

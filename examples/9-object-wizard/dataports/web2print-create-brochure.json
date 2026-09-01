@@ -1,0 +1,57 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 66,
+        "name": "document",
+        "description": "",
+        "sourcetype": "object-wizard",
+        "sourceconfig": "a:6:{s:6:\"fields\";a:1:{s:7:\"field_1\";a:2:{s:4:\"type\";s:24:\"manyToManyObjectRelation\";s:10:\"definition\";a:21:{s:4:\"name\";s:8:\"Products\";s:8:\"datatype\";s:4:\"data\";s:9:\"fieldtype\";s:24:\"manyToManyObjectRelation\";s:14:\"allowedClassId\";a:1:{i:0;s:7:\"Product\";}s:5:\"title\";s:0:\"\";s:7:\"tooltip\";s:0:\"\";s:9:\"mandatory\";b:0;s:5:\"index\";b:0;s:11:\"noteditable\";b:0;s:9:\"invisible\";b:0;s:15:\"visibleGridView\";b:0;s:13:\"visibleSearch\";b:0;s:5:\"style\";s:0:\"\";s:5:\"width\";s:0:\"\";s:26:\"displayfield-10645-inputEl\";s:147:\"The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.\";s:6:\"height\";s:0:\"\";s:26:\"displayfield-10647-inputEl\";s:148:\"The height of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.\";s:8:\"maxItems\";N;s:18:\"pathFormatterClass\";s:0:\"\";s:7:\"classes\";a:1:{i:0;a:1:{s:7:\"classes\";a:1:{i:0;s:7:\"Product\";}}}s:13:\"visibleFields\";a:2:{i:0;s:3:\"sku\";i:1;s:4:\"name\";}}}}s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:11:\"assetSource\";s:1:\"/\";s:13:\"archiveFolder\";s:0:\"\";s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:1:\"0\";s:10:\"itemFolder\";s:1:\"/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 66,
+            "fieldName": "__result_callback",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:6:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "// Enter id of dataport to be executed\n$dataportId = {{ DEPENDENT DATAPORT ID }};\n\n// provide parameters to use in dynamic import resource or in callback functions of dependent dataport\n// leave empty to run dependent dataport with default import source\n$parameters = {{ DEPENDENT DATAPORT PARAMETERS }};\n\nif(($parameters || $params['lastCall']) && $dataportId) {\n    $command = 'data-director:complete '.$dataportId.' --rm'.($parameters?' -f --parameters=\"'.str_replace(['\"', '$', '`'], ['\\\"', '\\$', '\\`'], json_encode($parameters)).'\"':'');\n    \n    if({{ DEPENDENT DATAPORT WAIT UNTIL FINISHED }}) {\n        $params['logger']->info('Executing command \"'.$command.'\"');\n        $output = \\Blackbit\\DataDirectorBundle\\lib\\Pim\\Cli::exec($command);\n        \n        if(preg_match('/X-Data-Director-Run:\\s*(.+)\\n/', $output, $dependentRunId)) {\n            $responseDocument = \\Blackbit\\DataDirectorBundle\\Tools\\Installer::getResultDocumentPath().'/result_'.{{ DEPENDENT DATAPORT ID }}.'_'.trim($dependentRunId[1]);\n            \n            if(file_exists($responseDocument)) {\n                return \\unserialize(\\file_get_contents($responseDocument));\n            }\n        }\n    } else {\n        $params['logger']->info('Queuing command \"'.$command.'\"');\n        $queue = new \\Blackbit\\DataDirectorBundle\\model\\Queue();\n        $queue->create(['command' => $command, 'triggered_by' => 'Result callback function of dataport '.$params['context']['dataportId']]);\n    }\n}",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 66,
+            "fieldName": "__virtual_DEPENDENT DATAPORT ID",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:2:{s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "return '55';",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 66,
+            "fieldName": "__virtual_DEPENDENT DATAPORT PARAMETERS",
+            "locale": "",
+            "fieldNo": 1,
+            "keyMapping": 0,
+            "format": "a:6:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "if(!empty($params['value'])) {\n    return [\n        'productIDs' => implode(',', array_map(function($product) {\n            return $product['id'];\n        }, $params['value'] ?: []))\n    ];\n}",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 66,
+            "fieldNo": 1,
+            "name": "Products",
+            "priority": 0
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

@@ -1,0 +1,73 @@
+name: Bug report
+description: Something is broken or behaves incorrectly
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. Security issues: see [SECURITY.md](../SECURITY.md) — do **not** use this form.
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: Composer version or Git tag (e.g. `0.9`, `v1.0.0`)
+      placeholder: "0.9"
+    validations:
+      required: true
+
+  - type: input
+    id: opendxp
+    attributes:
+      label: OpenDXP version
+      placeholder: "1.3.x"
+    validations:
+      required: true
+
+  - type: input
+    id: php
+    attributes:
+      label: PHP version
+      placeholder: "8.3"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Install bundle …
+        2. Run …
+        3. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / stack trace
+      render: shell
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues before opening this report
+          required: true

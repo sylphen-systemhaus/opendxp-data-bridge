@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          coverage: none
+          tools: composer:v2
+
+      - name: Validate composer.json
+        run: composer validate --no-check-lock
+
+      - name: PHP syntax check
+        run: |
+          set -euo pipefail
+          mapfile -d '' files < <(
+            find . -name '*.php' \
+              -not -path './vendor/*' \
+              -not -path './legacy-migrations/*' \
+              -not -path './Resources/public/vendor/*' \
+              -print0
+          )
+          for f in "${files[@]}"; do
+            php -l "$f" >/dev/null
+          done
+          echo "OK: ${#files[@]} PHP files"

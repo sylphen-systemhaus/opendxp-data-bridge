@@ -1,0 +1,21 @@
+{% set width = opendxp_numeric('width').getData() %}
+{% set height = opendxp_numeric('height').getData() %}
+
+{% if width is empty and height is empty %}
+    {% set width = 50 %}
+    {% set height = 50 %}
+{% endif %}
+
+<div style="{{ opendxp_textarea('cssRules').getData() }}; overflow:hidden;position: absolute;box-sizing: border-box;display: block;border:solid 1px transparent; width:{% if width > 0 %}{{ width }}mm{% else %}auto{% endif %}; height:{% if height > 0 %}{{ height }}mm{% else %}auto{% endif %}; top: {{ opendxp_numeric('marginTop').getData() }}mm!important; left: {{ opendxp_numeric('marginLeft').getData() }}mm!important;">
+    {{ opendxp_image('image', {
+          "hidetext": true,
+          "thumbnail": {
+            "width": (width * 3.7795275591)|round,
+            "height": (height * 3.7795275591)|round,
+            "frame": true,
+            "forceResize": false
+          },
+        })
+    }}
+</div>
+

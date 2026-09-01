@@ -1,0 +1,69 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 6,
+        "name": "Generate Product Description",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:7:{s:6:\"fields\";a:3:{s:7:\"field_1\";a:2:{s:10:\"parameters\";s:2:\"id\";s:9:\"exportKey\";b:0;}s:7:\"field_2\";a:2:{s:10:\"parameters\";s:4:\"name\";s:9:\"exportKey\";b:0;}s:7:\"field_3\";a:2:{s:10:\"parameters\";s:20:\"TechnicalData:labels\";s:9:\"exportKey\";b:0;}}s:11:\"sourceClass\";s:7:\"Product\";s:18:\"inheritanceEnabled\";s:1:\"0\";s:4:\"file\";s:0:\"\";s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:7:\"Product\";s:10:\"itemFolder\";s:1:\"/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 6,
+            "fieldName": "description",
+            "locale": "de",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:7:{s:21:\"translateFromLanguage\";s:0:\"\";s:12:\"generateText\";b:1;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "$toString = function($value) use ($params, &$toString) {\n    switch (gettype($value)) {\n        case 'boolean': return \\OpenDxp::getContainer()->get('translator')->trans($data ? 'yes' : 'no', [], 'admin');\n        case 'NULL'   : return null;\n        case 'object' :\n        case 'array'  :\n            if(isset($value['value'], $value['unit'])) {\n                return implode(' ', $value);\n            }\n            \n            if(isset($value['key'])) {\n                return $value['key'];\n            }\n            \n            $expressions = [];\n            foreach ($value as $key => $item) {\n                $serialized = $toString($item);\n                if($serialized) {\n                    $expressions[] = (!is_numeric($key) ? $key.': ' : '').$serialized;\n                }\n            }\n            return implode(', ', $expressions);\n    default: return (string)$value;\n  }\n};\n\n$data = [];\n$data['name'] = $toString($params['rawItemData']['name']['value']);\n$data['TechnicalData'] = $toString($params['rawItemData']['TechnicalData']['value']);\n\n$data = array_filter($data);\n\nreturn implode(\"\\n\", array_map(\n    function ($value, $field) { return $field.': '.$value; },\n    $data,\n    array_keys($data)\n));",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 6,
+            "fieldName": "description",
+            "locale": "en",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:7:{s:21:\"translateFromLanguage\";s:0:\"\";s:12:\"generateText\";b:1;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "$toString = function($value) use ($params, &$toString) {\n    switch (gettype($value)) {\n        case 'boolean': return \\OpenDxp::getContainer()->get('translator')->trans($data ? 'yes' : 'no', [], 'admin');\n        case 'NULL'   : return null;\n        case 'object' :\n        case 'array'  :\n            if(isset($value['value'], $value['unit'])) {\n                return implode(' ', $value);\n            }\n            \n            if(isset($value['key'])) {\n                return $value['key'];\n            }\n            \n            $expressions = [];\n            foreach ($value as $key => $item) {\n                $serialized = $toString($item);\n                if($serialized) {\n                    $expressions[] = (!is_numeric($key) ? $key.': ' : '').$serialized;\n                }\n            }\n            return implode(', ', $expressions);\n    default: return (string)$value;\n  }\n};\n\n$data = [];\n$data['name'] = $toString($params['rawItemData']['name']['value']);\n$data['TechnicalData'] = $toString($params['rawItemData']['TechnicalData']['value']);\n\n$data = array_filter($data);\n\nreturn implode(\"\\n\", array_map(\n    function ($value, $field) { return $field.': '.$value; },\n    $data,\n    array_keys($data)\n));",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 6,
+            "fieldName": "id",
+            "locale": "",
+            "fieldNo": 1,
+            "keyMapping": 1,
+            "format": "a:5:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:8:\"optimize\";s:0:\"\";s:5:\"infer\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 6,
+            "fieldNo": 1,
+            "name": "id",
+            "priority": 0
+        },
+        {
+            "dataportId": 6,
+            "fieldNo": 2,
+            "name": "name",
+            "priority": 1
+        },
+        {
+            "dataportId": 6,
+            "fieldNo": 3,
+            "name": "TechnicalData",
+            "priority": 2
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

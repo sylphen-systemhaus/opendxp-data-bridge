@@ -1,0 +1,12 @@
+<Products>
+  <Product articleNumber="1234">
+    <Name>Rental Bike</Name>
+    <Manufacturer>Lime</Manufacturer>
+    <Main_Category>Trekking Bikes</Main_Category>
+  </Product>
+  <Product articleNumber="1235">
+    <Name>Dirt Flyer</Name>
+    <Manufacturer>Jumpy</Manufacturer>
+    <Main_Category>Dirt Bikes</Main_Category>
+  </Product>
+</Products>

@@ -1,0 +1,11 @@
+{% extends '@SylphenDataBridge/document/layout.html.twig' %}
+
+{% do opendxp_head_link().appendStylesheet('/bundles/sylphendatabridge/vendor/php-diff/diff-table.css') %}
+
+{% block content %}
+    {% if dachcomToolboxInstalled %}
+        {{ opendxp_areablock('mainContentBlock', get_toolbox_areablock_config('mainContentBlock')) }}
+    {% else %}
+        <p>Please install <a href="https://github.com/dachcom-digital/pimcore-toolbox" target="_blank">Toolbox bundle</a> to create documents.</p>
+    {% endif %}
+{% endblock %}

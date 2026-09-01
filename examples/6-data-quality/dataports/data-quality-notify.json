@@ -1,0 +1,83 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "7",
+        "name": "Data Quality Notify",
+        "description": "",
+        "sourcetype": "report",
+        "sourceconfig": "a:6:{s:6:\"fields\";a:6:{s:7:\"field_4\";a:1:{s:6:\"column\";s:3:\"sku\";}s:7:\"field_5\";a:1:{s:6:\"column\";s:3:\"ean\";}s:7:\"field_6\";a:1:{s:6:\"column\";s:4:\"name\";}s:8:\"field_10\";a:1:{s:6:\"column\";s:11:\"dataQuality\";}s:8:\"field_11\";a:1:{s:6:\"column\";s:18:\"o_modificationDate\";}s:8:\"field_12\";a:1:{s:6:\"column\";s:4:\"o_id\";}}s:4:\"file\";s:30:\"Products_Data_Quality_Problems\";s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:11:\"assetSource\";s:1:\"\/\";s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:1:\"0\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "7",
+            "fieldName": "__result_action",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "$params['response']->headers->set('Content-Type', 'text\/html');\n$params['response']->headers->set('Content-Disposition', 'inline');\n\nif(empty($params['response']->getContent())) {\n    return 'Result callback function did not create a response document -> not sending mail';\n}\n                \n$mail = new \\OpenDxp\\Mail();\n\nif(empty($mail->getFrom())) {\n    $mailFrom = \\OpenDxp\\Config::getSystemConfiguration('email')['debug']['email_addresses'];\n    if(empty($mailFrom) && $domain) {\n        $mailFrom = 'no-reply@'.$domain;\n    }\n    if (empty($mailFrom)) {\n        $params['logger']->warning('Could not determine sender email address to send import error logs');\n        return;\n    }\n\n    if(method_exists($mail, 'from')) {\n        $mail->from($mailFrom);\n    } else {\n        $mail->setFrom($mailFrom);\n    }\n}\n\n$recipients = {{ EMAIL RECIPIENTS }};\nif(is_string($recipients)) {\n    $recipients = \\OpenDxp\\Helper\\Mail::parseEmailAddressField($recipients);\n}\nforeach($recipients as $recipient) {\n    $mail->addTo($recipient['email'] ?? $recipient, $recipient['name']);\n}\n\n$mail->setParams([\n    'rawItemTable' => $params['response']->getContent()\n]);\n\n$mail->setSubject({{ EMAIL SUBJECT }} ?: 'Data Quality Notify');\n\n$document = {{ EMAIL DOCUMENT PATH }};\nif($document) {\n    $mail->setDocument($document);\n} else {\n    $mail->setBodyHtml($params['response']->getContent());\n}\n\n$mail->send();\n\nreturn 'Mail successfully sent';",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "7",
+            "fieldName": "__result_callback",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "$item = array_filter(\n    $params['rawItemData'],\n    function($key) {\n        return strpos($key, 'field_') === false;\n    }, ARRAY_FILTER_USE_KEY\n);\n\nif($item['Last modified'] < time() - 86400 * 7) {\n    if(!$params['response']->hasContent()) {\n        $html = '<table>';\n        \n        \/\/ header row\n        $html .= '<tr>';\n        foreach(array_keys($item) as $columnHeading){\n                $html .= '<th>' . htmlspecialchars($columnHeading) . '<\/th >';\n            }\n        $html .= '<\/tr>';\n        \n        $params['response']->addContent($html);\n    }\n    \n    \/\/ data rows\n    $html = '<tr>';\n    foreach($item as $rawItem){\n        $html .= '<td>' . $rawItem['value'] . '<\/td>';\n    }\n    $html .= '<\/tr>';\n    \n    if($params['lastCall']) {\n        $html .= '<\/table>';\n    }\n\n    $params['response']->addContent($html);\n}",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "7",
+            "fieldName": "__virtual_EMAIL RECIPIENTS",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:2:{s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "return $params['value'] ?: 'jan.walther@blackbit.de';",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "7",
+            "fieldNo": "4",
+            "name": "SKU",
+            "priority": "0"
+        },
+        {
+            "dataportId": "7",
+            "fieldNo": "5",
+            "name": "EAN",
+            "priority": "1"
+        },
+        {
+            "dataportId": "7",
+            "fieldNo": "6",
+            "name": "Name (en)",
+            "priority": "2"
+        },
+        {
+            "dataportId": "7",
+            "fieldNo": "10",
+            "name": "Data Quality",
+            "priority": "3"
+        },
+        {
+            "dataportId": "7",
+            "fieldNo": "11",
+            "name": "Last modified",
+            "priority": "4"
+        },
+        {
+            "dataportId": "7",
+            "fieldNo": "12",
+            "name": "ID",
+            "priority": "5"
+        }
+    ]
+}

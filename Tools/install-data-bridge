@@ -1,0 +1,46 @@
+#!/usr/bin/env php
+<?php
+
+use OpenDxp\Config;
+use Sylphen\DataBridgeBundle\lib\Pim\Cli;
+use Sylphen\DataBridgeBundle\SylphenDataBridgeBundle;
+use Sylphen\DataBridgeBundle\Tools\InstallerKernel;
+
+if (file_exists($a = getcwd().'/vendor/autoload.php')) {
+    require $a;
+    $projectRoot = getcwd();
+} elseif (file_exists($a = __DIR__.'/../../../../vendor/autoload.php')) {
+    require $a;
+    $projectRoot = __DIR__.'/../../../..';
+} elseif (file_exists($a = __DIR__.'/../autoload.php')) {
+    require $a;
+    $projectRoot = __DIR__.'/..';
+} else {
+    fwrite(STDERR, 'Cannot locate autoloader; please run "composer install"'.PHP_EOL);
+    exit(1);
+}
+
+define('OPENDXP_PROJECT_ROOT', $projectRoot);
+
+$kernel = new InstallerKernel(OPENDXP_PROJECT_ROOT, Config::getEnvironment(), true);
+$bundleConfigFile = $kernel->getBundlesConfigFile();
+$bundles = require $bundleConfigFile;
+$bundles[SylphenDataBridgeBundle::class] = ['all' => true];
+
+$fileContent = '<?php
+    
+return [';
+foreach ($bundles as $bundleClass => $enableSetting) {
+    $fileContent .= PHP_EOL.'    '.$bundleClass.'::class => [';
+    foreach ($enableSetting as $environment => $isEnabled) {
+        $fileContent .= '\''.$environment.'\' => '.var_export($isEnabled, true).',';
+    }
+    $fileContent .= '],';
+}
+$fileContent .= PHP_EOL.'];';
+
+file_put_contents($bundleConfigFile, $fileContent);
+
+$console = realpath(OPENDXP_PROJECT_ROOT.DIRECTORY_SEPARATOR.'bin'.DIRECTORY_SEPARATOR.'console');
+Cli::exec($console.' cache:clear');
+Cli::exec($console.' opendxp:bundle:install SylphenDataBridgeBundle');

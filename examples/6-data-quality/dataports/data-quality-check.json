@@ -1,0 +1,177 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "4",
+        "name": "Data Quality Check",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:7:{s:6:\"fields\";a:7:{s:7:\"field_1\";a:2:{s:10:\"parameters\";s:2:\"Id\";s:9:\"exportKey\";b:0;}s:7:\"field_7\";a:2:{s:10:\"parameters\";s:17:\"Images:0:FullPath\";s:9:\"exportKey\";b:0;}s:7:\"field_2\";a:2:{s:10:\"parameters\";s:14:\"Images:0:Width\";s:9:\"exportKey\";b:0;}s:7:\"field_4\";a:2:{s:10:\"parameters\";s:15:\"Images:0:Height\";s:9:\"exportKey\";b:0;}s:7:\"field_3\";a:2:{s:10:\"parameters\";s:16:\"Categories:count\";s:9:\"exportKey\";b:0;}s:7:\"field_5\";a:2:{s:10:\"parameters\";s:3:\"Sku\";s:9:\"exportKey\";b:0;}s:7:\"field_6\";a:2:{s:10:\"parameters\";s:7:\"Name#en\";s:9:\"exportKey\";b:0;}}s:11:\"sourceClass\";s:7:\"Product\";s:18:\"inheritanceEnabled\";s:1:\"1\";s:4:\"file\";s:0:\"\";s:10:\"autoImport\";b:1;s:17:\"incrementalExport\";b:0;s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:7:\"Product\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "4",
+            "fieldName": "dataQuality",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "$checks = [\n  {{ CHECK Main Image Text }} ?: 'Invalid field value: Main Image' => {{ CHECK Main Image }},\n  {{ CHECK Main Image Width Text }} ?: 'Invalid field value: Main Image Width' => {{ CHECK Main Image Width }},\n  {{ CHECK Main Image Height Text }} ?: 'Invalid field value: Main Image Height' => {{ CHECK Main Image Height }},\n  {{ CHECK Categories count Text }} ?: 'Invalid field value: Categories count' => {{ CHECK Categories count }},\n  {{ CHECK Sku Text }} ?: 'Invalid field value: Sku' => {{ CHECK Sku }},\n  {{ CHECK Name en Text }} ?: 'Invalid field value: Name en' => {{ CHECK Name en }},\n\n];\n$countChecks = 0;\n$errors = [];\nforeach ($checks as $error => $check) {\n    if ($check !== null) {\n        $countChecks++;\n        if(!$check) {\n            $errors[] = $error;\n        }\n    }\n}\n\n$return = '';\nif({{ DATA QUALITY SHOW PROGRESS BAR }} ?? true) {\n    $percentageValid = ($countChecks === 0 ? 100 : round((1 - count($errors) \/ $countChecks) * 100));\n    $progressBarColor = '#659cef';\n    if($percentageValid == 100) {\n        $progressBarColor = '#65ef6e';\n    }\n\n    $return .= '<div style=\"width:100%;background-color:#e0e0e0;padding:3px;border-radius:3px;box-shadow:inset 0 1px 3px rgba(0, 0, 0, .2);\">\n        <span class=\"progress-bar-fill\" style=\"width:'.$percentageValid.'%;display:block;height:22px;background-color:'.$progressBarColor.';border-radius:3px;transition:width 500ms ease-in-out;\"><\/span>\n    <\/div>';\n}\n\nif ($errors) {\n    $return .= '<ul><li>'.implode('<\/li><li>', $errors).'<\/li><\/ul>';\n}\n\nif($return) {\n    $return = '<div style=\"width:100%\">\n    '.$return.'\n<\/div>';\n}\n\nreturn $return;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "id",
+            "locale": "",
+            "fieldNo": "1",
+            "keyMapping": "1",
+            "format": "a:4:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "published",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:1:{s:14:\"writeProtected\";b:0;}",
+            "calculation": "$checks = [\n  {{ CHECK Main Image }},\n  {{ CHECK Main Image Width }},\n  {{ CHECK Main Image Height }},\n  {{ CHECK Categories count }},\n  {{ CHECK Sku }},\n  {{ CHECK Name en }},\n];\nforeach ($checks as $check) {\n    if ($check === false) {\n        return false;\n    }\n}\n\nreturn $params['currentValue'];",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_CHECK Categories count",
+            "locale": "",
+            "fieldNo": "3",
+            "keyMapping": "0",
+            "format": "a:2:{s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_CHECK Main Image",
+            "locale": "",
+            "fieldNo": "7",
+            "keyMapping": "0",
+            "format": "a:2:{s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_CHECK Main Image Height",
+            "locale": "",
+            "fieldNo": "4",
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "return $params['value'] > 1000;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_CHECK Main Image Height Text",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:2:{s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "return $params['value'] ?: 'Main image height too small';",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_CHECK Main Image Width",
+            "locale": "",
+            "fieldNo": "2",
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "return $params['value'] > 1000;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_CHECK Name en",
+            "locale": "",
+            "fieldNo": "6",
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "return !empty($params['value']);",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_CHECK Sku",
+            "locale": "",
+            "fieldNo": "5",
+            "keyMapping": "0",
+            "format": "a:2:{s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "4",
+            "fieldName": "__virtual_DATA QUALITY SHOW PROGRESS BAR",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "return 1;",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "4",
+            "fieldNo": "1",
+            "name": "id",
+            "priority": "0"
+        },
+        {
+            "dataportId": "4",
+            "fieldNo": "2",
+            "name": "Main Image Width",
+            "priority": "2"
+        },
+        {
+            "dataportId": "4",
+            "fieldNo": "3",
+            "name": "Categories count",
+            "priority": "4"
+        },
+        {
+            "dataportId": "4",
+            "fieldNo": "4",
+            "name": "Main Image Height",
+            "priority": "3"
+        },
+        {
+            "dataportId": "4",
+            "fieldNo": "5",
+            "name": "Sku",
+            "priority": "5"
+        },
+        {
+            "dataportId": "4",
+            "fieldNo": "6",
+            "name": "Name en",
+            "priority": "6"
+        },
+        {
+            "dataportId": "4",
+            "fieldNo": "7",
+            "name": "Main Image",
+            "priority": "1"
+        }
+    ]
+}

@@ -1,0 +1,115 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "3",
+        "name": "Products",
+        "description": "",
+        "sourcetype": "xml",
+        "sourceconfig": "a:7:{s:4:\"file\";s:7:\"\/import\";s:10:\"autoImport\";b:0;s:11:\"assetSource\";s:7:\"\/images\";s:13:\"archiveFolder\";s:18:\"\/imported\/products\";s:9:\"itemxpath\";s:7:\"Product\";s:9:\"hasHeader\";b:0;s:6:\"fields\";a:4:{s:7:\"field_1\";a:2:{s:5:\"xpath\";s:14:\"@articleNumber\";s:11:\"multiValues\";b:0;}s:7:\"field_2\";a:2:{s:5:\"xpath\";s:4:\"Name\";s:11:\"multiValues\";b:0;}s:7:\"field_3\";a:2:{s:5:\"xpath\";s:12:\"Manufacturer\";s:11:\"multiValues\";b:0;}s:7:\"field_4\";a:2:{s:5:\"xpath\";s:13:\"Main_Category\";s:11:\"multiValues\";b:0;}}}",
+        "targetconfig": "a:10:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:10:\"cs_product\";s:10:\"itemFolder\";s:9:\"\/products\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "3",
+            "fieldName": "categories",
+            "locale": "",
+            "fieldNo": "4",
+            "keyMapping": "0",
+            "format": "a:3:{s:10:\"purgeitems\";b:0;s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "$return = [];\n                \n    foreach((array)$params['value'] as $item) {\n      $return[] = 'CoreShopCategory:name#en:'.$item;\n    }\n            \n    return $return;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "3",
+            "fieldName": "images",
+            "locale": "",
+            "fieldNo": "5",
+            "keyMapping": "0",
+            "format": "a:3:{s:10:\"purgeitems\";b:0;s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "$return = [];\n\nforeach((array)$params['value'] as $item) {\n  \/\/ $item can be a path to a file or a URL\n  $return[] = [\n    'url' => $item, \/\/ if this is a relative file path the file is searched in \/images\n    \/\/'filename' => $params['rawItemData']['name']['value'] \/\/ optional, if omitted the file name of the loaded file gets used\n  ];\n}\n\nreturn $return;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "3",
+            "fieldName": "key",
+            "locale": "",
+            "fieldNo": "2",
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "$rawDataField = 'Manufacturer';\n\nreturn $params['rawItemData'][$rawDataField]['value'].' '.$params['value'];",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "3",
+            "fieldName": "manufacturer",
+            "locale": "",
+            "fieldNo": "3",
+            "keyMapping": "0",
+            "format": "a:1:{s:14:\"writeProtected\";b:0;}",
+            "calculation": "return 'CoreShopManufacturer:name:'.$params['value'];",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "3",
+            "fieldName": "name",
+            "locale": "en",
+            "fieldNo": "2",
+            "keyMapping": "0",
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";N;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "3",
+            "fieldName": "path",
+            "locale": "",
+            "fieldNo": "4",
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "return 'CoreShopCategory:name#en:'.$params['value'];",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "3",
+            "fieldName": "sku",
+            "locale": "",
+            "fieldNo": "1",
+            "keyMapping": "1",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "3",
+            "fieldNo": "1",
+            "name": " articleNumber",
+            "priority": "0"
+        },
+        {
+            "dataportId": "3",
+            "fieldNo": "2",
+            "name": "Name",
+            "priority": "1"
+        },
+        {
+            "dataportId": "3",
+            "fieldNo": "3",
+            "name": "Manufacturer",
+            "priority": "2"
+        },
+        {
+            "dataportId": "3",
+            "fieldNo": "4",
+            "name": "Main_Category",
+            "priority": "3"
+        }
+    ]
+}

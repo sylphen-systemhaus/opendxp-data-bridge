@@ -1,0 +1,222 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "5",
+        "name": "Product Export.csv",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:6:{s:6:\"fields\";a:31:{s:7:\"field_1\";a:2:{s:10:\"parameters\";s:2:\"id\";s:9:\"exportKey\";b:1;}s:7:\"field_2\";a:2:{s:10:\"parameters\";s:3:\"key\";s:9:\"exportKey\";b:0;}s:7:\"field_3\";a:2:{s:10:\"parameters\";s:4:\"path\";s:9:\"exportKey\";b:0;}s:7:\"field_4\";a:2:{s:10:\"parameters\";s:9:\"published\";s:9:\"exportKey\";b:0;}s:7:\"field_5\";a:2:{s:10:\"parameters\";s:4:\"name\";s:9:\"exportKey\";b:0;}s:7:\"field_6\";a:2:{s:10:\"parameters\";s:16:\"shortDescription\";s:9:\"exportKey\";b:0;}s:7:\"field_7\";a:2:{s:10:\"parameters\";s:16:\"pimcoreMetaTitle\";s:9:\"exportKey\";b:0;}s:7:\"field_8\";a:2:{s:10:\"parameters\";s:22:\"pimcoreMetaDescription\";s:9:\"exportKey\";b:0;}s:7:\"field_9\";a:2:{s:10:\"parameters\";s:11:\"description\";s:9:\"exportKey\";b:0;}s:8:\"field_10\";a:2:{s:10:\"parameters\";s:3:\"sku\";s:9:\"exportKey\";b:0;}s:8:\"field_11\";a:2:{s:10:\"parameters\";s:3:\"ean\";s:9:\"exportKey\";b:0;}s:8:\"field_12\";a:2:{s:10:\"parameters\";s:6:\"active\";s:9:\"exportKey\";b:0;}s:8:\"field_13\";a:2:{s:10:\"parameters\";s:14:\"digitalProduct\";s:9:\"exportKey\";b:0;}s:8:\"field_18\";a:2:{s:10:\"parameters\";s:17:\"manufacturer:name\";s:9:\"exportKey\";b:0;}s:8:\"field_23\";a:2:{s:10:\"parameters\";s:6:\"clicks\";s:9:\"exportKey\";b:0;}s:8:\"field_24\";a:2:{s:10:\"parameters\";s:339:\"categories:all:(id;parentCategory:path;parentCategory:parentCategory;parentCategory:pimcoreMetaDescription;parentCategory:pimcoreMetaTitle;parentCategory:description;parentCategory:name;parentCategory:published;parentCategory:key;key;parentCategory:id;pimcoreMetaDescription;pimcoreMetaTitle;description;name;published;path;parentCategory)\";s:9:\"exportKey\";b:0;}s:8:\"field_25\";a:2:{s:10:\"parameters\";s:15:\"images:fullpath\";s:9:\"exportKey\";b:0;}s:8:\"field_26\";a:2:{s:10:\"parameters\";s:16:\"images:thumbnail\";s:9:\"exportKey\";b:0;}s:8:\"field_27\";a:2:{s:10:\"parameters\";s:9:\"images:id\";s:9:\"exportKey\";b:0;}s:8:\"field_28\";a:2:{s:10:\"parameters\";s:6:\"onHold\";s:9:\"exportKey\";b:0;}s:8:\"field_29\";a:2:{s:10:\"parameters\";s:6:\"onHand\";s:9:\"exportKey\";b:0;}s:8:\"field_30\";a:2:{s:10:\"parameters\";s:9:\"isTracked\";s:9:\"exportKey\";b:0;}s:8:\"field_31\";a:2:{s:10:\"parameters\";s:22:\"minimumQuantityToOrder\";s:9:\"exportKey\";b:0;}s:8:\"field_32\";a:2:{s:10:\"parameters\";s:22:\"maximumQuantityToOrder\";s:9:\"exportKey\";b:0;}s:8:\"field_33\";a:2:{s:10:\"parameters\";s:18:\"itemQuantityFactor\";s:9:\"exportKey\";b:0;}s:8:\"field_34\";a:2:{s:10:\"parameters\";s:14:\"wholesalePrice\";s:9:\"exportKey\";b:0;}s:8:\"field_35\";a:2:{s:10:\"parameters\";s:6:\"weight\";s:9:\"exportKey\";b:0;}s:8:\"field_36\";a:2:{s:10:\"parameters\";s:6:\"height\";s:9:\"exportKey\";b:0;}s:8:\"field_37\";a:2:{s:10:\"parameters\";s:5:\"width\";s:9:\"exportKey\";b:0;}s:8:\"field_38\";a:2:{s:10:\"parameters\";s:5:\"depth\";s:9:\"exportKey\";b:0;}s:8:\"field_39\";a:2:{s:10:\"parameters\";s:16:\"ModificationDate\";s:9:\"exportKey\";b:0;}}s:11:\"sourceClass\";s:10:\"cs_product\";s:4:\"file\";s:15:\"o_published = 1\";s:10:\"autoImport\";b:1;s:17:\"incrementalExport\";b:0;s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:11:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:1:\"0\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "5",
+            "fieldName": "__result_callback",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "if(!$params['response']->getContent()) {\n    $params['response']->headers->set('Content-Type', 'text\/csv');\n    $result = '\"Key\";\"Path\";\"Published\";\"Name\";\"Short Description\";\"Meta Title\";\"Meta Description\";\"Description\";\"SKU\";\"EAN13\";\"Active\";\"Digital Product\";\"Manufacturer > Name\";\"clicks\";\"Categories\";\"Images fullpath\";\"Images thumbnail\";\"Images id\";\"On Hold\";\"On Hand\";\"Is Tracked\";\"Minimum Quantity To Order\";\"Maximal Quantity To Order\";\"Item Quantity Factor\";\"Wholesaleprice\";\"Weight\";\"Height\";\"Width\";\"Depth\";\"ModificationDate\"'.\"\\n\";\n} else {\n    $result = $params['response']->getContent();\n}\n\n$decodeValue = function($value) {\n    if(is_string($value) && !is_numeric($value)) {\n        $decodedValue = json_decode($value, true);\n        if (json_last_error() === \\JSON_ERROR_NONE) {\n            $value = $decodedValue;\n        }\n    }\n    \n    if(!is_scalar($value)) {\n        if(is_array($value) && is_scalar(reset($value))) {\n            $value = implode(', ', $value);\n        } else {\n            $value = json_encode($value, \\JSON_UNESCAPED_SLASHES | \\JSON_UNESCAPED_UNICODE);\n        }\n    }\n    return '\"'.str_replace('\"', '\"\"', $value).'\"';\n};\n\nif($params['rawItemData']) {\n    $line = [];\n    $line[] = $decodeValue({{ Key }});\n    $line[] = $decodeValue({{ Path }});\n    $line[] = $decodeValue({{ Published }});\n    $line[] = $decodeValue({{ Name }});\n    $line[] = $decodeValue({{ Short Description }});\n    $line[] = $decodeValue({{ Meta Title }});\n    $line[] = $decodeValue({{ Meta Description }});\n    $line[] = $decodeValue({{ Description }});\n    $line[] = $decodeValue({{ SKU }});\n    $line[] = $decodeValue({{ EAN13 }});\n    $line[] = $decodeValue({{ Active }});\n    $line[] = $decodeValue({{ Digital Product }});\n    $line[] = $decodeValue({{ Manufacturer > Name }});\n    $line[] = $decodeValue({{ clicks }});\n    $line[] = $decodeValue({{ Categories }});\n    $line[] = $decodeValue({{ Images fullpath }});\n    $line[] = $decodeValue({{ Images thumbnail }});\n    $line[] = $decodeValue({{ Images id }});\n    $line[] = $decodeValue({{ On Hold }});\n    $line[] = $decodeValue({{ On Hand }});\n    $line[] = $decodeValue({{ Is Tracked }});\n    $line[] = $decodeValue({{ Minimum Quantity To Order }});\n    $line[] = $decodeValue({{ Maximal Quantity To Order }});\n    $line[] = $decodeValue({{ Item Quantity Factor }});\n    $line[] = $decodeValue({{ Wholesaleprice }});\n    $line[] = $decodeValue({{ Weight }});\n    $line[] = $decodeValue({{ Height }});\n    $line[] = $decodeValue({{ Width }});\n    $line[] = $decodeValue({{ Depth }});\n    $line[] = $decodeValue({{ ModificationDate }});\n\n    $result .= implode(';', $line).\"\\n\";\n}\n\nreturn $result;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "5",
+            "fieldName": "__virtual_SKU",
+            "locale": "",
+            "fieldNo": "10",
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "if(substr($params['rawItemData']['ID']['value'], 0, 1) == '4') {\n    return 'abc-'.$params['value'];\n}\nreturn $params['value'];",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "5",
+            "fieldNo": "1",
+            "name": "ID",
+            "priority": "0"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "2",
+            "name": "Key",
+            "priority": "1"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "3",
+            "name": "Path",
+            "priority": "2"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "4",
+            "name": "Published",
+            "priority": "3"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "5",
+            "name": "Name",
+            "priority": "4"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "6",
+            "name": "Short Description",
+            "priority": "5"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "7",
+            "name": "Meta Title",
+            "priority": "6"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "8",
+            "name": "Meta Description",
+            "priority": "7"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "9",
+            "name": "Description",
+            "priority": "8"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "10",
+            "name": "SKU",
+            "priority": "9"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "11",
+            "name": "EAN13",
+            "priority": "10"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "12",
+            "name": "Active",
+            "priority": "11"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "13",
+            "name": "Digital Product",
+            "priority": "12"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "18",
+            "name": "Manufacturer > Name",
+            "priority": "13"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "23",
+            "name": "clicks",
+            "priority": "14"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "24",
+            "name": "Categories",
+            "priority": "15"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "25",
+            "name": "Images fullpath",
+            "priority": "16"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "26",
+            "name": "Images thumbnail",
+            "priority": "17"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "27",
+            "name": "Images id",
+            "priority": "18"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "28",
+            "name": "On Hold",
+            "priority": "19"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "29",
+            "name": "On Hand",
+            "priority": "20"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "30",
+            "name": "Is Tracked",
+            "priority": "21"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "31",
+            "name": "Minimum Quantity To Order",
+            "priority": "22"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "32",
+            "name": "Maximal Quantity To Order",
+            "priority": "23"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "33",
+            "name": "Item Quantity Factor",
+            "priority": "24"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "34",
+            "name": "Wholesaleprice",
+            "priority": "25"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "35",
+            "name": "Weight",
+            "priority": "26"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "36",
+            "name": "Height",
+            "priority": "27"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "37",
+            "name": "Width",
+            "priority": "28"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "38",
+            "name": "Depth",
+            "priority": "29"
+        },
+        {
+            "dataportId": "5",
+            "fieldNo": "39",
+            "name": "ModificationDate",
+            "priority": "30"
+        }
+    ]
+}

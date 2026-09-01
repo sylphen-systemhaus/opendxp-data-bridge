@@ -1,0 +1,40 @@
+{
+    "id": "Category",
+    "description": "",
+    "modificationDate": 1661278016,
+    "parentClass": "",
+    "implementsInterfaces": null,
+    "listingParentClass": "",
+    "useTraits": "",
+    "listingUseTraits": "",
+    "allowInherit": false,
+    "allowVariants": false,
+    "showVariants": false,
+    "layoutDefinitions": null,
+    "icon": null,
+    "previewUrl": null,
+    "group": null,
+    "showAppLoggerTab": false,
+    "linkGeneratorReference": null,
+    "previewGeneratorReference": "@DataDirectorPreview",
+    "compositeIndices": [],
+    "generateTypeDeclarations": true,
+    "showFieldLookup": false,
+    "propertyVisibility": {
+        "grid": {
+            "id": true,
+            "path": true,
+            "published": true,
+            "modificationDate": true,
+            "creationDate": true
+        },
+        "search": {
+            "id": true,
+            "path": true,
+            "published": true,
+            "modificationDate": true,
+            "creationDate": true
+        }
+    },
+    "enableGridLocking": false
+}

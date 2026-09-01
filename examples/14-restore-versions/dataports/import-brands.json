@@ -1,0 +1,105 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 1,
+        "name": "Import Brands",
+        "description": "",
+        "sourcetype": "csv",
+        "sourceconfig": {
+            "fields": {
+                "field_22": {
+                    "column": "brand",
+                    "sort": "ASC"
+                }
+            },
+            "file": "/2506_4189_compressed_flipkart_com-ecommerce_sample.csv.zip",
+            "autoImport": false,
+            "incrementalExport": false,
+            "assetSource": "/",
+            "archiveFolder": "",
+            "hasHeader": true,
+            "separator": ",",
+            "quote": "\""
+        },
+        "targetconfig": {
+            "mode": "3",
+            "itemClass": "Brand",
+            "itemFolder": "/Products",
+            "masterDocument": "",
+            "optimizeInheritance": "0",
+            "skipVersioning": false,
+            "javascriptEngine": "php",
+            "assetFolder": "/product-images",
+            "idPrefix": "",
+            "categoryClass": "",
+            "fieldnameProducts": "",
+            "compatibilityMode": "0",
+            "parallelProcesses": "",
+            "errorRecipients": [
+                2
+            ]
+        }
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 1,
+            "fieldName": "key",
+            "locale": "",
+            "fieldNo": 22,
+            "keyMapping": 0,
+            "format": {
+                "translateFromLanguage": "",
+                "generateText": false,
+                "writeProtected": false
+            },
+            "calculation": [
+                ""
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 1,
+            "fieldName": "name",
+            "locale": "",
+            "fieldNo": 22,
+            "keyMapping": 1,
+            "format": {
+                "translateFromLanguage": "",
+                "generateText": false,
+                "writeProtected": false
+            },
+            "calculation": [
+                ""
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 1,
+            "fieldName": "published",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": {
+                "writeProtected": false
+            },
+            "calculation": [
+                "return true;"
+            ],
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 1,
+            "fieldNo": 22,
+            "name": "brand",
+            "priority": 0
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

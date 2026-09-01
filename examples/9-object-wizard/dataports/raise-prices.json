@@ -1,0 +1,52 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 54,
+        "name": "Raise Prices",
+        "description": "",
+        "sourcetype": "object-wizard",
+        "sourceconfig": "a:6:{s:6:\"fields\";a:2:{s:7:\"field_1\";a:2:{s:4:\"type\";s:24:\"manyToManyObjectRelation\";s:10:\"definition\";a:23:{s:4:\"name\";s:7:\"Artikel\";s:8:\"datatype\";s:4:\"data\";s:9:\"fieldtype\";s:24:\"manyToManyObjectRelation\";s:14:\"allowedClassId\";a:1:{i:0;s:7:\"Product\";}s:5:\"title\";s:0:\"\";s:7:\"tooltip\";s:0:\"\";s:9:\"mandatory\";b:0;s:5:\"index\";b:0;s:11:\"noteditable\";b:0;s:9:\"invisible\";b:0;s:15:\"visibleGridView\";b:0;s:13:\"visibleSearch\";b:0;s:5:\"style\";s:0:\"\";s:5:\"width\";s:0:\"\";s:25:\"displayfield-2825-inputEl\";s:147:\"The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.\";s:6:\"height\";s:0:\"\";s:25:\"displayfield-2827-inputEl\";s:148:\"The height of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.\";s:8:\"maxItems\";N;s:18:\"pathFormatterClass\";s:0:\"\";s:7:\"classes\";a:1:{i:0;a:1:{s:7:\"classes\";a:1:{i:0;s:7:\"Product\";}}}s:13:\"visibleFields\";a:3:{i:0;s:3:\"sku\";i:1;s:4:\"name\";i:2;s:5:\"price\";}s:25:\"displayfield-3644-inputEl\";s:147:\"The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.\";s:25:\"displayfield-3646-inputEl\";s:148:\"The height of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.\";}}s:7:\"field_3\";a:2:{s:4:\"type\";s:7:\"numeric\";s:10:\"definition\";a:23:{s:4:\"name\";s:19:\"Preiserhöhung in %\";s:8:\"datatype\";s:4:\"data\";s:9:\"fieldtype\";s:7:\"numeric\";s:5:\"title\";s:0:\"\";s:7:\"tooltip\";s:0:\"\";s:9:\"mandatory\";b:0;s:5:\"index\";b:0;s:6:\"unique\";b:0;s:11:\"noteditable\";b:0;s:9:\"invisible\";b:0;s:15:\"visibleGridView\";b:0;s:13:\"visibleSearch\";b:0;s:5:\"style\";s:0:\"\";s:5:\"width\";s:0:\"\";s:25:\"displayfield-3761-inputEl\";s:147:\"The width of this component. A numeric value will be interpreted as the number of pixels; a string value will be treated as a CSS value with units.\";s:12:\"defaultValue\";N;s:21:\"defaultValueGenerator\";s:0:\"\";s:11:\"decimalSize\";N;s:16:\"decimalPrecision\";N;s:7:\"integer\";b:0;s:8:\"unsigned\";b:0;s:8:\"minValue\";N;s:8:\"maxValue\";N;}}}s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:11:\"assetSource\";s:1:\"/\";s:13:\"archiveFolder\";s:0:\"\";s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:7:\"Product\";s:10:\"itemFolder\";s:1:\"/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 54,
+            "fieldName": "id",
+            "locale": "",
+            "fieldNo": 1,
+            "keyMapping": 1,
+            "format": "a:4:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 54,
+            "fieldName": "price",
+            "locale": "",
+            "fieldNo": 3,
+            "keyMapping": 0,
+            "format": "a:6:{s:15:\"autoCreateUnits\";b:0;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "if(!empty($params['currentValue']['value'])) {\n    return (float)$params['currentValue']['value'] * (100 + (float)$params['value']) / 100;\n}",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 54,
+            "fieldNo": 1,
+            "name": "Artikel",
+            "priority": 0
+        },
+        {
+            "dataportId": 54,
+            "fieldNo": 3,
+            "name": "Preiserhöhung in %",
+            "priority": 1
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

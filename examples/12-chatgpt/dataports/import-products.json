@@ -1,0 +1,180 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 4,
+        "name": "Import Products",
+        "description": "",
+        "sourcetype": "csv",
+        "sourceconfig": "a:9:{s:6:\"fields\";a:5:{s:8:\"field_22\";a:1:{s:6:\"column\";s:5:\"brand\";}s:7:\"field_6\";a:1:{s:6:\"column\";s:3:\"pid\";}s:7:\"field_4\";a:1:{s:6:\"column\";s:12:\"product_name\";}s:8:\"field_11\";a:1:{s:6:\"column\";s:11:\"description\";}s:8:\"field_16\";a:1:{s:6:\"column\";s:12:\"retail_price\";}}s:4:\"file\";s:13:\"/Products.csv\";s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:11:\"assetSource\";s:1:\"/\";s:13:\"archiveFolder\";s:0:\"\";s:9:\"hasHeader\";b:1;s:9:\"separator\";s:1:\";\";s:5:\"quote\";s:1:\"\"\";}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:7:\"Product\";s:10:\"itemFolder\";s:9:\"/Products\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 4,
+            "fieldName": "brand",
+            "locale": "",
+            "fieldNo": 22,
+            "keyMapping": 0,
+            "format": "a:1:{s:14:\"writeProtected\";b:0;}",
+            "calculation": "if($params['value']) {\n  return 'Brand:name:'.$params['value'];\n}",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "colors",
+            "locale": "",
+            "fieldNo": 11,
+            "keyMapping": 0,
+            "format": "a:8:{s:9:\"separator\";s:1:\",\";s:10:\"purgeitems\";b:1;s:10:\"autoCreate\";b:0;s:5:\"infer\";b:1;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "",
+            "brickName": "Clothing",
+            "targetBrickField": "technicalData"
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "ean",
+            "locale": "",
+            "fieldNo": 6,
+            "keyMapping": 0,
+            "format": "a:7:{s:21:\"translateFromLanguage\";s:0:\"\";s:12:\"generateText\";b:0;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "$generateEAN = function($number)\n{\n  $code = '200' . str_pad($number, 9, '0');\n  $weightflag = true;\n  $sum = 0;\n  // Weight for a digit in the checksum is 3, 1, 3.. starting from the last digit. \n  // loop backwards to make the loop length-agnostic. The same basic functionality \n  // will work for codes of different lengths.\n  for ($i = strlen($code) - 1; $i >= 0; $i--)\n  {\n    $sum += (int)$code[$i] * ($weightflag?3:1);\n    $weightflag = !$weightflag;\n  }\n  $code .= (10 - ($sum % 10)) % 10;\n  return $code;\n};\n\nreturn $generateEAN(random_int(1,9999999999));",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "gender",
+            "locale": "",
+            "fieldNo": 11,
+            "keyMapping": 0,
+            "format": "a:7:{s:10:\"autoCreate\";b:0;s:5:\"infer\";b:1;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "",
+            "brickName": "Clothing",
+            "targetBrickField": "technicalData"
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "key",
+            "locale": "",
+            "fieldNo": 4,
+            "keyMapping": 0,
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "material",
+            "locale": "",
+            "fieldNo": 11,
+            "keyMapping": 0,
+            "format": "a:7:{s:21:\"translateFromLanguage\";s:0:\"\";s:5:\"infer\";b:1;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "",
+            "brickName": "Clothing",
+            "targetBrickField": "technicalData"
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "name",
+            "locale": "en",
+            "fieldNo": 4,
+            "keyMapping": 0,
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "path",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:7:{s:21:\"translateFromLanguage\";s:0:\"\";s:5:\"infer\";b:0;s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "/Products",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "price",
+            "locale": "",
+            "fieldNo": 16,
+            "keyMapping": 0,
+            "format": "a:4:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "published",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:1:{s:14:\"writeProtected\";b:0;}",
+            "calculation": "return true;",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "sku",
+            "locale": "",
+            "fieldNo": 6,
+            "keyMapping": 1,
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": 4,
+            "fieldName": "supplierDescription",
+            "locale": "en",
+            "fieldNo": 11,
+            "keyMapping": 0,
+            "format": "a:3:{s:21:\"translateFromLanguage\";s:0:\"\";s:12:\"generateText\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 4,
+            "fieldNo": 4,
+            "name": "product_name",
+            "priority": 2
+        },
+        {
+            "dataportId": 4,
+            "fieldNo": 6,
+            "name": "pid",
+            "priority": 1
+        },
+        {
+            "dataportId": 4,
+            "fieldNo": 11,
+            "name": "description",
+            "priority": 3
+        },
+        {
+            "dataportId": 4,
+            "fieldNo": 16,
+            "name": "retail_price",
+            "priority": 4
+        },
+        {
+            "dataportId": 4,
+            "fieldNo": 22,
+            "name": "brand",
+            "priority": 0
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

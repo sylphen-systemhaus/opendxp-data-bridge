@@ -1,0 +1,6 @@
+{
+  "devDependencies": {
+    "swagger-ui-dist": "3.*",
+    "vis-network": "^9.*"
+  }
+}

@@ -1,0 +1,48 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "13",
+        "name": "Assets: Move to right folder",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:7:{s:6:\"fields\";a:2:{s:7:\"field_1\";a:2:{s:10:\"parameters\";s:2:\"Id\";s:9:\"exportKey\";b:0;}s:7:\"field_2\";a:2:{s:10:\"parameters\";s:14:\"{{ category }}\";s:9:\"exportKey\";b:0;}}s:11:\"sourceClass\";s:19:\"Pimcore\\Model\\Asset\";s:18:\"inheritanceEnabled\";s:1:\"0\";s:4:\"file\";s:25:\"id={{ id|default(1247) }}\";s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"2\";s:9:\"itemClass\";s:19:\"Pimcore\\Model\\Asset\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";s:1:\"0\";s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:15:\"\/product-images\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "13",
+            "fieldName": "id",
+            "locale": "",
+            "fieldNo": "1",
+            "keyMapping": "1",
+            "format": "a:4:{s:16:\"decimalSeparator\";s:1:\".\";s:17:\"groupingSeparator\";s:1:\",\";s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "13",
+            "fieldName": "path",
+            "locale": "",
+            "fieldNo": "2",
+            "keyMapping": "0",
+            "format": "a:2:{s:21:\"translateFromLanguage\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "13",
+            "fieldNo": "1",
+            "name": "id",
+            "priority": "0"
+        },
+        {
+            "dataportId": "13",
+            "fieldNo": "2",
+            "name": "category",
+            "priority": "1"
+        }
+    ]
+}

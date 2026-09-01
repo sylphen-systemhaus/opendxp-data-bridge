@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Bridge REST API</title>
+    <link rel="stylesheet" type="text/css" href="/bundles/sylphendatabridge/vendor/swagger-ui-dist/swagger-ui.css">
+    <link rel="icon" type="image/png" href="/bundles/sylphendatabridge/vendor/swagger-ui-dist/favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="/bundles/sylphendatabridge/vendor/swagger-ui-dist/favicon-16x16.png" sizes="16x16"/>
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+
+        .swagger-ui .topbar, .swagger-ui #operations-tag-default {
+            display: none;
+        }
+
+        {% if dataportId %}
+        .swagger-ui .wrapper {
+            margin: 0;
+            padding: 1px 10px;
+            max-width: unset;
+        }
+
+        .swagger-ui .info {
+            display: none;
+        }
+
+        .swagger-ui .title {
+            display: none;
+        }
+        {% endif %}
+    </style>
+</head>
+
+{% set urlParams = {dataportId: dataportId} %}
+{% if app.request.query.get('apikey') is not empty %}
+  {% set urlParams = urlParams|merge({apikey: app.request.query.get('apikey')}) %}
+{% endif %}
+<body data-url="{{ path('pim_generate_open_api', urlParams) }}" data-dataport-id="{{ dataportId }}">
+<div id="swagger-ui"></div>
+<script src="/bundles/sylphendatabridge/vendor/swagger-ui-dist/swagger-ui-standalone-preset.js"></script>
+<script src="/bundles/sylphendatabridge/vendor/swagger-ui-dist/swagger-ui-bundle.js"></script>
+<script src="/bundles/sylphendatabridge/js/restApiDocumentation.js"></script>
+</body>
+</html>

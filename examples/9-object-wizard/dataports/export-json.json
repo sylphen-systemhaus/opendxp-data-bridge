@@ -1,0 +1,47 @@
+{
+    "sylphen_dd_dataport": {
+        "id": 52,
+        "name": "Export JSON",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:7:{s:6:\"fields\";a:3:{s:7:\"field_8\";a:2:{s:10:\"parameters\";s:3:\"sku\";s:9:\"exportKey\";b:0;}s:7:\"field_6\";a:2:{s:10:\"parameters\";s:4:\"name\";s:9:\"exportKey\";b:0;}s:8:\"field_10\";a:2:{s:10:\"parameters\";s:5:\"price\";s:9:\"exportKey\";b:0;}}s:11:\"sourceClass\";s:7:\"Product\";s:18:\"inheritanceEnabled\";s:1:\"1\";s:4:\"file\";s:0:\"\";s:10:\"autoImport\";b:0;s:17:\"incrementalExport\";b:0;s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"3\";s:9:\"itemClass\";s:1:\"0\";s:10:\"itemFolder\";s:1:\"/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": 52,
+            "fieldName": "__result_callback",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": 0,
+            "format": "a:6:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:17:\"preventDuplicates\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;s:20:\"auto_generate_fields\";b:0;}",
+            "calculation": "if(!isset($params['transfer']->resultData)) {\n    $params['response']->headers->set('Content-Type', 'application/json');\n    $params['transfer']->resultData = [];\n}\n\n$decodeValue = function($value) {\n    if(is_string($value) && !is_numeric($value)) {\n        $decodedValue = json_decode($value, true);\n        if (json_last_error() === \\JSON_ERROR_NONE) {\n            $value = $decodedValue;\n        }\n    }\n    \n    return $value;\n};\n\nif($params['rawItemData']) {\n    $item = [];\n    $item['ID'] = $decodeValue({{ ID }});\n    $item['Key'] = $decodeValue({{ Key }});\n    $item['Path'] = $decodeValue({{ Path }});\n    $item['Published'] = $decodeValue({{ Published }});\n    $item['Name'] = $decodeValue({{ Name }});\n    $item['Short Description'] = $decodeValue({{ Short Description }});\n    $item['SKU'] = $decodeValue({{ SKU }});\n    $item['Brand'] = $decodeValue({{ Brand }});\n    $item['Price'] = $decodeValue({{ Price }});\n    $item['Images'] = $decodeValue({{ Images }});\n\n    $params['transfer']->resultData[] = $item;\n}\n\nif($params['lastCall']) {\n    return json_encode($params['transfer']->resultData, \\JSON_UNESCAPED_UNICODE);\n}",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": 52,
+            "fieldNo": 6,
+            "name": "Name",
+            "priority": 1
+        },
+        {
+            "dataportId": 52,
+            "fieldNo": 8,
+            "name": "SKU",
+            "priority": 0
+        },
+        {
+            "dataportId": 52,
+            "fieldNo": 10,
+            "name": "Price",
+            "priority": 2
+        }
+    ],
+    "user": {
+        "id": 2,
+        "username": "admin"
+    }
+}

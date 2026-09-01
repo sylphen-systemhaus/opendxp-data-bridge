@@ -1,0 +1,92 @@
+{
+    "sylphen_dd_dataport": {
+        "id": "12",
+        "name": "Assets: Assign to Products",
+        "description": "",
+        "sourcetype": "pimcore",
+        "sourceconfig": "a:7:{s:6:\"fields\";a:2:{s:7:\"field_2\";a:2:{s:10:\"parameters\";s:8:\"filename\";s:9:\"exportKey\";b:0;}s:7:\"field_3\";a:2:{s:10:\"parameters\";s:2:\"Id\";s:9:\"exportKey\";b:0;}}s:11:\"sourceClass\";s:19:\"Pimcore\\Model\\Asset\";s:18:\"inheritanceEnabled\";s:1:\"0\";s:4:\"file\";s:12:\"type='image'\";s:10:\"autoImport\";b:1;s:17:\"incrementalExport\";b:0;s:9:\"hasHeader\";b:0;}",
+        "targetconfig": "a:12:{s:4:\"mode\";s:1:\"2\";s:9:\"itemClass\";s:7:\"Product\";s:10:\"itemFolder\";s:1:\"\/\";s:14:\"masterDocument\";s:0:\"\";s:19:\"optimizeInheritance\";s:1:\"0\";s:14:\"skipVersioning\";b:0;s:16:\"javascriptEngine\";s:3:\"php\";s:11:\"assetFolder\";s:1:\"\/\";s:8:\"idPrefix\";s:0:\"\";s:13:\"categoryClass\";s:0:\"\";s:17:\"fieldnameProducts\";s:0:\"\";s:17:\"compatibilityMode\";s:1:\"0\";}"
+    },
+    "sylphen_dd_fieldmapping": [
+        {
+            "dataportId": "12",
+            "fieldName": "images",
+            "locale": "",
+            "fieldNo": "3",
+            "keyMapping": "0",
+            "format": "a:3:{s:9:\"overwrite\";b:0;s:10:\"purgeitems\";b:0;s:14:\"writeProtected\";b:0;}",
+            "calculation": "return array_map(function($sourcePath) use ($params) {\n    \/\/ path means the full path (path + key)\n    \/\/ you can also use other fields than path (e.g. ID, filename etc.)\n    return ['query' => 'Image:id:'.$sourcePath];\n}, (array)$params['value']);",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "12",
+            "fieldName": "sku",
+            "locale": "",
+            "fieldNo": "2",
+            "keyMapping": "1",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "return substr($params['value'], 0, strpos($params['value'], '.'));",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "12",
+            "fieldName": "__result_callback",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:8:\"optimize\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "\/\/ Enter id of dataport to be executed\n$dataportId = {{ DEPENDENT DATAPORT ID }};\n\n\/\/ provide parameters to use in dynamic import resource or in callback functions of dependent dataport\n\/\/ leave empty to run dependent dataport with default import source\n$parameters = {{ DEPENDENT DATAPORT PARAMETERS }};\n\nif(($parameters || $params['lastCall']) && $dataportId) {\n    $command = 'data-director:complete '.$dataportId.($parameters?' --parameters=\"'.str_replace(['\"', '$', '`'], ['\\\"', '\\$', '\\`'], json_encode($parameters)).'\"':'');\n    \n    if({{ DEPENDENT DATAPORT WAIT UNTIL FINISHED }}) {\n        $params['logger']->info('Executing command \"'.$command.'\"');\n        $output = \\Blackbit\\DataDirectorBundle\\lib\\Pim\\Cli::exec($command);\n    } else {\n        $params['logger']->info('Queuing command \"'.$command.'\"');\n        $queue = new \\Blackbit\\DataDirectorBundle\\model\\Queue();\n        $queue->create(['command' => $command, 'triggered_by' => 'Result callback function of dataport '.$params['context']['dataportId']]);\n    }\n}",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "12",
+            "fieldName": "__virtual_DEPENDENT DATAPORT ID",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:2:{s:8:\"optimize\";s:0:\"\";s:14:\"writeProtected\";b:0;}",
+            "calculation": "return $params['value'] ?: '13';",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "12",
+            "fieldName": "__virtual_DEPENDENT DATAPORT PARAMETERS",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "if({{ PRODUCT CATEGORY }}) {\n    return ['id' => $params['rawItemData']['Id']['value'], 'category' => {{ PRODUCT CATEGORY }}];\n}",
+            "brickName": "",
+            "targetBrickField": null
+        },
+        {
+            "dataportId": "12",
+            "fieldName": "__virtual_PRODUCT CATEGORY",
+            "locale": "",
+            "fieldNo": null,
+            "keyMapping": "0",
+            "format": "a:4:{s:21:\"translateFromLanguage\";s:0:\"\";s:9:\"overwrite\";b:0;s:14:\"writeProtected\";b:0;s:10:\"purgeitems\";b:0;}",
+            "calculation": "$sku = {{ sku }};\nreturn 'Product:sku:'.$sku.':categories:0:key';",
+            "brickName": "",
+            "targetBrickField": null
+        }
+    ],
+    "sylphen_dd_rawitem_field": [
+        {
+            "dataportId": "12",
+            "fieldNo": "2",
+            "name": "filename",
+            "priority": "0"
+        },
+        {
+            "dataportId": "12",
+            "fieldNo": "3",
+            "name": "Id",
+            "priority": "1"
+        }
+    ]
+}
