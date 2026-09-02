@@ -4,9 +4,10 @@
   "minimum-stability": "stable",
   "license": "GPL-3.0-or-later",
   "type": "opendxp-bundle",
+  "version": "1.0.1",
   "authors": [
     {
-      "name": "Sylphen GmbH",
+      "name": "Sylphen GmbH & Co. KG",
       "email": "info@sylphen.com",
       "homepage": "https://sylphen.com"
     }
