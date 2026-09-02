@@ -20,18 +20,21 @@ Sylphen Data Bridge is an OpenDXP bundle by [Sylphen GmbH & Co. KG](https://sylp
 
 ## Installation
 
-### Docker demo (try-out)
-
-Isolated **OpenDXP + Data Bridge** on **http://localhost:2000/admin** (`admin` / `admin`). Requires Docker Compose v2 and network access (Composer).
+### From Packagist (recommended)
 
 ```bash
-git clone https://github.com/sylphen-systemhaus/opendxp-data-bridge.git
-cd opendxp-data-bridge
-chmod +x docker-setup.sh
-./docker-setup.sh
+composer require sylphen/opendxp-data-bridge:^1.0
+bin/console opendxp:bundle:install SylphenDataBridgeBundle
+bin/console assets:install --symlink --relative
 ```
 
-The checkout is mounted as a Composer **path repo** — edits are visible immediately.
+The bundle registers automatically via `extra.opendxp.bundles` in the package `composer.json`. Or manually in `config/bundles.php`:
+
+```php
+Sylphen\DataBridgeBundle\SylphenDataBridgeBundle::class => ['all' => true],
+```
+
+Maintainers: [docs/PACKAGIST.md](docs/PACKAGIST.md).
 
 ### From GitHub (VCS)
 
@@ -45,35 +48,34 @@ In an existing OpenDXP project:
   }
 ],
 "require": {
-  "sylphen/opendxp-data-bridge": "@dev"
+  "sylphen/opendxp-data-bridge": "^1.0"
 }
 ```
 
 ```bash
-composer require sylphen/opendxp-data-bridge:@dev
+composer require sylphen/opendxp-data-bridge:^1.0
 bin/console opendxp:bundle:install SylphenDataBridgeBundle
 bin/console assets:install --symlink --relative
 ```
 
-Submodule + path repo (typical in a real project): [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
+To test unreleased commits on `main`, use `"dev-main"` instead — not for production.
 
-The bundle registers automatically via `extra.opendxp.bundles` in the package `composer.json`. Or manually in `config/bundles.php`:
+### Docker demo (try-out)
 
-```php
-Sylphen\DataBridgeBundle\SylphenDataBridgeBundle::class => ['all' => true],
-```
-
-### From Packagist (when published)
-
-After a tagged release is registered on Packagist:
+Isolated **OpenDXP + Data Bridge** on **http://localhost:2000/admin** (`admin` / `admin`). Requires Docker Compose v2 and network access (Composer).
 
 ```bash
-composer require sylphen/opendxp-data-bridge
-bin/console opendxp:bundle:install SylphenDataBridgeBundle
-bin/console assets:install --symlink --relative
+git clone https://github.com/sylphen-systemhaus/opendxp-data-bridge.git
+cd opendxp-data-bridge
+chmod +x docker-setup.sh
+./docker-setup.sh
 ```
 
-Maintainers: [docs/PACKAGIST.md](docs/PACKAGIST.md).
+The checkout is mounted as a Composer **path repo** — edits are visible immediately.
+
+### Development (submodule or path repo)
+
+For day-to-day bundle work in an OpenDXP project, use a **submodule + path repository** (not `@dev` from Packagist). See [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
 ### From artifact ZIP (offline)
 
@@ -117,9 +119,9 @@ Blackbit URL segments (`BlackbitDataDirector`, `BlackbitPim`, …) are **not sup
 
 ## Documentation & examples
 
-- [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) — integrate into an OpenDXP project (submodule, path repo)
+- [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) — integrate into an OpenDXP project (submodule, path repo, `@dev`)
 - [docs/PACKAGIST.md](docs/PACKAGIST.md) — tagged releases and Packagist (maintainers)
-- [docs/UPGRADE.md](docs/UPGRADE.md) — leftover `data_director_*` indexes after Blackbit / early Sylphen installs
+- [docs/UPGRADE.md](docs/UPGRADE.md) — migrate from Blackbit Data Director **3.10.4**; leftover `data_director_*` indexes
 - **Feature handbook** (original Blackbit, including Data Query Selectors): [Data Director Docs](https://blackbitdigitalcommerce.github.io/pimcore-data-director/#data-query-selectors)
 - **Tutorial videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt)
 - **Sample data:** [`examples/`](examples/) — Blackbit-origin reference; see [examples/README.md](examples/README.md)

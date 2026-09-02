@@ -8,7 +8,7 @@ How `sylphen/opendxp-data-bridge` is published for `composer require` from [Pack
 
 - Public repo, default branch **`main`**
 - Branch protection on `main` (PR required) — see project onboarding notes
-- Tags for releases: **`v0.9.0`**, **`v1.0.0`**, … (semver with leading `v` is conventional)
+- Tags for releases: **`v1.0.0`**, **`v1.0.1`**, … (semver with leading `v` is conventional)
 
 ### 2. Register on Packagist
 

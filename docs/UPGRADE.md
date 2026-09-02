@@ -2,7 +2,19 @@
 
 Install (`opendxp:bundle:install SylphenDataBridgeBundle`) runs `Version00000001` for both a greenfield OpenDXP and a Blackbit Data Director database. Most port steps skip on missing tables or errors. **Perspective portlet rewrite is mandatory:** leftover `DataDirector_*` types abort the migration if they cannot be written.
 
-**Prerequisite for the Blackbit path:** the source database must already be fully migrated to **Blackbit Data Director 3.10.4** (i.e. every migration in that version's chain has run) before installing this bundle. The baseline migration renames `plugin_pim_*` → `sylphen_dd_*` in a single step and does **not** apply any incremental `ALTER TABLE` afterwards — it assumes the renamed tables already have the 3.10.4 column set. A database on an older Blackbit schema version will end up with columns silently missing after the rename (no error, no abort). Run the source installation's own migrations to 3.10.4 first, or take a fresh export/import via the dataport JSON path instead of an in-place DB upgrade.
+**Prerequisite for the Blackbit path:** the source database must be on **exactly Blackbit Data Director 3.10.4** — not an older release, and **not a newer 3.10.x** (e.g. 3.10.21).
+
+Sylphen Data Bridge was forked from BDD **3.10.4**. The baseline migration renames `plugin_pim_*` → `sylphen_dd_*` in a single step and does **not** replay Blackbit migrations between 3.10.4 and your current schema. It assumes the renamed tables already match the **3.10.4** column set.
+
+| Situation | Risk |
+|-----------|------|
+| Blackbit **&lt; 3.10.4** | Columns silently missing after rename (no error, no abort) |
+| Blackbit **&gt; 3.10.4** (e.g. 3.10.21) | Extra columns/indexes from later Blackbit migrations are kept, but Data Bridge code expects 3.10.4 — undefined behaviour |
+| **Greenfield** OpenDXP | No Blackbit prerequisite — baseline creates `sylphen_dd_*` |
+
+**Before swapping bundles:** pin or checkout BDD **3.10.4**, run `bin/console pimcore:bundle:install BlackbitDataDirectorBundle` (or equivalent) so all 3.10.4 migrations have run, verify `composer.json` / deployment does not auto-upgrade Blackbit beyond 3.10.4, then uninstall Blackbit and install Data Bridge.
+
+**If Blackbit was already upgraded past 3.10.4:** do not rely on the in-place DB rename alone. Prefer dataport JSON export/import, or restore a DB dump taken at 3.10.4.
 
 ## What the baseline migration does
 
