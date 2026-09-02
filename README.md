@@ -2,7 +2,7 @@
 
 **Import/export and REST API for OpenDXP** — exchange data between external sources and OpenDXP objects, assets, and documents without writing code.
 
-Sylphen Data Bridge is an OpenDXP bundle by [Sylphen GmbH](https://sylphen.com), based on [Blackbit Data Director](https://github.com/blackbitdigitalcommerce/pimcore-data-director) 3.10.4, adapted for **OpenDXP 1.3+**.
+Sylphen Data Bridge is an OpenDXP bundle by [Sylphen GmbH & Co. KG](https://sylphen.com), based on [Blackbit Data Director](https://github.com/blackbitdigitalcommerce/pimcore-data-director) 3.10.4, adapted for **OpenDXP 1.3+**.
 
 ## Features
 
@@ -132,4 +132,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Security reports: [SECURITY.md](SECURITY
 
 This bundle is licensed under the [GNU General Public License v3.0 or later](LICENSE) (SPDX: `GPL-3.0-or-later`). Additional attribution and bundled dependencies: [`NOTICE`](NOTICE).
 
-Copyright © [Sylphen GmbH](https://sylphen.com). Based on [Blackbit Data Director](https://github.com/blackbitdigitalcommerce/pimcore-data-director) — original copyright © Blackbit digital Commerce GmbH.
+Copyright © [Sylphen GmbH & Co. KG](https://sylphen.com). Based on [Blackbit Data Director](https://github.com/blackbitdigitalcommerce/pimcore-data-director) — original copyright © Blackbit digital Commerce GmbH.
