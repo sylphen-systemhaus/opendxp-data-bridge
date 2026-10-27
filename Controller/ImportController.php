@@ -2052,6 +2052,12 @@ if($params[\'lastCall\']) {
     }
 
     private static function getClassIdFromLog($class, $path, $dataportId) {
+        static $cache = [];
+        $cacheKey = $class."\0".$path."\0".$dataportId;
+        if (isset($cache[$cacheKey])) {
+            return $cache[$cacheKey];
+        }
+
         $lastPart = strrpos($path, '/') + 1;
         $key = substr($path, $lastPart);
         $path = substr($path, 0, $lastPart);
@@ -2069,7 +2075,7 @@ if($params[\'lastCall\']) {
             }
         }
 
-        return $class;
+        return $cache[$cacheKey] = $class;
     }
 
     /**
@@ -2155,7 +2161,7 @@ if($params[\'lastCall\']) {
                         $multilineValue = false;
                         $isAssetUpdated = false;
 
-                        $currentObject = ['elementType' => null, 'elementId' => null, 'elementPath' => null];
+                        $currentObject = ['classId' => null, 'elementType' => null, 'elementId' => null, 'elementPath' => null];
                         while (!feof($logFileStream)) {
                             $line = fgets($logFileStream);
 
@@ -2173,8 +2179,7 @@ if($params[\'lastCall\']) {
                             }
 
                             if (preg_match('/Importing (\S+)( #(\d+))? (.+)/', $line, $match)) {
-                                // Always resolve class name → classId so map keys match
-                                // Successfully saved / Skipped / Not saving (those already call getClassIdFromLog).
+                                // Key by class ID, same as the save/skip lines below.
                                 $match[1] = self::getClassIdFromLog($match[1], $match[4], $status['dataport_id']);
 
                                 if (empty($match[3])) {
@@ -2192,16 +2197,17 @@ if($params[\'lastCall\']) {
                                     $isNew = true;
                                 }
 
+                                $elementType = in_array($match[1], ['asset', 'document'], true) ? $match[1] : 'object';
                                 $changedElements[$match[1].$match[3]] = [
                                     'classId' => $match[1],
                                     'elementId' => $match[3],
-                                    'elementType' => in_array($match[1], ['asset', 'document'], true) ? $match[1] : 'object',
+                                    'elementType' => $elementType,
                                     'fullpath' => $match[4],
                                     'isNew' => $isNew,
                                     'fields' => []
                                 ];
 
-                                $currentObject = ['elementType' => $match[1], 'elementId' => $match[3], 'elementPath' => $match[4]];
+                                $currentObject = ['classId' => $match[1], 'elementType' => $elementType, 'elementId' => $match[3], 'elementPath' => $match[4]];
 
                                 $isAssetUpdated = false;
                             } elseif (preg_match('/Successfully saved (\S+) #(\d+) (.+) \(version #(\d+)\)$/S', $line, $match)) {
@@ -2288,7 +2294,7 @@ if($params[\'lastCall\']) {
                                 $changedElements[$elementKey]['status'] = 'skipped';
                             } elseif (strpos($line, 'Value for field __virtual_') === false && preg_match('/Value for field ([a-zA-Z_\x7f-\xff][a-zA-Z0-9_#:.\/]*): (.*)/m', $line, $match)) {
                                 $multilineValue = true;
-                                $changedElements[$currentObject['elementType'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][] = ['field' => $match[1], 'value' => $match[2]."\n"];
+                                $changedElements[$currentObject['classId'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][] = ['field' => $match[1], 'value' => $match[2]."\n"];
                             } elseif (preg_match('/^\s*\[(WARNING|ERROR|ALERT|EMERGENCY|NOTICE)\] (.*)/m', $line, $match)) {
                                 $errors[] = ['type' => $match[1], 'message' => $match[2], 'elementPath' => $currentObject['elementPath'], 'elementType' => $currentObject['elementType']];
                                 $multilineError = true;
@@ -2310,9 +2316,9 @@ if($params[\'lastCall\']) {
                             } elseif (preg_match('/Asset "(.*)" \(ID: ([\d]+)\) has been updated: ([^\s]*) -> (.*)/', $line, $match)) {
                                 Importer::setBeforeSaveChecksum((int)$match[2], $match[3]);
                                 $isAssetUpdated = true;
-                                $changedElements[$currentObject['elementType'] . ($currentObject['elementId'] ?: $currentObject['elementPath'])]['status'] = 'saved';
+                                $changedElements[$currentObject['classId'] . ($currentObject['elementId'] ?: $currentObject['elementPath'])]['status'] = 'saved';
                             } elseif ($multilineValue) {
-                                $changedElements[$currentObject['elementType'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][count($changedElements[$currentObject['elementType'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields']) - 1]['value'] .= $line;
+                                $changedElements[$currentObject['classId'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][count($changedElements[$currentObject['classId'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields']) - 1]['value'] .= $line;
                             } elseif ($multilineError) {
                                 $errors[count($errors) - 1]['message'] .= "\n".$line;
                             }
