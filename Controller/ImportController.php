@@ -2173,9 +2173,11 @@ if($params[\'lastCall\']) {
                             }
 
                             if (preg_match('/Importing (\S+)( #(\d+))? (.+)/', $line, $match)) {
-                                if (empty($match[3])) {
-                                    $match[1] = self::getClassIdFromLog($match[1], $match[4], $status['dataport_id']);
+                                // Always resolve class name → classId so map keys match
+                                // Successfully saved / Skipped / Not saving (those already call getClassIdFromLog).
+                                $match[1] = self::getClassIdFromLog($match[1], $match[4], $status['dataport_id']);
 
+                                if (empty($match[3])) {
                                     $path = $match[4];
                                     $lastPart = strrpos($path, '/') + 1;
                                     $key = substr($path, $lastPart);
