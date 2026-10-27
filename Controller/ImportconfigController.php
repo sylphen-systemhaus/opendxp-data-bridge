@@ -1307,6 +1307,11 @@ class ImportconfigController {
         $fieldMappingModel->deleteWhere(['dataportId' => $data[$dataports->getTableName()]['id']]);
         foreach ($data[$fieldMappingModel->getTableName()] as $f) {
             $f['dataportId'] = $data[$dataports->getTableName()]['id'];
+            if (!empty($f['fieldName'])) {
+                // Dataport JSON from Data Director / older Data Bridge can reintroduce
+                // legacy virtual field names after the one-shot migration.
+                $f['fieldName'] = Importer::normalizeVirtualFieldName((string) $f['fieldName'], true);
+            }
             if (is_array($f['format'])) {
                 $f['format'] = serialize($f['format']);
             }

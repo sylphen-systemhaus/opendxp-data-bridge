@@ -12,24 +12,19 @@ namespace Sylphen\DataBridgeBundle\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Sylphen\DataBridgeBundle\lib\Pim\Item\Importer;
 use Sylphen\DataBridgeBundle\Tools\Installer;
 
 /**
  * OpenDXP >= 1.4.2 rejects Data::setName() values that are not identifiers.
- * Rewrite built-in virtual mapping field names that previously contained spaces.
+ * Rewrite built-in virtual mapping field names that previously contained spaces
+ * (and briefly used camelCase) to `__`-prefixed names outside the class-field namespace.
  */
 class Version00000002 extends AbstractMigration
 {
-    /** @var array<string, string> legacy fieldName => identifier-safe fieldName */
-    private const FIELD_NAME_RENAMES = [
-        'delete element' => 'deleteElement',
-        'Complete Object' => 'completeObject',
-        'Complete Document' => 'completeDocument',
-    ];
-
     public function getDescription(): string
     {
-        return 'Rename virtual fieldmapping fieldName values to identifier-safe names (OpenDXP >= 1.4.2)';
+        return 'Rename virtual fieldmapping fieldName values to identifier-safe __-prefixed names (OpenDXP >= 1.4.2)';
     }
 
     public function up(Schema $schema): void
@@ -43,17 +38,40 @@ class Version00000002 extends AbstractMigration
             return;
         }
 
-        foreach (self::FIELD_NAME_RENAMES as $from => $to) {
-            $updated = (int) $this->connection->executeStatement(
-                sprintf(
-                    'UPDATE `%s` SET `fieldName` = ? WHERE `fieldName` = ?',
-                    $table
-                ),
-                [$to, $from]
+        $this->warnLegacyNamesInCalculations($table);
+
+        foreach (Importer::VIRTUAL_FIELD_NAME_ALIASES as $from => $to) {
+            $count = (int) $this->connection->fetchOne(
+                sprintf('SELECT COUNT(*) FROM `%s` WHERE `fieldName` = ?', $table),
+                [$from]
             );
-            if ($updated > 0) {
-                $this->write(sprintf('Rewrote %d row(s): "%s" → "%s".', $updated, $from, $to));
+            if ($count === 0) {
+                continue;
             }
+
+            // Drop legacy rows that would collide with an existing target PK row.
+            $this->addSql(sprintf(
+                'DELETE `legacy` FROM `%s` AS `legacy`
+                 INNER JOIN `%s` AS `target`
+                    ON `legacy`.`dataportId` = `target`.`dataportId`
+                   AND `legacy`.`locale` = `target`.`locale`
+                   AND `legacy`.`brickName` = `target`.`brickName`
+                   AND `legacy`.`fieldName` = %s
+                   AND `target`.`fieldName` = %s',
+                $table,
+                $table,
+                $this->connection->quote($from),
+                $this->connection->quote($to)
+            ));
+
+            $this->addSql(sprintf(
+                'UPDATE `%s` SET `fieldName` = %s WHERE `fieldName` = %s',
+                $table,
+                $this->connection->quote($to),
+                $this->connection->quote($from)
+            ));
+
+            $this->write(sprintf('Queued rewrite of %d row(s): "%s" → "%s".', $count, $from, $to));
         }
     }
 
@@ -66,15 +84,81 @@ class Version00000002 extends AbstractMigration
             return;
         }
 
-        foreach (self::FIELD_NAME_RENAMES as $from => $to) {
-            $this->connection->executeStatement(
-                sprintf(
-                    'UPDATE `%s` SET `fieldName` = ? WHERE `fieldName` = ?',
-                    $table
-                ),
-                [$from, $to]
-            );
+        // Reverse only to the original space-containing names (not camelCase).
+        $reverse = [
+            Importer::VIRTUAL_FIELD_DELETE_ELEMENT => 'delete element',
+            Importer::VIRTUAL_FIELD_COMPLETE_OBJECT => 'Complete Object',
+            Importer::VIRTUAL_FIELD_COMPLETE_DOCUMENT => 'Complete Document',
+        ];
+
+        foreach ($reverse as $from => $to) {
+            $this->addSql(sprintf(
+                'DELETE `legacy` FROM `%s` AS `legacy`
+                 INNER JOIN `%s` AS `target`
+                    ON `legacy`.`dataportId` = `target`.`dataportId`
+                   AND `legacy`.`locale` = `target`.`locale`
+                   AND `legacy`.`brickName` = `target`.`brickName`
+                   AND `legacy`.`fieldName` = %s
+                   AND `target`.`fieldName` = %s',
+                $table,
+                $table,
+                $this->connection->quote($from),
+                $this->connection->quote($to)
+            ));
+
+            $this->addSql(sprintf(
+                'UPDATE `%s` SET `fieldName` = %s WHERE `fieldName` = %s',
+                $table,
+                $this->connection->quote($to),
+                $this->connection->quote($from)
+            ));
         }
+    }
+
+    private function warnLegacyNamesInCalculations(string $table): void
+    {
+        $legacyNames = array_keys(Importer::VIRTUAL_FIELD_NAME_ALIASES);
+        $conditions = [];
+        $params = [];
+        foreach ($legacyNames as $name) {
+            $conditions[] = '`calculation` LIKE ?';
+            $params[] = '%' . $this->escapeLike($name) . '%';
+        }
+
+        try {
+            $rows = $this->connection->fetchAllAssociative(
+                sprintf(
+                    'SELECT DISTINCT `dataportId` FROM `%s` WHERE `calculation` IS NOT NULL AND (%s) ORDER BY `dataportId`',
+                    $table,
+                    implode(' OR ', $conditions)
+                ),
+                $params
+            );
+        } catch (\Throwable $e) {
+            $this->write('Could not scan calculations for legacy virtual field names: ' . $e->getMessage());
+
+            return;
+        }
+
+        if ($rows === []) {
+            return;
+        }
+
+        $ids = array_map(static fn(array $row): string => (string) $row['dataportId'], $rows);
+        $this->write(sprintf(
+            'WARNING: dataport(s) %s have callback `calculation` text referencing a legacy virtual field name'
+            . ' (e.g. {{ Complete Object }}). Those callbacks still resolve via the old virtualFields key'
+            . ' and must be updated manually to use %s / %s / %s.',
+            implode(', ', $ids),
+            Importer::VIRTUAL_FIELD_DELETE_ELEMENT,
+            Importer::VIRTUAL_FIELD_COMPLETE_OBJECT,
+            Importer::VIRTUAL_FIELD_COMPLETE_DOCUMENT
+        ));
+    }
+
+    private function escapeLike(string $value): string
+    {
+        return str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $value);
     }
 
     private function liveTableExists(string $table): bool

@@ -425,8 +425,8 @@ class Helper
         if ($class instanceof ClassDefinition) {
             $fieldDefinitions = array_merge($fieldDefinitions, $class->getFieldDefinitions());
 
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'deleteElement');
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'completeObject');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, Importer::VIRTUAL_FIELD_DELETE_ELEMENT);
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, Importer::VIRTUAL_FIELD_COMPLETE_OBJECT);
         } elseif (is_a($itemClassId, PageSnippet::class, true)) {
             $masterDocument = null;
             if($targetConfig['masterDocument']) {
@@ -441,8 +441,8 @@ class Helper
                 }
             }
 
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'deleteElement');
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'completeDocument');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, Importer::VIRTUAL_FIELD_DELETE_ELEMENT);
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, Importer::VIRTUAL_FIELD_COMPLETE_DOCUMENT);
         } elseif (is_a($itemClassId, Asset::class, true)) {
             $itemMold = $this->itemMoldBuilder->getItemMoldByClassId($targetConfig['itemClass']);
             $class = new \ReflectionClass($itemClassId);
@@ -458,7 +458,7 @@ class Helper
                 $fieldDefinitions[] = Importer::getFieldDefinition($itemClassId, $field);
             }
 
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'deleteElement');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, Importer::VIRTUAL_FIELD_DELETE_ELEMENT);
         } elseif (class_exists((string)$itemClassId)) {
             $class = new \ReflectionClass($itemClassId);
             $setterMethodPrefix = 'set';
@@ -824,7 +824,7 @@ class Helper
                 'locale' => $mappingOptions['locale'] ?? null,
                 'type' => $def->getFieldtype(),
                 'templates' => $this->getTemplates($def, $dataport['id'], $mappingOptions),
-                'unique' => $def->getUnique() || $def->getIndex() || $def->getName() === 'id' || $def->getName() === 'completeObject',
+                'unique' => $def->getUnique() || $def->getIndex() || $def->getName() === 'id' || $def->getName() === Importer::VIRTUAL_FIELD_COMPLETE_OBJECT,
                 'description' => $def->getTooltip(),
 
                 // Mapping
@@ -995,7 +995,7 @@ class Helper
         } catch (\Exception $e) {
         }
 
-        if ($mapping[$key]['settings']['keyMapping'] && $itemMold instanceof Concrete && !$def->getIndex() && !in_array(Helper::prefixObjectSystemColumn($def->getName()), self::getSystemFields(), true) && $key !== 'completeObject') {
+        if ($mapping[$key]['settings']['keyMapping'] && $itemMold instanceof Concrete && !$def->getIndex() && !in_array(Helper::prefixObjectSystemColumn($def->getName()), self::getSystemFields(), true) && $key !== Importer::VIRTUAL_FIELD_COMPLETE_OBJECT) {
             $mapping[$key]['settings']['keyMappingIndexed'] = false;
         }
 

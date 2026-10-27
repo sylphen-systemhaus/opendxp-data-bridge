@@ -772,10 +772,13 @@ opendxp.plugin.Pim.MappingPanel = Ext.extend(Ext.grid.Panel, {
                         } else if (record.get('attributeKey') === 'key') {
                             tooltip = t('pim.mapping.key.tooltip');
                             value = t('pim.mapping.key');
-                        } else if (record.get('attributeKey') === 'deleteElement') {
+                        } else if (record.get('attributeKey') === '__delete_element') {
                             tooltip = t('pim.mapping.deleteElement.tooltip');
                             value = '<i>' + t('pim.mapping.deleteElement') + '</i>';
-                        } else if (record.get('attributeKey') === 'completeObject') {
+                        } else if (record.get('attributeKey') === '__complete_object') {
+                            tooltip = t('pim.mapping.completeObject.tooltip');
+                            value = '<i>' + t('pim.mapping.completeObject') + '</i>';
+                        } else if (record.get('attributeKey') === '__complete_document') {
                             tooltip = t('pim.mapping.completeObject.tooltip');
                             value = '<i>' + t('pim.mapping.completeObject') + '</i>';
                         } else if (record.get('attributeKey') === 'Stream') {
