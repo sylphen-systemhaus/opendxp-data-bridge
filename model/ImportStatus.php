@@ -135,6 +135,28 @@ class ImportStatus extends PimcoreDbRepository
         return $type;
     }
 
+    /**
+     * Map bitmask importType to translation key suffix for pim.manual.statusgrid.type.*.
+     * Complete runs store TYPE_COMPLETE|TYPE_RAWDATA (36) / TYPE_COMPLETE|TYPE_PIM (40);
+     * UI labels use 32.1 / 32.2.
+     *
+     * @param int|string $importType
+     * @return int|string
+     */
+    public static function getStatusGridTypeKey($importType)
+    {
+        $importType = (int) $importType;
+        if ($importType & self::TYPE_COMPLETE) {
+            if ($importType & self::TYPE_RAWDATA) {
+                return self::TYPE_COMPLETE.'.1';
+            }
+
+            return self::TYPE_COMPLETE.'.2';
+        }
+
+        return $importType;
+    }
+
     public function queueRestart($statusKey) {
         $status = $this->findOne(['`key` = ?' => $statusKey]);
         if ($status) {

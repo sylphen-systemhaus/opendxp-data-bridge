@@ -636,14 +636,7 @@ class ImportController extends UserAwareController {
                     }
                 }
 
-                $importType = $entry['importType'];
-                if($importType & ImportStatus::TYPE_COMPLETE) {
-                    if($importType & ImportStatus::TYPE_RAWDATA) {
-                        $importType = ImportStatus::TYPE_COMPLETE.'.1';
-                    } else {
-                        $importType = ImportStatus::TYPE_COMPLETE.'.2';
-                    }
-                }
+                $importType = ImportStatus::getStatusGridTypeKey($entry['importType']);
 
                 $status[] = array(
                     'id' => $entry['id'],
@@ -2122,7 +2115,7 @@ if($params[\'lastCall\']) {
                 $returnData['totalItems'] = $status['totalItems'];
             }
             if ($status['dataport_id']) {
-                $returnData['comment'] = $this->translator->trans('pim.manual.statusgrid.type.'.$status['importType'], [], 'admin', Helper::getUser()->getLanguage());
+                $returnData['comment'] = $this->translator->trans('pim.manual.statusgrid.type.'.ImportStatus::getStatusGridTypeKey($status['importType']), [], 'admin', Helper::getUser()->getLanguage());
 
                 $logFileObjectPath = $status['dataport_id'].'/'.$status['key'];
                 if (!Helper::getApplicationLogStorage()->fileExists($logFileObjectPath) && Helper::getApplicationLogStorage()->fileExists($logFileObjectPath.'.gz')) {
