@@ -458,7 +458,7 @@ class NaiveParser
         }
 
         foreach($fieldDefinitions as $fieldDefinition) {
-            if($fieldDefinition->getName() === 'delete element') {
+            if($fieldDefinition->getName() === 'deleteElement') {
                 continue;
             }
             $newDataQuerySelectorPrefix = ($dataQuerySelectorPrefix?$dataQuerySelectorPrefix.':':'').$fieldDefinition->getName();

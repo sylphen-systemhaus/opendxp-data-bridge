@@ -24,7 +24,7 @@ class CompleteObjectMapper extends AbstractFieldMapper
      */
     public function supports(array $mapping, Data $fieldDefinition, AbstractModel $dataObject = null)
     {
-        return $fieldDefinition->getName() === 'Complete Object';
+        return $fieldDefinition->getName() === 'completeObject';
     }
 
     /**

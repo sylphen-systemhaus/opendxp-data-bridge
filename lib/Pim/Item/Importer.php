@@ -875,7 +875,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                                                 $keyValueItem = $keyValueProposal;
                                                 goto addListCondition;
                                             }
-                                        } elseif($fieldDefinition->getName() === 'Complete Object') {
+                                        } elseif($fieldDefinition->getName() === 'completeObject') {
                                             $objectExistsQuery = 'SELECT 1 
                                             FROM '.Service::getElementType($itemMold).'s 
                                             WHERE '.(Service::getElementType($itemMold) === 'object' ? Helper::prefixObjectSystemColumn('id') : 'id').' = ?';
@@ -1157,7 +1157,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                                     $fieldsToCheck = null;
 
                                     if($this->isCompleteObjectImport()) {
-                                        $fieldsToCheck = array_keys($rawItem['virtualFields']['Complete Object']);
+                                        $fieldsToCheck = array_keys($rawItem['virtualFields']['completeObject']);
                                     }
 
                                     if ((empty($cachedItem['save']) || $targetconfig['optimizeInheritance']) && ($event->getArgument('saveAnyway') || (!($this->getTargetConfig()['compatibilityMode'] ?? true) && $changedObject instanceof Concrete && $this->hasModifiedData($changedObject)) || ((($this->getTargetConfig()['compatibilityMode'] ?? true) || !$changedObject instanceof Concrete) && ($isModified = $this->isModified($changedObject, $cachedItem['latestVersion'], $fieldsToCheck, $fieldsToCheck === null))))) {
@@ -1624,10 +1624,10 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                 } elseif($mapping['fieldName'] === SelectMapper::VIRTUAL_WORKFLOW_FIELD) {
                     RuntimeCache::save($value, SelectMapper::VIRTUAL_WORKFLOW_FIELD.'-'.spl_object_hash($target));
                     $callSetValue = false;
-                } elseif ($mapping['fieldName'] === 'Complete Object') {
+                } elseif ($mapping['fieldName'] === 'completeObject') {
                     $callSetValue = false;
-                } elseif ($def instanceof Data\Checkbox && $mapping['fieldName'] === 'delete element') {
-                    RuntimeCache::save($value, 'delete element-'.spl_object_hash($target));
+                } elseif ($def instanceof Data\Checkbox && $mapping['fieldName'] === 'deleteElement') {
+                    RuntimeCache::save($value, 'deleteElement-'.spl_object_hash($target));
                     if($value) {
                         $this->setCachedItem($target, ['save' => true]);
                     }
@@ -3346,7 +3346,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                     $this->log($item, 'Successfully saved new draft version for '.\OpenDxp\Model\Element\Service::getElementType($item).' #'.$item->getId().' '.$item->getRealFullPath(), 'info');
                 }
             } else {
-                $runtimeCacheKeyDeleteElement = 'delete element-'.spl_object_hash($item);
+                $runtimeCacheKeyDeleteElement = 'deleteElement-'.spl_object_hash($item);
                 if(RuntimeCache::isRegistered($runtimeCacheKeyDeleteElement) && RuntimeCache::get($runtimeCacheKeyDeleteElement)) {
                     if($item->getId()) {
                         OpenDxp\Model\Element\Recyclebin\Item::create($item, Helper::getUser());
@@ -3863,7 +3863,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
         $dependencies = ['added' => [], 'removed' => []];
 
         foreach ($this->getMappings() as $mapping) {
-            if($mapping['fieldName'] === 'delete element') {
+            if($mapping['fieldName'] === 'deleteElement') {
                 continue;
             }
 
@@ -5071,7 +5071,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                     $def = new Data\Numeric();
                     $def->setInteger(true);
                     $def->setLocked(true);
-                } elseif ($field['fieldName'] === 'published' || $field['fieldName'] === 'delete element') {
+                } elseif ($field['fieldName'] === 'published' || $field['fieldName'] === 'deleteElement') {
                     $def = new Data\Checkbox();
                 } elseif ($field['fieldName'] === 'type') {
                     $def = new Data\Select();
@@ -5291,10 +5291,10 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                 }
 
                 return null;
-            } elseif ($field['fieldName'] === 'Complete Object') {
+            } elseif ($field['fieldName'] === 'completeObject') {
                 return $object;
-            } elseif($field['fieldName'] === 'delete element') {
-                $runtimeCacheKeyDeleteElement = 'delete element-'.spl_object_hash($object);
+            } elseif($field['fieldName'] === 'deleteElement') {
+                $runtimeCacheKeyDeleteElement = 'deleteElement-'.spl_object_hash($object);
                 if (RuntimeCache::isRegistered($runtimeCacheKeyDeleteElement)) {
                     return RuntimeCache::get($runtimeCacheKeyDeleteElement);
                 }
@@ -6935,7 +6935,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
 
     private function isCompleteObjectImport() {
         foreach ($this->getMappings() as $mapping) {
-            if ($mapping['fieldName'] === 'Complete Object') {
+            if ($mapping['fieldName'] === 'completeObject') {
                 return true;
             }
         }

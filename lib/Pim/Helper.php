@@ -425,8 +425,8 @@ class Helper
         if ($class instanceof ClassDefinition) {
             $fieldDefinitions = array_merge($fieldDefinitions, $class->getFieldDefinitions());
 
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'delete element');
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'Complete Object');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'deleteElement');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'completeObject');
         } elseif (is_a($itemClassId, PageSnippet::class, true)) {
             $masterDocument = null;
             if($targetConfig['masterDocument']) {
@@ -441,8 +441,8 @@ class Helper
                 }
             }
 
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'delete element');
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'Complete Document');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'deleteElement');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'completeDocument');
         } elseif (is_a($itemClassId, Asset::class, true)) {
             $itemMold = $this->itemMoldBuilder->getItemMoldByClassId($targetConfig['itemClass']);
             $class = new \ReflectionClass($itemClassId);
@@ -458,7 +458,7 @@ class Helper
                 $fieldDefinitions[] = Importer::getFieldDefinition($itemClassId, $field);
             }
 
-            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'delete element');
+            $fieldDefinitions[] = Importer::getFieldDefinition($itemMold, 'deleteElement');
         } elseif (class_exists((string)$itemClassId)) {
             $class = new \ReflectionClass($itemClassId);
             $setterMethodPrefix = 'set';
@@ -824,7 +824,7 @@ class Helper
                 'locale' => $mappingOptions['locale'] ?? null,
                 'type' => $def->getFieldtype(),
                 'templates' => $this->getTemplates($def, $dataport['id'], $mappingOptions),
-                'unique' => $def->getUnique() || $def->getIndex() || $def->getName() === 'id' || $def->getName() === 'Complete Object',
+                'unique' => $def->getUnique() || $def->getIndex() || $def->getName() === 'id' || $def->getName() === 'completeObject',
                 'description' => $def->getTooltip(),
 
                 // Mapping
@@ -995,7 +995,7 @@ class Helper
         } catch (\Exception $e) {
         }
 
-        if ($mapping[$key]['settings']['keyMapping'] && $itemMold instanceof Concrete && !$def->getIndex() && !in_array(Helper::prefixObjectSystemColumn($def->getName()), self::getSystemFields(), true) && $key !== 'Complete Object') {
+        if ($mapping[$key]['settings']['keyMapping'] && $itemMold instanceof Concrete && !$def->getIndex() && !in_array(Helper::prefixObjectSystemColumn($def->getName()), self::getSystemFields(), true) && $key !== 'completeObject') {
             $mapping[$key]['settings']['keyMappingIndexed'] = false;
         }
 
