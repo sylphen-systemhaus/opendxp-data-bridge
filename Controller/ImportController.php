@@ -2182,19 +2182,28 @@ if($params[\'lastCall\']) {
                                 // Key by class ID, same as the save/skip lines below.
                                 $match[1] = self::getClassIdFromLog($match[1], $match[4], $status['dataport_id']);
 
-                                if (empty($match[3])) {
-                                    $path = $match[4];
-                                    $lastPart = strrpos($path, '/') + 1;
-                                    $key = substr($path, $lastPart);
-                                    $path = substr($path, 0, $lastPart);
+                                // Importer logs "#0" for not-yet-persisted elements. Do not use empty()
+                                // here — empty("0") is true in PHP and would trigger a path lookup that
+                                // finds the object after save and wrongly clears isNew.
+                                $loggedElementId = $match[3] ?? '';
+                                $isNew = ($loggedElementId === '0');
 
-                                    $match[3] = PimcoreDbRepository::getInstance()->findOneInSql('SELECT '.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('id') : 'id').' FROM '.(!in_array($match[1], ['asset', 'document'], true) ? 'object' : $match[1]).'s WHERE `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('path') : 'path').'`=? AND `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('key') : 'key').'`=?', [$path, $key]);
-                                }
+                                if ($loggedElementId === '' || $loggedElementId === '0') {
+                                    if ($loggedElementId === '') {
+                                        $path = $match[4];
+                                        $lastPart = strrpos($path, '/') + 1;
+                                        $key = substr($path, $lastPart);
+                                        $path = substr($path, 0, $lastPart);
 
-                                $isNew = false;
-                                if(empty($match[3])) {
-                                    $match[3] = $match[4];
-                                    $isNew = true;
+                                        $match[3] = PimcoreDbRepository::getInstance()->findOneInSql('SELECT '.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('id') : 'id').' FROM '.(!in_array($match[1], ['asset', 'document'], true) ? 'object' : $match[1]).'s WHERE `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('path') : 'path').'`=? AND `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('key') : 'key').'`=?', [$path, $key]);
+                                        if ($match[3] === null || $match[3] === false || $match[3] === '') {
+                                            $match[3] = $match[4];
+                                            $isNew = true;
+                                        }
+                                    } else {
+                                        // "#0" → keep path as temporary map key until Successfully created remaps
+                                        $match[3] = $match[4];
+                                    }
                                 }
 
                                 $elementType = in_array($match[1], ['asset', 'document'], true) ? $match[1] : 'object';
@@ -2259,12 +2268,14 @@ if($params[\'lastCall\']) {
                                         if (isset($changedElements[$match[1].$match[3]])) {
                                             $changedElements[$match[1].$match[2]] = $changedElements[$match[1].$match[3]];
                                             $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
+                                            $changedElements[$match[1].$match[2]]['isNew'] = true;
                                             $changedElements[$match[1].$match[2]]['status'] = 'saved';
                                             unset($changedElements[$match[1].$match[3]]);
                                         }
 
                                         if (isset($changedElements[$match[1].$match[2]])) {
                                             $changedElements[$match[1].$match[2]]['fields'] = $this->getChangedFields($changedData);
+                                            $changedElements[$match[1].$match[2]]['isNew'] = true;
                                             $changedElements[$match[1].$match[2]]['status'] = 'saved';
                                         }
                                     }
@@ -2274,11 +2285,13 @@ if($params[\'lastCall\']) {
                                     if (isset($changedElements[$match[1].$match[3]])) {
                                         $changedElements[$match[1].$match[2]] = $changedElements[$match[1].$match[3]];
                                         $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
+                                        $changedElements[$match[1].$match[2]]['isNew'] = true;
                                         $changedElements[$match[1].$match[2]]['status'] = 'saved';
                                         unset($changedElements[$match[1].$match[3]]);
                                     }
 
                                     $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
+                                    $changedElements[$match[1].$match[2]]['isNew'] = true;
                                     $changedElements[$match[1].$match[2]]['status'] = 'saved';
                                 }
                             } elseif (!$isAssetUpdated && (preg_match('/Not saving (\S+) #(\d+) (.+) because/S', $line, $match) || preg_match('/Skipped (\S+) #(\d+) (.+) because/S', $line, $match))) {
@@ -2338,11 +2351,14 @@ if($params[\'lastCall\']) {
                                 return true;
                             }
                         } elseif ($searchTerm === 'changed') {
-                            if (isset($changedElement['status']) && $changedElement['status'] === 'saved') {
+                            // Exclude newly created elements — those belong to the "new" filter.
+                            if (isset($changedElement['status']) && $changedElement['status'] === 'saved' && empty($changedElement['isNew'])) {
                                 return true;
                             }
                         } elseif ($searchTerm === 'new') {
-                            return $changedElement['isNew'];
+                            if (!empty($changedElement['isNew'])) {
+                                return true;
+                            }
                         } elseif (stripos(json_encode($changedElement), $searchTerm) !== false) {
                             return true;
                         }
