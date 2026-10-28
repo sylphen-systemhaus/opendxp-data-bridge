@@ -2052,6 +2052,12 @@ if($params[\'lastCall\']) {
     }
 
     private static function getClassIdFromLog($class, $path, $dataportId) {
+        static $cache = [];
+        $cacheKey = $class."\0".$path."\0".$dataportId;
+        if (isset($cache[$cacheKey])) {
+            return $cache[$cacheKey];
+        }
+
         $lastPart = strrpos($path, '/') + 1;
         $key = substr($path, $lastPart);
         $path = substr($path, 0, $lastPart);
@@ -2069,7 +2075,7 @@ if($params[\'lastCall\']) {
             }
         }
 
-        return $class;
+        return $cache[$cacheKey] = $class;
     }
 
     /**
@@ -2155,7 +2161,7 @@ if($params[\'lastCall\']) {
                         $multilineValue = false;
                         $isAssetUpdated = false;
 
-                        $currentObject = ['elementType' => null, 'elementId' => null, 'elementPath' => null];
+                        $currentObject = ['classId' => null, 'elementType' => null, 'elementId' => null, 'elementPath' => null];
                         while (!feof($logFileStream)) {
                             $line = fgets($logFileStream);
 
@@ -2173,59 +2179,63 @@ if($params[\'lastCall\']) {
                             }
 
                             if (preg_match('/Importing (\S+)( #(\d+))? (.+)/', $line, $match)) {
-                                if (empty($match[3])) {
-                                    $match[1] = self::getClassIdFromLog($match[1], $match[4], $status['dataport_id']);
+                                // Key by class ID, same as the save/skip lines below.
+                                $match[1] = self::getClassIdFromLog($match[1], $match[4], $status['dataport_id']);
 
-                                    $path = $match[4];
-                                    $lastPart = strrpos($path, '/') + 1;
-                                    $key = substr($path, $lastPart);
-                                    $path = substr($path, 0, $lastPart);
+                                // Importer logs "#0" for not-yet-persisted elements. Do not use empty()
+                                // here — empty("0") is true in PHP and would trigger a path lookup that
+                                // finds the object after save and wrongly clears isNew.
+                                $loggedElementId = $match[3] ?? '';
+                                $isNew = ($loggedElementId === '0');
 
-                                    $match[3] = PimcoreDbRepository::getInstance()->findOneInSql('SELECT '.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('id') : 'id').' FROM '.(!in_array($match[1], ['asset', 'document'], true) ? 'object' : $match[1]).'s WHERE `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('path') : 'path').'`=? AND `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('key') : 'key').'`=?', [$path, $key]);
+                                if ($loggedElementId === '' || $loggedElementId === '0') {
+                                    if ($loggedElementId === '') {
+                                        $path = $match[4];
+                                        $lastPart = strrpos($path, '/') + 1;
+                                        $key = substr($path, $lastPart);
+                                        $path = substr($path, 0, $lastPart);
+
+                                        $match[3] = PimcoreDbRepository::getInstance()->findOneInSql('SELECT '.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('id') : 'id').' FROM '.(!in_array($match[1], ['asset', 'document'], true) ? 'object' : $match[1]).'s WHERE `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('path') : 'path').'`=? AND `'.(!in_array($match[1], ['asset', 'document'], true) ? Helper::prefixObjectSystemColumn('key') : 'key').'`=?', [$path, $key]);
+                                        if ($match[3] === null || $match[3] === false || $match[3] === '') {
+                                            $match[3] = $match[4];
+                                            $isNew = true;
+                                        }
+                                    } else {
+                                        // "#0" → keep path as temporary map key until Successfully created remaps
+                                        $match[3] = $match[4];
+                                    }
                                 }
 
-                                $isNew = false;
-                                if(empty($match[3])) {
-                                    $match[3] = $match[4];
-                                    $isNew = true;
-                                }
-
+                                $elementType = in_array($match[1], ['asset', 'document'], true) ? $match[1] : 'object';
                                 $changedElements[$match[1].$match[3]] = [
                                     'classId' => $match[1],
                                     'elementId' => $match[3],
-                                    'elementType' => in_array($match[1], ['asset', 'document'], true) ? $match[1] : 'object',
+                                    'elementType' => $elementType,
                                     'fullpath' => $match[4],
                                     'isNew' => $isNew,
                                     'fields' => []
                                 ];
 
-                                $currentObject = ['elementType' => $match[1], 'elementId' => $match[3], 'elementPath' => $match[4]];
+                                $currentObject = ['classId' => $match[1], 'elementType' => $elementType, 'elementId' => $match[3], 'elementPath' => $match[4]];
 
                                 $isAssetUpdated = false;
-                            } elseif (preg_match('/Successfully saved (\S+) #(\d+) (.+) \(version #(\d+)\)$/S', $line, $match)) {
+                            } elseif (preg_match('/Successfully saved (\S+) #(\d+) (.+?)(?: \(version #(\d+)\))?$/S', $line, $match)) {
                                 $match[1] = self::getClassIdFromLog($match[1], $match[3], $status['dataport_id']);
-                                $versionFound = false;
-                                if(count($changedElements) < $request->get('start') + $request->get('limit') && $match[4]) {
-                                    $changedData = (string)PimcoreDbRepository::getInstance()->findOneInSql('SELECT note FROM versions WHERE id=?', [$match[4]]);
-                                    if ($changedData) {
-                                        $versionFound = true;
-                                        if(isset($changedElements[$match[1].$match[3]])) {
-                                            $changedElements[$match[1].$match[2]] = $changedElements[$match[1].$match[3]];
-                                            $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
-                                            $changedElements[$match[1].$match[2]]['status'] = 'saved';
-                                            unset($changedElements[$match[1].$match[3]]);
-                                        }
+                                $idKey = $match[1].$match[2];
+                                $pathKey = $match[1].$match[3];
 
-                                        if (isset($changedElements[$match[1].$match[2]])) {
-                                            $changedElements[$match[1].$match[2]]['fields'] = $this->getChangedFields($changedData);
-                                            $changedElements[$match[1].$match[2]]['status'] = 'saved';
-                                        }
-                                    }
+                                if (isset($changedElements[$pathKey])) {
+                                    $changedElements[$idKey] = $changedElements[$pathKey];
+                                    unset($changedElements[$pathKey]);
                                 }
 
-                                if (!$versionFound) {
-                                    $changedElements[$match[1].$match[2]]['status'] = 'saved';
-                                    $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
+                                $changedElements[$idKey]['elementId'] = $match[2];
+                                $changedElements[$idKey]['fullpath'] = $changedElements[$idKey]['fullpath'] ?? $match[3];
+                                $changedElements[$idKey]['classId'] = $changedElements[$idKey]['classId'] ?? $match[1];
+                                $changedElements[$idKey]['status'] = 'saved';
+                                $changedElements[$idKey]['fields'] = $changedElements[$idKey]['fields'] ?? [];
+                                if (!empty($match[4])) {
+                                    $changedElements[$idKey]['versionId'] = $match[4];
                                 }
                             } elseif (preg_match('/(\S+) (\/(.+)) queued for saving$/S', $line, $match)) {
                                 $match[1] = self::getClassIdFromLog($match[1], $match[2], $status['dataport_id']);
@@ -2240,38 +2250,25 @@ if($params[\'lastCall\']) {
                                     $currentObject['elementPath'] = $match[2];
                                     $currentObject['elementId'] = $match[2];
                                 }
-                            } elseif (preg_match('/Successfully created (\S+) #(\d+) (.+) \(version #(\d+)\)$/S', $line, $match)) {
+                            } elseif (preg_match('/Successfully created (\S+) #(\d+) (.+?)(?: \(version #(\d+)\))?$/S', $line, $match)) {
                                 $match[1] = self::getClassIdFromLog($match[1], $match[3], $status['dataport_id']);
+                                $idKey = $match[1].$match[2];
+                                $pathKey = $match[1].$match[3];
 
-                                $versionFound = false;
-                                if (count($changedElements) < $request->get('start') + $request->get('limit') && $match[4]) {
-                                    $changedData = (string)PimcoreDbRepository::getInstance()->findOneInSql('SELECT note FROM versions WHERE id=?', [$match[4]]);
-                                    if ($changedData) {
-                                        $versionFound = true;
-                                        if (isset($changedElements[$match[1].$match[3]])) {
-                                            $changedElements[$match[1].$match[2]] = $changedElements[$match[1].$match[3]];
-                                            $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
-                                            $changedElements[$match[1].$match[2]]['status'] = 'saved';
-                                            unset($changedElements[$match[1].$match[3]]);
-                                        }
-
-                                        if (isset($changedElements[$match[1].$match[2]])) {
-                                            $changedElements[$match[1].$match[2]]['fields'] = $this->getChangedFields($changedData);
-                                            $changedElements[$match[1].$match[2]]['status'] = 'saved';
-                                        }
-                                    }
+                                if (isset($changedElements[$pathKey])) {
+                                    $changedElements[$idKey] = $changedElements[$pathKey];
+                                    unset($changedElements[$pathKey]);
                                 }
 
-                                if(!$versionFound) {
-                                    if (isset($changedElements[$match[1].$match[3]])) {
-                                        $changedElements[$match[1].$match[2]] = $changedElements[$match[1].$match[3]];
-                                        $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
-                                        $changedElements[$match[1].$match[2]]['status'] = 'saved';
-                                        unset($changedElements[$match[1].$match[3]]);
-                                    }
-
-                                    $changedElements[$match[1].$match[2]]['elementId'] = $match[2];
-                                    $changedElements[$match[1].$match[2]]['status'] = 'saved';
+                                $changedElements[$idKey]['elementId'] = $match[2];
+                                $changedElements[$idKey]['fullpath'] = $changedElements[$idKey]['fullpath'] ?? $match[3];
+                                $changedElements[$idKey]['classId'] = $changedElements[$idKey]['classId'] ?? $match[1];
+                                $changedElements[$idKey]['elementType'] = $changedElements[$idKey]['elementType'] ?? (in_array($match[1], ['asset', 'document'], true) ? $match[1] : 'object');
+                                $changedElements[$idKey]['isNew'] = true;
+                                $changedElements[$idKey]['status'] = 'saved';
+                                $changedElements[$idKey]['fields'] = $changedElements[$idKey]['fields'] ?? [];
+                                if (!empty($match[4])) {
+                                    $changedElements[$idKey]['versionId'] = $match[4];
                                 }
                             } elseif (!$isAssetUpdated && (preg_match('/Not saving (\S+) #(\d+) (.+) because/S', $line, $match) || preg_match('/Skipped (\S+) #(\d+) (.+) because/S', $line, $match))) {
                                 $match[1] = self::getClassIdFromLog($match[1], $match[3], $status['dataport_id']);
@@ -2286,7 +2283,7 @@ if($params[\'lastCall\']) {
                                 $changedElements[$elementKey]['status'] = 'skipped';
                             } elseif (strpos($line, 'Value for field __virtual_') === false && preg_match('/Value for field ([a-zA-Z_\x7f-\xff][a-zA-Z0-9_#:.\/]*): (.*)/m', $line, $match)) {
                                 $multilineValue = true;
-                                $changedElements[$currentObject['elementType'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][] = ['field' => $match[1], 'value' => $match[2]."\n"];
+                                $changedElements[$currentObject['classId'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][] = ['field' => $match[1], 'value' => $match[2]."\n"];
                             } elseif (preg_match('/^\s*\[(WARNING|ERROR|ALERT|EMERGENCY|NOTICE)\] (.*)/m', $line, $match)) {
                                 $errors[] = ['type' => $match[1], 'message' => $match[2], 'elementPath' => $currentObject['elementPath'], 'elementType' => $currentObject['elementType']];
                                 $multilineError = true;
@@ -2308,9 +2305,9 @@ if($params[\'lastCall\']) {
                             } elseif (preg_match('/Asset "(.*)" \(ID: ([\d]+)\) has been updated: ([^\s]*) -> (.*)/', $line, $match)) {
                                 Importer::setBeforeSaveChecksum((int)$match[2], $match[3]);
                                 $isAssetUpdated = true;
-                                $changedElements[$currentObject['elementType'] . ($currentObject['elementId'] ?: $currentObject['elementPath'])]['status'] = 'saved';
+                                $changedElements[$currentObject['classId'] . ($currentObject['elementId'] ?: $currentObject['elementPath'])]['status'] = 'saved';
                             } elseif ($multilineValue) {
-                                $changedElements[$currentObject['elementType'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][count($changedElements[$currentObject['elementType'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields']) - 1]['value'] .= $line;
+                                $changedElements[$currentObject['classId'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields'][count($changedElements[$currentObject['classId'].($currentObject['elementId'] ?: $currentObject['elementPath'])]['fields']) - 1]['value'] .= $line;
                             } elseif ($multilineError) {
                                 $errors[count($errors) - 1]['message'] .= "\n".$line;
                             }
@@ -2319,7 +2316,7 @@ if($params[\'lastCall\']) {
                     }
                 }
 
-                $changedElements = array_filter($changedElements, static function ($changedElement) use ($search) {
+                $changedElements = array_values(array_filter($changedElements, static function ($changedElement) use ($search) {
                     foreach ($search as $searchTerm) {
                         if(!isset($changedElement['elementId'])) {
                             return false;
@@ -2330,29 +2327,49 @@ if($params[\'lastCall\']) {
                                 return true;
                             }
                         } elseif ($searchTerm === 'changed') {
-                            if (isset($changedElement['status']) && $changedElement['status'] === 'saved') {
+                            // Exclude newly created elements — those belong to the "new" filter.
+                            if (isset($changedElement['status']) && $changedElement['status'] === 'saved' && empty($changedElement['isNew'])) {
                                 return true;
                             }
                         } elseif ($searchTerm === 'new') {
-                            return $changedElement['isNew'];
+                            if (!empty($changedElement['isNew'])) {
+                                return true;
+                            }
                         } elseif (stripos(json_encode($changedElement), $searchTerm) !== false) {
                             return true;
                         }
                     }
 
                     return false;
-                });
+                }));
 
                 $totalElementsCount = count($changedElements);
 
-                $changedElements = array_slice($changedElements, $request->get('start'), $request->get('limit'));
+                $changedElements = array_slice($changedElements, (int)$request->get('start'), (int)$request->get('limit') ?: null);
 
+                $result = [];
                 foreach ($changedElements as &$changedElement) {
+                    // Load version notes only for the current page (keeps Value-for-field data as fallback).
+                    if (!empty($changedElement['versionId']) && !isset($changedElement['fields'][0]['old'], $changedElement['fields'][0]['new'])) {
+                        $changedData = (string)PimcoreDbRepository::getInstance()->findOneInSql('SELECT note FROM versions WHERE id=?', [$changedElement['versionId']]);
+                        if ($changedData !== '') {
+                            $versionFields = $this->getChangedFields($changedData);
+                            if ($versionFields) {
+                                $changedElement['fields'] = $versionFields;
+                            }
+                        }
+                    }
+                    unset($changedElement['versionId']);
+
                     $changedData = '';
                     if (!isset($changedElement['fields'][0]['old'], $changedElement['fields'][0]['new'])) {
-                        foreach ($changedElement['fields'] as $changedField) {
-                            if ($changedField['value'] == 'unchanged') {
+                        foreach ($changedElement['fields'] ?? [] as $changedField) {
+                            $newValue = rtrim((string)($changedField['value'] ?? ''), "\n\r");
+                            if ($newValue === 'unchanged') {
                                 $currentValue = 'unchanged';
+                            } elseif (!empty($changedElement['isNew'])) {
+                                // Object already has the imported values; show empty → new instead of unchanged → unchanged.
+                                $currentValue = '';
                             } else {
                                 $element = Service::getElementById($changedElement['elementType'], $changedElement['elementId']);
                                 $currentValue = null;
@@ -2361,60 +2378,71 @@ if($params[\'lastCall\']) {
                                     $currentValue = Importer::getLogOutput(Importer::getValue($element, $changedField['field']));
                                     Importer::useCurrentChecksum();
                                 }
-                                if (rtrim($changedField['value'], "\n\r") === $currentValue) {
-                                    $changedField['value'] = 'unchanged';
+                                if ($newValue === $currentValue) {
+                                    $newValue = 'unchanged';
                                     $currentValue = 'unchanged';
                                 }
                             }
-                            $changedData .= $changedField['field'].': '.$currentValue.' -> '.$changedField['value']."\n";
+                            $changedData .= $changedField['field'].': '.$currentValue.' -> '.$newValue."\n";
                         }
 
-                        $changedElement['fields'] = $this->getChangedFields('Dataport '.$status['dataport_id']."\n".$changedData);
+                        $parsedFields = $this->getChangedFields('Dataport '.$status['dataport_id']."\n".$changedData);
+                        if ($parsedFields) {
+                            $changedElement['fields'] = $parsedFields;
+                        }
+                    }
+
+                    if (empty($changedElement['fields'])) {
+                        $changedElement['fields'] = [['field' => 'All', 'old' => '', 'new' => !empty($changedElement['isNew']) ? 'created' : '', 'diff' => '']];
                     }
                 }
                 unset($changedElement);
 
                 foreach ($changedElements as $changedElement) {
-                    foreach ($changedElement['fields'] ?: [['field' => null, 'old' => null, 'new' => null]] as $field) {
+                    foreach ($changedElement['fields'] as $field) {
                         unset($changedElement['fields']);
-                        if (isset($changedElement['fullpath'], $field['field'], $changedElement['classId'])) {
-                            $ignoreImportHash = $this->importIgnoreData->computeHash([
-                                'classId'  => $changedElement['classId'],
-                                'path'     => $changedElement['fullpath'],
-                                'field'    => $field['field'],
-                                'value'    => $field['new'],
-                                'objectId' => is_numeric($changedElement['elementId'] ?? '') ? $changedElement['elementId'] : null,
-                            ]);
-                            $changedElement['lock'] = $this->importIgnoreData->findOne(['hash = ?' => $ignoreImportHash]) ? 1 : 0;
-
-                            preg_match('/^(?:([a-zA-Z_\x7f-\xff][a-zA-Z0-9_:.]*)\/)?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_:.]*)(#[a-z]{2}(?:_[A-Z]{2})?)?$/', $field['field'], $matches);
-                            $mapping = ['fieldName' => $matches[2] ?? null, 'locale' => $matches[3] ?? null, 'brickName' => $matches[1] ?? null];
-
-                            $classDefinition = Helper::getClassDefinitionById($changedElement['classId']);
-                            $fieldDefinition = $classDefinition->getFieldDefinition($mapping['fieldName']);
-
-                            if($fieldDefinition instanceof Data && !empty($fieldDefinition->getTitle())) {
-                                $changedElement['fieldName'] = $this->translator->trans($fieldDefinition->getTitle(), [], 'admin', Helper::getUser()->getLanguage());
-                            } else {
-                                if($mapping['fieldName'] === 'key') {
-                                    $fieldName = 'pim.mapping.key';
-                                } else {
-                                    $fieldName = Helper::getFieldKey($mapping);
-                                }
-
-                                $changedElement['fieldName'] = $this->translator->trans($fieldName, [], 'admin', Helper::getUser()->getLanguage());
-                            }
-
-                            if(!empty($mapping['locale'])) {
-                                $changedElement['fieldName'] .= $mapping['locale'];
-                            }
-
-                            if(!empty($mapping['brickName'])) {
-                                $changedElement['fieldName'] = $this->translator->trans($mapping['brickName'], [], 'admin', Helper::getUser()->getLanguage()).' / '.$changedElement['fieldName'];
-                            }
-
-                            $result[] = array_merge($changedElement, $field);
+                        if (!isset($changedElement['fullpath'], $field['field'], $changedElement['classId'])) {
+                            continue;
                         }
+
+                        $ignoreImportHash = $this->importIgnoreData->computeHash([
+                            'classId'  => $changedElement['classId'],
+                            'path'     => $changedElement['fullpath'],
+                            'field'    => $field['field'],
+                            'value'    => $field['new'] ?? null,
+                            'objectId' => is_numeric($changedElement['elementId'] ?? '') ? $changedElement['elementId'] : null,
+                        ]);
+                        $changedElement['lock'] = $this->importIgnoreData->findOne(['hash = ?' => $ignoreImportHash]) ? 1 : 0;
+
+                        preg_match('/^(?:([a-zA-Z_\x7f-\xff][a-zA-Z0-9_:.]*)\/)?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_:.]*)(#[a-z]{2}(?:_[A-Z]{2})?)?$/', $field['field'], $matches);
+                        $mapping = ['fieldName' => $matches[2] ?? null, 'locale' => $matches[3] ?? null, 'brickName' => $matches[1] ?? null];
+
+                        $classDefinition = Helper::getClassDefinitionById($changedElement['classId']);
+                        $fieldDefinition = $classDefinition ? $classDefinition->getFieldDefinition($mapping['fieldName']) : null;
+
+                        if($fieldDefinition instanceof Data && !empty($fieldDefinition->getTitle())) {
+                            $changedElement['fieldName'] = $this->translator->trans($fieldDefinition->getTitle(), [], 'admin', Helper::getUser()->getLanguage());
+                        } else {
+                            if($mapping['fieldName'] === 'key') {
+                                $fieldName = 'pim.mapping.key';
+                            } elseif ($mapping['fieldName'] === 'All') {
+                                $fieldName = $field['field'];
+                            } else {
+                                $fieldName = Helper::getFieldKey($mapping);
+                            }
+
+                            $changedElement['fieldName'] = $this->translator->trans($fieldName, [], 'admin', Helper::getUser()->getLanguage());
+                        }
+
+                        if(!empty($mapping['locale'])) {
+                            $changedElement['fieldName'] .= $mapping['locale'];
+                        }
+
+                        if(!empty($mapping['brickName'])) {
+                            $changedElement['fieldName'] = $this->translator->trans($mapping['brickName'], [], 'admin', Helper::getUser()->getLanguage()).' / '.$changedElement['fieldName'];
+                        }
+
+                        $result[] = array_merge($changedElement, $field);
                     }
                 }
 

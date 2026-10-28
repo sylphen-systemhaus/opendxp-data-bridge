@@ -1047,7 +1047,7 @@ opendxp.plugin.Pim.ManualImport = Ext.extend(Ext.Panel, {
                 },
                 viewConfig: {
                     loadMask: this.getStartWindow().getComponent('startForm').getForm().findField('dry-run').getValue(),
-                    emptyText: t('loading')+' ...',
+                    emptyText: t('pim.manual.startimport.summary.changes.none'),
                     enableTextSelection: true
                 },
                 dockedItems: [{
