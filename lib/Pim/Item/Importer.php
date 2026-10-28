@@ -225,28 +225,12 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
     public const VIRTUAL_FIELD_COMPLETE_DOCUMENT = '__complete_document';
 
     /**
-     * Legacy / transitional fieldName values → canonical virtual field names.
-     * Space-containing names come from Data Director / pre-1.4.2 Data Bridge;
-     * camelCase names were briefly used by this rename before the `__` prefix.
+     * Legacy Data Director / pre-1.4.2 fieldName values → canonical virtual field names.
+     * Only space-containing names: camelCase aliases would collide with real class fields.
      *
      * @var array<string, string>
      */
     public const VIRTUAL_FIELD_NAME_ALIASES = [
-        'delete element' => self::VIRTUAL_FIELD_DELETE_ELEMENT,
-        'deleteElement' => self::VIRTUAL_FIELD_DELETE_ELEMENT,
-        'Complete Object' => self::VIRTUAL_FIELD_COMPLETE_OBJECT,
-        'completeObject' => self::VIRTUAL_FIELD_COMPLETE_OBJECT,
-        'Complete Document' => self::VIRTUAL_FIELD_COMPLETE_DOCUMENT,
-        'completeDocument' => self::VIRTUAL_FIELD_COMPLETE_DOCUMENT,
-    ];
-
-    /**
-     * Names that can never be real class fields (contain spaces / title case).
-     * Safe to remap inside getFieldDefinition() without colliding with class defs.
-     *
-     * @var array<string, string>
-     */
-    private const LEGACY_VIRTUAL_FIELD_NAMES = [
         'delete element' => self::VIRTUAL_FIELD_DELETE_ELEMENT,
         'Complete Object' => self::VIRTUAL_FIELD_COMPLETE_OBJECT,
         'Complete Document' => self::VIRTUAL_FIELD_COMPLETE_DOCUMENT,
@@ -4953,17 +4937,10 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
 
     /**
      * Map legacy dataport fieldName values to canonical virtual field names.
-     * Use $includeIntermediateAliases when rewriting stored/imported fieldmapping rows
-     * (may include briefly-used camelCase names). getFieldDefinition() must NOT use
-     * intermediate aliases — those can collide with real class fields.
      */
-    public static function normalizeVirtualFieldName(string $fieldName, bool $includeIntermediateAliases = false): string
+    public static function normalizeVirtualFieldName(string $fieldName): string
     {
-        if ($includeIntermediateAliases) {
-            return self::VIRTUAL_FIELD_NAME_ALIASES[$fieldName] ?? $fieldName;
-        }
-
-        return self::LEGACY_VIRTUAL_FIELD_NAMES[$fieldName] ?? $fieldName;
+        return self::VIRTUAL_FIELD_NAME_ALIASES[$fieldName] ?? $fieldName;
     }
 
     /**
@@ -4977,7 +4954,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
             $field = ['fieldName' => $field];
         }
 
-        $field['fieldName'] = self::normalizeVirtualFieldName($field['fieldName']);
+        $field['fieldName'] = self::normalizeVirtualFieldName((string) ($field['fieldName'] ?? ''));
 
         $cacheKey = (is_object($class)?get_class($class):(string)$class).'-'.Helper::getFieldKey($field);
         if (isset(self::$fieldDefinitionCache[$cacheKey])) {

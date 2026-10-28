@@ -18,9 +18,12 @@ use Sylphen\DataBridgeBundle\Tools\Installer;
 /**
  * OpenDXP >= 1.4.2 rejects Data::setName() values that are not identifiers.
  * Rewrite built-in virtual mapping field names that previously contained spaces
- * (and briefly used camelCase) to `__`-prefixed names outside the class-field namespace.
+ * to `__`-prefixed names outside the class-field namespace.
+ *
+ * Timestamped class name avoids collisions with local hotfix migrations named
+ * Version00000002 (Doctrine identifies migrations by class name).
  */
-class Version00000002 extends AbstractMigration
+class Version20261027120000 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -84,7 +87,6 @@ class Version00000002 extends AbstractMigration
             return;
         }
 
-        // Reverse only to the original space-containing names (not camelCase).
         $reverse = [
             Importer::VIRTUAL_FIELD_DELETE_ELEMENT => 'delete element',
             Importer::VIRTUAL_FIELD_COMPLETE_OBJECT => 'Complete Object',
@@ -147,7 +149,7 @@ class Version00000002 extends AbstractMigration
         $ids = array_map(static fn(array $row): string => (string) $row['dataportId'], $rows);
         $this->write(sprintf(
             'WARNING: dataport(s) %s have callback `calculation` text referencing a legacy virtual field name'
-            . ' (e.g. {{ Complete Object }}). Those callbacks still resolve via the old virtualFields key'
+            . ' (e.g. {{ Complete Object }}). After this migration those callbacks resolve to null'
             . ' and must be updated manually to use %s / %s / %s.',
             implode(', ', $ids),
             Importer::VIRTUAL_FIELD_DELETE_ELEMENT,

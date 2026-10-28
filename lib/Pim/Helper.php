@@ -606,7 +606,9 @@ class Helper
                     }
                     $fieldDefinition->setTitle($title);
 
-                    $fieldDefinition->setName($existingMapping['fieldName']);
+                    // Normalize before setName so legacy space-containing names do not
+                    // throw between deploy and the one-shot fieldName migration.
+                    $fieldDefinition->setName(Importer::normalizeVirtualFieldName((string) $existingMapping['fieldName']));
 
                     $mappingOptions = [];
                     if ($existingMapping['brickName']) {
