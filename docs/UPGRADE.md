@@ -263,11 +263,16 @@ class RenameDataBridgeIndexesCommand extends Command
 
 `str_replace('data_director', 'data_bridge', …)` covers `data_director_*`, `idx_data_director_*`, and `sylphen_data_director_*`. Existing target names and missing sources are skipped.
 
-## Virtual field names (OpenDXP ≥ 1.4.2)
+## Virtual field names (OpenDXP ≥ 1.4.2) — since 1.1.0
 
-Migration `Version20261027120000` rewrites built-in virtual mapping `fieldName` values that are not valid identifiers (`delete element`, `Complete Object`, `Complete Document`) to `__delete_element`, `__complete_object`, `__complete_document`.
+Migration `Version20261027120000` (ships in **1.1.0**) rewrites built-in virtual mapping `fieldName` values that are not valid identifiers (`delete element`, `Complete Object`, `Complete Document`) to `__delete_element`, `__complete_object`, `__complete_document`.
 
 **Deploy and migrate in the same step.** Between code deploy and this migration, a stored `delete element` row can show up in the mapping UI as a “deleted” entry under `__delete_element` without its previous settings. Saving that field in that window creates a new `__…` row; the migration’s PK collision step then drops the legacy row and its configuration is lost. Run the migration immediately with the deploy — do not leave a gap in which editors can open and save mappings.
+
+```bash
+composer require sylphen/opendxp-data-bridge:^1.1
+bin/console opendxp:bundle:install SylphenDataBridgeBundle
+```
 
 ## Post-migration: Process Manager supervisord
 
@@ -287,4 +292,4 @@ DELETE FROM bundle_process_manager_monitoring_item WHERE status = 'failed';
 
 ## Version tooltip
 
-The OpenDXP admin footer tooltip shows `Data Bridge: <version>`. The version is read from `composer.json` → `InstalledVersions::getPrettyVersion()`. Bump the `"version"` field in `packages/opendxp-data-bridge/composer.json` and run `composer dump-autoload` to update it.
+The OpenDXP admin footer tooltip shows `Data Bridge: <version>`. The version is read from Composer (`InstalledVersions::getPrettyVersion()`). For Packagist/VCS installs that comes from the Git tag; for path/artifact installs bump the `"version"` field in this bundle’s `composer.json` and run `composer dump-autoload`.

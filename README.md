@@ -23,7 +23,7 @@ Sylphen Data Bridge is an OpenDXP bundle by [Sylphen GmbH & Co. KG](https://sylp
 ### From Packagist (recommended)
 
 ```bash
-composer require sylphen/opendxp-data-bridge:^1.0
+composer require sylphen/opendxp-data-bridge:^1.1
 bin/console opendxp:bundle:install SylphenDataBridgeBundle
 bin/console assets:install --symlink --relative
 ```
@@ -48,12 +48,12 @@ In an existing OpenDXP project:
   }
 ],
 "require": {
-  "sylphen/opendxp-data-bridge": "^1.0"
+  "sylphen/opendxp-data-bridge": "^1.1"
 }
 ```
 
 ```bash
-composer require sylphen/opendxp-data-bridge:^1.0
+composer require sylphen/opendxp-data-bridge:^1.1
 bin/console opendxp:bundle:install SylphenDataBridgeBundle
 bin/console assets:install --symlink --relative
 ```
@@ -121,7 +121,7 @@ Blackbit URL segments (`BlackbitDataDirector`, `BlackbitPim`, …) are **not sup
 
 - [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) — integrate into an OpenDXP project (submodule, path repo, `@dev`)
 - [docs/PACKAGIST.md](docs/PACKAGIST.md) — tagged releases and Packagist (maintainers)
-- [docs/UPGRADE.md](docs/UPGRADE.md) — migrate from Blackbit Data Director **3.10.4**; leftover `data_director_*` indexes
+- [docs/UPGRADE.md](docs/UPGRADE.md) — migrate from Blackbit Data Director **3.10.4**; leftover `data_director_*` indexes; **1.1.0** virtual field rename (OpenDXP ≥ 1.4.2)
 - **Feature handbook** (original Blackbit, including Data Query Selectors): [Data Director Docs](https://blackbitdigitalcommerce.github.io/pimcore-data-director/#data-query-selectors)
 - **Tutorial videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt)
 - **Sample data:** [`examples/`](examples/) — Blackbit-origin reference; see [examples/README.md](examples/README.md)
