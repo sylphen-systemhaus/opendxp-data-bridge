@@ -27,7 +27,7 @@ We use a **protected `main` branch**: changes land via **pull request**, not dir
 | `docs/` | Documentation only |
 | `chore/` | Tooling, CI, non-user-facing |
 
-Release tags (e.g. `v1.0.0`) are created on `main` by maintainers only — not via PR merge commits as version bumps.
+**Releases** (maintainers only): bump `"version"` / branch-alias via a short `chore/release-x.y.z` PR into `main`, then create the annotated Git tag (`v1.1.0`, …) on that commit and push it — Packagist follows tags, not merge commit messages. See [docs/PACKAGIST.md](docs/PACKAGIST.md).
 
 ## License & copyright headers
 

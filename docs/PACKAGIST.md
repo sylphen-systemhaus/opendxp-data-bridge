@@ -8,7 +8,7 @@ How `sylphen/opendxp-data-bridge` is published for `composer require` from [Pack
 
 - Public repo, default branch **`main`**
 - Branch protection on `main` (PR required) — see project onboarding notes
-- Tags for releases: **`v1.0.0`**, **`v1.0.1`**, … (semver with leading `v` is conventional)
+- Tags for releases: **`v1.0.0`**, **`v1.0.1`**, **`v1.1.0`**, … (semver with leading `v` is conventional)
 
 ### 2. Register on Packagist
 
@@ -38,22 +38,23 @@ Packagist must refresh when you push tags or `composer.json` on `main`:
 
 ## Release workflow (each version)
 
-1. Merge changes to **`main`**
-2. Ensure **`composer.json`** on `main` is valid (`composer validate --no-check-lock`)
-3. Create and push an **annotated tag** on the release commit:
+1. Merge feature/fix work to **`main`**
+2. Open a short **`chore/release-x.y.z`** PR that bumps `"version"` in `composer.json` (for path/artifact installs and the admin footer tooltip) and `"extra.branch-alias.dev-main"` to the new minor line (e.g. `1.1.x-dev`)
+3. Ensure **`composer.json`** on `main` is valid (`composer validate --no-check-lock`)
+4. After that PR is squash-merged, create and push an **annotated tag** on the release commit on `main` (tags are the Packagist source of truth — not the merge commit message):
 
    ```bash
-   git tag -a v1.0.0 -m "Sylphen Data Bridge 1.0.0 for OpenDXP"
-   git push origin v1.0.0
+   git tag -a v1.1.0 -m "Sylphen Data Bridge 1.1.0 for OpenDXP"
+   git push origin v1.1.0
    ```
 
-4. Optional: **GitHub Release** from the same tag
-5. Wait for Packagist webhook (or click **Update**)
-6. Verify on Packagist: version `1.0.0` appears
-7. Test install:
+5. Optional: **GitHub Release** from the same tag
+6. Wait for Packagist webhook (or click **Update**)
+7. Verify on Packagist: version `1.1.0` appears
+8. Test install:
 
    ```bash
-   composer require sylphen/opendxp-data-bridge:^1.0
+   composer require sylphen/opendxp-data-bridge:^1.1
    ```
 
 ## Versioning notes
@@ -63,7 +64,7 @@ Packagist must refresh when you push tags or `composer.json` on `main`:
 | **Tags = truth** | Packagist versions come from **Git tags**, not from commits alone |
 | **`version` in composer.json** | The root `"version"` field is for local/artifact builds; Packagist ignores it when resolving from VCS. Prefer bumping **tags** for public releases |
 | **Pre-release** | Tags like `v1.0.0-beta1` work; Composer treats them as unstable unless `minimum-stability` allows |
-| **Branch alias** | Optional in `composer.json`: `"extra": { "branch-alias": { "dev-main": "1.0.x-dev" } }` for `@dev` installs from `main` |
+| **Branch alias** | Optional in `composer.json`: `"extra": { "branch-alias": { "dev-main": "1.1.x-dev" } }` for `@dev` installs from `main` |
 
 ## `composer.json` metadata (recommended)
 
@@ -83,14 +84,16 @@ After Packagist publish, projects install without a custom VCS or artifact repo:
 
 ```json
 "require": {
-  "sylphen/opendxp-data-bridge": "^1.0"
+  "sylphen/opendxp-data-bridge": "^1.1"
 }
 ```
 
 ```bash
-composer require sylphen/opendxp-data-bridge:^1.0
+composer require sylphen/opendxp-data-bridge:^1.1
 bin/console opendxp:bundle:install SylphenDataBridgeBundle
 ```
+
+Constraint `^1.0` still resolves 1.1.x; prefer `^1.1` when you need the 1.1 migration and OpenDXP ≥ 1.4.2 virtual-field fixes.
 
 Artifact ZIP installs (`./bundles/*.zip`) remain valid for air-gapped workflows — see [README.md](../README.md).
 

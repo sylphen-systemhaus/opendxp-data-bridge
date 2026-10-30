@@ -2,7 +2,7 @@
 
 How to integrate Sylphen Data Bridge into a **real OpenDXP installation** — as opposed to the isolated Docker demo (`./docker-setup.sh`, port 2000; see the root README).
 
-**Recommended workflow:** This bundle is a **separate Git repository**. The OpenDXP project adds it as a **submodule** (path repo) for development — bundle source is not duplicated in the parent repo. **Production** installs from [Packagist](https://packagist.org/packages/sylphen/opendxp-data-bridge) (`^1.0`); see the root [README.md](../README.md).
+**Recommended workflow:** This bundle is a **separate Git repository**. The OpenDXP project adds it as a **submodule** (path repo) for development — bundle source is not duplicated in the parent repo. **Production** installs from [Packagist](https://packagist.org/packages/sylphen/opendxp-data-bridge) (`^1.1`); see the root [README.md](../README.md).
 
 ## 1. Set up submodule (once)
 
@@ -76,7 +76,7 @@ git commit -m "Bump data-bridge submodule"
 Remove the path repository from the project `composer.json` and install a tagged release from Packagist:
 
 ```bash
-composer require sylphen/opendxp-data-bridge:^1.0
+composer require sylphen/opendxp-data-bridge:^1.1
 bin/console opendxp:bundle:install SylphenDataBridgeBundle
 bin/console assets:install --symlink --relative
 ```

@@ -778,7 +778,7 @@ class RestController extends OpenDxp\Controller\FrontendController
             'info' => [
                 'title' => $dataportId ? 'OpenAPI specification for dataport ' . $dataports[0]['name']:'Data Bridge REST API',
                 'description' => $dataportId?$dataports[0]['description']:'OpenAPI specification for import and export dataports defined by Sylphen Data Bridge',
-                'version' => '1.0.0'
+                'version' => '1.1.0'
             ]
         ];
 
