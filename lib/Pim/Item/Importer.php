@@ -219,6 +219,23 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
 
     public const HASH_PROP_PREFIX = 'importhash_';
 
+    /** Built-in virtual mapping fields — `__` keeps them out of the class-field namespace. */
+    public const VIRTUAL_FIELD_DELETE_ELEMENT = '__delete_element';
+    public const VIRTUAL_FIELD_COMPLETE_OBJECT = '__complete_object';
+    public const VIRTUAL_FIELD_COMPLETE_DOCUMENT = '__complete_document';
+
+    /**
+     * Legacy Data Director / pre-1.4.2 fieldName values → canonical virtual field names.
+     * Only space-containing names: camelCase aliases would collide with real class fields.
+     *
+     * @var array<string, string>
+     */
+    public const VIRTUAL_FIELD_NAME_ALIASES = [
+        'delete element' => self::VIRTUAL_FIELD_DELETE_ELEMENT,
+        'Complete Object' => self::VIRTUAL_FIELD_COMPLETE_OBJECT,
+        'Complete Document' => self::VIRTUAL_FIELD_COMPLETE_DOCUMENT,
+    ];
+
     private static $allowDummyDeepCopy = false;
 
     protected $dataport;
@@ -875,7 +892,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                                                 $keyValueItem = $keyValueProposal;
                                                 goto addListCondition;
                                             }
-                                        } elseif($fieldDefinition->getName() === 'Complete Object') {
+                                        } elseif($fieldDefinition->getName() === self::VIRTUAL_FIELD_COMPLETE_OBJECT) {
                                             $objectExistsQuery = 'SELECT 1 
                                             FROM '.Service::getElementType($itemMold).'s 
                                             WHERE '.(Service::getElementType($itemMold) === 'object' ? Helper::prefixObjectSystemColumn('id') : 'id').' = ?';
@@ -1157,7 +1174,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                                     $fieldsToCheck = null;
 
                                     if($this->isCompleteObjectImport()) {
-                                        $fieldsToCheck = array_keys($rawItem['virtualFields']['Complete Object']);
+                                        $fieldsToCheck = array_keys($rawItem['virtualFields'][self::VIRTUAL_FIELD_COMPLETE_OBJECT]);
                                     }
 
                                     if ((empty($cachedItem['save']) || $targetconfig['optimizeInheritance']) && ($event->getArgument('saveAnyway') || (!($this->getTargetConfig()['compatibilityMode'] ?? true) && $changedObject instanceof Concrete && $this->hasModifiedData($changedObject)) || ((($this->getTargetConfig()['compatibilityMode'] ?? true) || !$changedObject instanceof Concrete) && ($isModified = $this->isModified($changedObject, $cachedItem['latestVersion'], $fieldsToCheck, $fieldsToCheck === null))))) {
@@ -1624,10 +1641,10 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                 } elseif($mapping['fieldName'] === SelectMapper::VIRTUAL_WORKFLOW_FIELD) {
                     RuntimeCache::save($value, SelectMapper::VIRTUAL_WORKFLOW_FIELD.'-'.spl_object_hash($target));
                     $callSetValue = false;
-                } elseif ($mapping['fieldName'] === 'Complete Object') {
+                } elseif ($mapping['fieldName'] === self::VIRTUAL_FIELD_COMPLETE_OBJECT) {
                     $callSetValue = false;
-                } elseif ($def instanceof Data\Checkbox && $mapping['fieldName'] === 'delete element') {
-                    RuntimeCache::save($value, 'delete element-'.spl_object_hash($target));
+                } elseif ($def instanceof Data\Checkbox && $mapping['fieldName'] === self::VIRTUAL_FIELD_DELETE_ELEMENT) {
+                    RuntimeCache::save($value, self::VIRTUAL_FIELD_DELETE_ELEMENT.'-'.spl_object_hash($target));
                     if($value) {
                         $this->setCachedItem($target, ['save' => true]);
                     }
@@ -3346,7 +3363,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                     $this->log($item, 'Successfully saved new draft version for '.\OpenDxp\Model\Element\Service::getElementType($item).' #'.$item->getId().' '.$item->getRealFullPath(), 'info');
                 }
             } else {
-                $runtimeCacheKeyDeleteElement = 'delete element-'.spl_object_hash($item);
+                $runtimeCacheKeyDeleteElement = self::VIRTUAL_FIELD_DELETE_ELEMENT.'-'.spl_object_hash($item);
                 if(RuntimeCache::isRegistered($runtimeCacheKeyDeleteElement) && RuntimeCache::get($runtimeCacheKeyDeleteElement)) {
                     if($item->getId()) {
                         OpenDxp\Model\Element\Recyclebin\Item::create($item, Helper::getUser());
@@ -3863,7 +3880,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
         $dependencies = ['added' => [], 'removed' => []];
 
         foreach ($this->getMappings() as $mapping) {
-            if($mapping['fieldName'] === 'delete element') {
+            if($mapping['fieldName'] === self::VIRTUAL_FIELD_DELETE_ELEMENT) {
                 continue;
             }
 
@@ -4919,6 +4936,14 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
     }
 
     /**
+     * Map legacy dataport fieldName values to canonical virtual field names.
+     */
+    public static function normalizeVirtualFieldName(string $fieldName): string
+    {
+        return self::VIRTUAL_FIELD_NAME_ALIASES[$fieldName] ?? $fieldName;
+    }
+
+    /**
      * @param ClassDefinition|Definition|Asset|Concrete|AbstractData|null $class
      * @param $fieldName
      *
@@ -4928,6 +4953,8 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
         if (!is_array($field)) {
             $field = ['fieldName' => $field];
         }
+
+        $field['fieldName'] = self::normalizeVirtualFieldName((string) ($field['fieldName'] ?? ''));
 
         $cacheKey = (is_object($class)?get_class($class):(string)$class).'-'.Helper::getFieldKey($field);
         if (isset(self::$fieldDefinitionCache[$cacheKey])) {
@@ -5071,7 +5098,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                     $def = new Data\Numeric();
                     $def->setInteger(true);
                     $def->setLocked(true);
-                } elseif ($field['fieldName'] === 'published' || $field['fieldName'] === 'delete element') {
+                } elseif ($field['fieldName'] === 'published' || $field['fieldName'] === self::VIRTUAL_FIELD_DELETE_ELEMENT) {
                     $def = new Data\Checkbox();
                 } elseif ($field['fieldName'] === 'type') {
                     $def = new Data\Select();
@@ -5291,10 +5318,10 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                 }
 
                 return null;
-            } elseif ($field['fieldName'] === 'Complete Object') {
+            } elseif ($field['fieldName'] === self::VIRTUAL_FIELD_COMPLETE_OBJECT) {
                 return $object;
-            } elseif($field['fieldName'] === 'delete element') {
-                $runtimeCacheKeyDeleteElement = 'delete element-'.spl_object_hash($object);
+            } elseif($field['fieldName'] === self::VIRTUAL_FIELD_DELETE_ELEMENT) {
+                $runtimeCacheKeyDeleteElement = self::VIRTUAL_FIELD_DELETE_ELEMENT.'-'.spl_object_hash($object);
                 if (RuntimeCache::isRegistered($runtimeCacheKeyDeleteElement)) {
                     return RuntimeCache::get($runtimeCacheKeyDeleteElement);
                 }
@@ -6935,7 +6962,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
 
     private function isCompleteObjectImport() {
         foreach ($this->getMappings() as $mapping) {
-            if ($mapping['fieldName'] === 'Complete Object') {
+            if ($mapping['fieldName'] === self::VIRTUAL_FIELD_COMPLETE_OBJECT) {
                 return true;
             }
         }

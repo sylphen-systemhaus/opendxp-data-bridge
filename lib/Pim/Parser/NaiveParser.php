@@ -458,7 +458,7 @@ class NaiveParser
         }
 
         foreach($fieldDefinitions as $fieldDefinition) {
-            if($fieldDefinition->getName() === 'delete element') {
+            if($fieldDefinition->getName() === Importer::VIRTUAL_FIELD_DELETE_ELEMENT) {
                 continue;
             }
             $newDataQuerySelectorPrefix = ($dataQuerySelectorPrefix?$dataQuerySelectorPrefix.':':'').$fieldDefinition->getName();

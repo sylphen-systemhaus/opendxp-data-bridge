@@ -263,6 +263,12 @@ class RenameDataBridgeIndexesCommand extends Command
 
 `str_replace('data_director', 'data_bridge', …)` covers `data_director_*`, `idx_data_director_*`, and `sylphen_data_director_*`. Existing target names and missing sources are skipped.
 
+## Virtual field names (OpenDXP ≥ 1.4.2)
+
+Migration `Version20261027120000` rewrites built-in virtual mapping `fieldName` values that are not valid identifiers (`delete element`, `Complete Object`, `Complete Document`) to `__delete_element`, `__complete_object`, `__complete_document`.
+
+**Deploy and migrate in the same step.** Between code deploy and this migration, a stored `delete element` row can show up in the mapping UI as a “deleted” entry under `__delete_element` without its previous settings. Saving that field in that window creates a new `__…` row; the migration’s PK collision step then drops the legacy row and its configuration is lost. Run the migration immediately with the deploy — do not leave a gap in which editors can open and save mappings.
+
 ## Post-migration: Process Manager supervisord
 
 If the OpenDXP stack runs `process-manager:maintenance` via supervisord (or a similar process supervisor), **stop it before starting the DB migration** and restart only after all bundle installs and smoke tests pass:

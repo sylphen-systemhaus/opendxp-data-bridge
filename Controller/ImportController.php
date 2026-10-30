@@ -1410,7 +1410,7 @@ class ImportController extends UserAwareController {
                                 $keyValueItem = $keyValueProposal;
                                 goto addListCondition;
                             }
-                        } elseif ($fieldDefinition->getName() === 'Complete Object') {
+                        } elseif ($fieldDefinition->getName() === Importer::VIRTUAL_FIELD_COMPLETE_OBJECT) {
                             $objectExistsQuery = 'SELECT 1 
                                 FROM '.Service::getElementType($itemMold).'s 
                                 WHERE '.(Service::getElementType($itemMold) === 'object' ? Helper::prefixObjectSystemColumn('id') : 'id').' = ?';
