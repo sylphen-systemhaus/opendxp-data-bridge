@@ -4964,8 +4964,10 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
             return $name;
         }
 
+        // Do not trim leading underscores — `__virtual_*` / `__complete_*` rely on them.
         $sanitized = preg_replace('/[^a-zA-Z0-9_]+/', '_', $name) ?? '';
-        $sanitized = trim($sanitized, '_');
+        $sanitized = preg_replace('/_+/', '_', $sanitized) ?? $sanitized;
+        $sanitized = rtrim($sanitized, '_');
         if ($sanitized === '' || !preg_match('/^[a-zA-Z_]/', $sanitized)) {
             $sanitized = '_'.$sanitized;
         }

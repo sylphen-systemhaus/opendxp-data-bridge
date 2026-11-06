@@ -692,7 +692,9 @@ class Helper
                 }
             }
         } elseif ($def instanceof ClassDefinition\Data\Objectbricks) {
-            $mappings[] = $this->createMapping($def, $dataport, $mappingOptions);
+            $mappings[] = $this->createMapping($def, $dataport, array_replace($mappingOptions, [
+                'fieldName' => Importer::getLogicalFieldName($def),
+            ]));
 
             $allowedBricks = $def->getAllowedTypes();
             $countBrickFields = 0;
@@ -722,7 +724,9 @@ class Helper
                 $mappings = array_merge($mappings, $brickMappings);
             }
         } elseif($def instanceof Data\Classificationstore) {
-            $mappings[] = $this->createMapping($def, $dataport, $mappingOptions);
+            $mappings[] = $this->createMapping($def, $dataport, array_replace($mappingOptions, [
+                'fieldName' => Importer::getLogicalFieldName($def),
+            ]));
 
             $classificationStoreKeyGroupConfigs = new OpenDxp\Model\DataObject\Classificationstore\KeyGroupRelation\Listing();
             $allowedGroups = $def->getAllowedGroupIds();
@@ -768,7 +772,9 @@ class Helper
                 }
             }
         } else {
-            $mappings[] = $this->createMapping($def, $dataport, $mappingOptions);
+            $mappings[] = $this->createMapping($def, $dataport, array_replace($mappingOptions, [
+                'fieldName' => Importer::getLogicalFieldName($def),
+            ]));
         }
 
         return array_merge(...$mappings);
@@ -834,7 +840,7 @@ class Helper
                 'locale' => $mappingOptions['locale'] ?? null,
                 'type' => $def->getFieldtype(),
                 'templates' => $this->getTemplates($def, $dataport['id'], $mappingOptions),
-                'unique' => $def->getUnique() || $def->getIndex() || $def->getName() === 'id' || $def->getName() === Importer::VIRTUAL_FIELD_COMPLETE_OBJECT,
+                'unique' => $def->getUnique() || $def->getIndex() || $fieldName === 'id' || $fieldName === Importer::VIRTUAL_FIELD_COMPLETE_OBJECT,
                 'description' => $def->getTooltip(),
 
                 // Mapping
@@ -1488,10 +1494,11 @@ class Helper
                                     !empty($dependentMapping['locale']) ? [$dependentMapping['locale']] : []
                                 );
 
+                                $previewFieldName = Importer::getLogicalFieldName($fieldDefinition);
                                 $this->previewItem['currentObjectData'] = array_merge(
                                     $this->previewItem['currentObjectData'],
                                     [
-                                        $fieldDefinition->getName().($dependentMapping['locale'] && !$fieldDefinition instanceof Data\Objectbricks ? '#'.$dependentMapping['locale'] : '') => $fieldSerialization
+                                        $previewFieldName.($dependentMapping['locale'] && !$fieldDefinition instanceof Data\Objectbricks ? '#'.$dependentMapping['locale'] : '') => $fieldSerialization
                                     ]
                                 );
                             } catch (\Exception $e) {
@@ -1534,10 +1541,11 @@ class Helper
                 $jsParams['locale'] = $mappingOptions['locale'];
             }
 
-            if ($jsParams['currentObjectData'] !== null && array_key_exists($def->getName().(!empty($mappingOptions['locale']) ? '#'.$mappingOptions['locale'] : ''), $jsParams['currentObjectData'])) {
-                $jsParams['currentValue'] = $jsParams['currentObjectData'][$def->getName().(!empty($mappingOptions['locale']) ? '#'.$mappingOptions['locale'] : '')];
-            } elseif (!empty($mappingOptions['targetBrickField']) && !empty($mappingOptions['brickName']) && isset($jsParams['currentObjectData'][$mappingOptions['targetBrickField']][$mappingOptions['brickName']][$def->getName()])) {
-                $jsParams['currentValue'] = $jsParams['currentObjectData'][$mappingOptions['targetBrickField']][$mappingOptions['brickName']][$def->getName()];
+            $currentObjectDataKey = $fieldName.(!empty($mappingOptions['locale']) ? '#'.$mappingOptions['locale'] : '');
+            if ($jsParams['currentObjectData'] !== null && array_key_exists($currentObjectDataKey, $jsParams['currentObjectData'])) {
+                $jsParams['currentValue'] = $jsParams['currentObjectData'][$currentObjectDataKey];
+            } elseif (!empty($mappingOptions['targetBrickField']) && !empty($mappingOptions['brickName']) && isset($jsParams['currentObjectData'][$mappingOptions['targetBrickField']][$mappingOptions['brickName']][$fieldName])) {
+                $jsParams['currentValue'] = $jsParams['currentObjectData'][$mappingOptions['targetBrickField']][$mappingOptions['brickName']][$fieldName];
             }
 
             if (!empty($mappingData['keyMapping']) && is_array($value)) {
@@ -1585,10 +1593,10 @@ class Helper
             );
 
 
-            if ($def->getName() === '__init_action') {
+            if ($fieldName === '__init_action') {
                 $mapping[$key]['example'] = $this->initFunctionResult[$dataport['id']] ?? null;
                 $mapping[$key]['example_parsed']['result'] = $mapping[$key]['example'];
-            } elseif (!empty($mappingData['calculation']) && !in_array($def->getName(), ['__result_callback', '__result_action'], true) && CallbackFunction::isEngineAvailable($targetConfig['javascriptEngine'])) {
+            } elseif (!empty($mappingData['calculation']) && !in_array($fieldName, ['__result_callback', '__result_action'], true) && CallbackFunction::isEngineAvailable($targetConfig['javascriptEngine'])) {
                 try {
                     $mapping[$key]['example'] = CallbackFunction::evaluateScript($mappingData['calculation'], $targetConfig['javascriptEngine'], $jsParams);
                 } catch (\Throwable $ex) {
@@ -1599,7 +1607,7 @@ class Helper
                         'valid' => false,
                     ];
                 }
-            } elseif (!in_array($def->getName(), ['__result_callback', '__result_action'], true)) {
+            } elseif (!in_array($fieldName, ['__result_callback', '__result_action'], true)) {
                 // unmapped virtual fields
                 $mapping[$key]['example'] = $value ?? $mapping[$key]['example'];
                 $mapping[$key]['example_parsed']['result'] = $mapping[$key]['example'];
@@ -1631,7 +1639,7 @@ class Helper
                 }
             }
 
-            if ($mapping[$key]['example_parsed']['valid'] && ($mapping[$key]['example'] || (!empty($mappingData['calculation']) && !in_array($def->getName(), ['__result_callback', '__result_action'], true) && CallbackFunction::isEngineAvailable($targetConfig['javascriptEngine'])))) {
+            if ($mapping[$key]['example_parsed']['valid'] && ($mapping[$key]['example'] || (!empty($mappingData['calculation']) && !in_array($fieldName, ['__result_callback', '__result_action'], true) && CallbackFunction::isEngineAvailable($targetConfig['javascriptEngine'])))) {
                 try {
                     $dataQuerySelectorForIndexCheck = $mapping[$key]['example'];
                     if (is_array($dataQuerySelectorForIndexCheck)) {
@@ -1827,6 +1835,36 @@ class Helper
         }
 
         return $commonPrefixLength;
+    }
+
+    /**
+     * Locale-qualified names (e.g. title#de) must not go through Data::setName() —
+     * OpenDXP >= 1.4.2 rejects `#` in identifiers.
+     *
+     * @return list<array{field: Data, name: string}>
+     */
+    private function fieldCandidatesForTemplates(Data $field): array
+    {
+        if ($field instanceof Data\Localizedfields) {
+            $candidates = [];
+            foreach ($field->getFieldDefinitions() as $fieldCandidate) {
+                foreach (Tool::getValidLanguages() as $languageCode) {
+                    $candidates[] = [
+                        'field' => $fieldCandidate,
+                        'name' => $fieldCandidate->getName().'#'.$languageCode,
+                    ];
+                }
+            }
+
+            return $candidates;
+        }
+
+        return [
+            [
+                'field' => $field,
+                'name' => $field->getName(),
+            ],
+        ];
     }
 
     public function getTemplates(Data $def, $dataportId, array $mapping = [])
@@ -3947,28 +3985,17 @@ return $metaData;',
                 $fields = $allowedClass->getFieldDefinitions();
                 $hasTemplate = false;
                 foreach ($fields as $field) {
-                    $fieldCandidates = [];
-                    if ($field instanceof Data\Localizedfields) {
-                        foreach ($field->getFieldDefinitions() as $fieldCandidate) {
-                            foreach (Tool::getValidLanguages() as $languageCode) {
-                                $fieldCandidateClone = clone $fieldCandidate;
-                                $fieldCandidateClone->setName($fieldCandidate->getName().'#'.$languageCode);
-                                $fieldCandidates[] = $fieldCandidateClone;
-                            }
-                        }
-                    } else {
-                        $fieldCandidates = [$field];
-                    }
-
-                    foreach ($fieldCandidates as $fieldCandidate) {
+                    foreach ($this->fieldCandidatesForTemplates($field) as $fieldCandidateEntry) {
+                        $fieldCandidate = $fieldCandidateEntry['field'];
+                        $fieldCandidateName = $fieldCandidateEntry['name'];
                         if ($fieldCandidate->getUnique() || $fieldCandidate->getIndex()) {
                             $template = '$return = [];
 
 $items = is_string($params[\'value\']) ? array_filter(preg_split(\'/[,|;\n]\s*/\', $params[\'value\'])) : (array)$params[\'value\'];
 foreach($items as $item) {
-  // either access '.$fieldCandidate->getName().' and meta field content via array keys of $item or via $params[\'rawItemData\'] - depends on raw data field definition
+  // either access '.$fieldCandidateName.' and meta field content via array keys of $item or via $params[\'rawItemData\'] - depends on raw data field definition
   $return[] = [
-    \'query\' => \''.$allowedClass->getName().':'.$fieldCandidate->getName().':\'.$item[\''.$fieldCandidate->getName().'\'] ?? $item,';
+    \'query\' => \''.$allowedClass->getName().':'.$fieldCandidateName.':\'.$item[\''.$fieldCandidateName.'\'] ?? $item,';
                             foreach ($def->getColumnKeys() as $metaColumn) {
                                 $template .= '
     \''.$metaColumn.'\' => $item[\''.$metaColumn.'\'] ?? \'\',';
@@ -3982,7 +4009,7 @@ return $return;';
 
                             $templates[] = [
                                 'value' => $template,
-                                'key' => \sprintf($translator->trans('pim.mapping.assign_field_by', [], 'admin'), $allowedClass->getName(), $fieldCandidate->getName())
+                                'key' => \sprintf($translator->trans('pim.mapping.assign_field_by', [], 'admin'), $allowedClass->getName(), $fieldCandidateName)
                             ];
                             $hasTemplate = true;
                         }
@@ -4033,25 +4060,14 @@ return $return;';
 
                     $hasTemplate = false;
                     foreach ($fields as $field) {
-                        $fieldCandidates = [];
-                        if ($field instanceof Data\Localizedfields) {
-                            foreach ($field->getFieldDefinitions() as $fieldCandidate) {
-                                foreach (Tool::getValidLanguages() as $languageCode) {
-                                    $fieldCandidateClone = clone $fieldCandidate;
-                                    $fieldCandidateClone->setName($fieldCandidate->getName().'#'.$languageCode);
-                                    $fieldCandidates[] = $fieldCandidateClone;
-                                }
-                            }
-                        } else {
-                            $fieldCandidates = [$field];
-                        }
-
-                        foreach ($fieldCandidates as $fieldCandidate) {
+                        foreach ($this->fieldCandidatesForTemplates($field) as $fieldCandidateEntry) {
+                            $fieldCandidate = $fieldCandidateEntry['field'];
+                            $fieldCandidateName = $fieldCandidateEntry['name'];
                             if ($fieldCandidate->getUnique() || $fieldCandidate->getIndex()) {
                                 $template = '$return = [];
 $items = is_string($params[\'value\']) ? array_filter(preg_split(\'/[,|;\n]\s*/\', $params[\'value\'])) : (array)$params[\'value\'];
 foreach($items as $item) {
-  $return[] = \''.$allowedClass->getName().':'.$fieldCandidate->getName().':\'.$item;
+  $return[] = \''.$allowedClass->getName().':'.$fieldCandidateName.':\'.$item;
 }
         
 return $return;';
@@ -4061,7 +4077,7 @@ return $return;';
                                     'key' => \sprintf(
                                         $translator->trans('pim.mapping.assign_field_by', [], 'admin'),
                                         $allowedClass->getName(),
-                                        $fieldCandidate->getName()
+                                        $fieldCandidateName
                                     )
                                 ];
                                 $hasTemplate = true;
@@ -4105,25 +4121,14 @@ return $return;';
                         $hasTemplate = false;
                         $fields = $allowedClass->getFieldDefinitions();
                         foreach ($fields as $field) {
-                            $fieldCandidates = [];
-                            if ($field instanceof Data\Localizedfields) {
-                                foreach ($field->getFieldDefinitions() as $fieldCandidate) {
-                                    foreach (Tool::getValidLanguages() as $languageCode) {
-                                        $fieldCandidateClone = clone $fieldCandidate;
-                                        $fieldCandidateClone->setName($fieldCandidate->getName().'#'.$languageCode);
-                                        $fieldCandidates[] = $fieldCandidateClone;
-                                    }
-                                }
-                            } else {
-                                $fieldCandidates = [$field];
-                            }
-
-                            foreach ($fieldCandidates as $fieldCandidate) {
+                            foreach ($this->fieldCandidatesForTemplates($field) as $fieldCandidateEntry) {
+                                $fieldCandidate = $fieldCandidateEntry['field'];
+                                $fieldCandidateName = $fieldCandidateEntry['name'];
                                 if ($fieldCandidate->getUnique() || $fieldCandidate->getIndex()) {
                                     $template = '$return = [];
 $items = is_string($params[\'value\']) ? array_filter(preg_split(\'/[,|;\n]\s*/\', $params[\'value\'])) : (array)$params[\'value\'];
 foreach($items as $item) {
-  $return[] = \''.$allowedClass->getName().':'.$fieldCandidate->getName().':\'.$item;
+  $return[] = \''.$allowedClass->getName().':'.$fieldCandidateName.':\'.$item;
 }
         
 return $return;';
@@ -4133,7 +4138,7 @@ return $return;';
                                         'key' => \sprintf(
                                             $translator->trans('pim.mapping.assign_field_by', [], 'admin'),
                                             $allowedClass->getName(),
-                                            $fieldCandidate->getName()
+                                            $fieldCandidateName
                                         )
                                     ];
                                     $hasTemplate = true;
@@ -4265,22 +4270,12 @@ return $return;',
                         $hasTemplate = false;
                         $fields = $allowedClass->getFieldDefinitions();
                         foreach ($fields as $field) {
-                            if ($field instanceof Data\Localizedfields) {
-                                foreach ($field->getFieldDefinitions() as $fieldCandidate) {
-                                    foreach (Tool::getValidLanguages() as $languageCode) {
-                                        $fieldCandidateClone = clone $fieldCandidate;
-                                        $fieldCandidateClone->setName($fieldCandidate->getName().'#'.$languageCode);
-                                        $fieldCandidates[] = $fieldCandidateClone;
-                                    }
-                                }
-                            } else {
-                                $fieldCandidates = [$field];
-                            }
-
-                            foreach ($fieldCandidates as $fieldCandidate) {
+                            foreach ($this->fieldCandidatesForTemplates($field) as $fieldCandidateEntry) {
+                                $fieldCandidate = $fieldCandidateEntry['field'];
+                                $fieldCandidateName = $fieldCandidateEntry['name'];
                                 if ($fieldCandidate->getUnique() || $fieldCandidate->getIndex()) {
                                     $template = 'if($params[\'value\']) {
-  return \''.$allowedClass->getName().':'.$fieldCandidate->getName().':\'.$params[\'value\'];
+  return \''.$allowedClass->getName().':'.$fieldCandidateName.':\'.$params[\'value\'];
 }';
 
                                     $templates[] = [
@@ -4288,7 +4283,7 @@ return $return;',
                                         'key' => \sprintf(
                                             $translator->trans('pim.mapping.assign_field_by', [], 'admin'),
                                             $allowedClass->getName(),
-                                            $fieldCandidate->getName()
+                                            $fieldCandidateName
                                         )
                                     ];
                                     $hasTemplate = true;
@@ -4703,31 +4698,20 @@ return $fieldCollectionValues;',
                         $hasTemplate = false;
                         $fields = $allowedClass->getFieldDefinitions();
                         foreach ($fields as $field) {
-                            $fieldCandidates = [];
-                            if ($field instanceof Data\Localizedfields) {
-                                foreach ($field->getFieldDefinitions() as $fieldCandidate) {
-                                    foreach (Tool::getValidLanguages() as $languageCode) {
-                                        $fieldCandidateClone = clone $fieldCandidate;
-                                        $fieldCandidateClone->setName($fieldCandidate->getName().'#'.$languageCode);
-                                        $fieldCandidates[] = $fieldCandidateClone;
-                                    }
-                                }
-                            } else {
-                                $fieldCandidates = [$field];
-                            }
-
-                            foreach ($fieldCandidates as $fieldCandidate) {
+                            foreach ($this->fieldCandidatesForTemplates($field) as $fieldCandidateEntry) {
+                                $fieldCandidate = $fieldCandidateEntry['field'];
+                                $fieldCandidateName = $fieldCandidateEntry['name'];
                                 if ($fieldCandidate->getUnique() || $fieldCandidate->getIndex()) {
                                     $hasTemplate = true;
                                     if($allowedClass->getId() != $itemMold->getClassId()) {
                                         $template = 'if($params[\'value\']) {
-    return \''.$allowedClass->getName().':'.$fieldCandidate->getName().':\'.$params[\'value\'];
+    return \''.$allowedClass->getName().':'.$fieldCandidateName.':\'.$params[\'value\'];
 } else {
     return \'- '.sprintf($this->translator->trans('pim.mapping.assign_field_by_empty', [], 'admin'), $allowedClass->getName()).' -\';
 }';
                                     } else {
                                         $template = 'if($params[\'value\']) {
-    return \''.$allowedClass->getName().':'.$fieldCandidate->getName().':\'.$params[\'value\'];
+    return \''.$allowedClass->getName().':'.$fieldCandidateName.':\'.$params[\'value\'];
 }';
                                     }
                                     $templates[] = [
@@ -4735,7 +4719,7 @@ return $fieldCollectionValues;',
                                         'key' => \sprintf(
                                             $translator->trans('pim.mapping.assign_field_by', [], 'admin'),
                                             $allowedClass->getName(),
-                                            $fieldCandidate->getName()
+                                            $fieldCandidateName
                                         )
                                     ];
                                 }
