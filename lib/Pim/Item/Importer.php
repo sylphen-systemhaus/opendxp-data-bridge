@@ -236,6 +236,18 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
         'Complete Document' => self::VIRTUAL_FIELD_COMPLETE_DOCUMENT,
     ];
 
+    /**
+     * OpenDXP >= 1.4.2 Data::setName() pattern (see OpenDxp\Model\DataObject\ClassDefinition\Data).
+     * Synthetic mapping names (__virtual_*, seoBundle.*, …) may contain spaces/dots; they stay
+     * as logical fieldName in DB / {{ placeholders }} — only setName() receives a sanitized value.
+     */
+    private const OPEN_DXP_MAX_FIELD_NAME_LENGTH = 63;
+
+    private const OPEN_DXP_VALID_FIELD_NAME_PATTERN = '/^[a-zA-Z_][a-zA-Z0-9_]*\z/';
+
+    /** @var \WeakMap<Data, string>|null logical fieldName when it differs from Data::getName() */
+    private static $logicalFieldNames = null;
+
     private static $allowDummyDeepCopy = false;
 
     protected $dataport;
@@ -4944,6 +4956,71 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
     }
 
     /**
+     * Make a name acceptable to OpenDXP Data::setName() without changing the logical mapping key.
+     */
+    public static function sanitizeOpenDxpFieldName(string $name): string
+    {
+        if ($name === '' || self::isValidOpenDxpFieldName($name)) {
+            return $name;
+        }
+
+        // Do not trim leading underscores — `__virtual_*` / `__complete_*` rely on them.
+        $sanitized = preg_replace('/[^a-zA-Z0-9_]+/', '_', $name) ?? '';
+        $sanitized = preg_replace('/_+/', '_', $sanitized) ?? $sanitized;
+        $sanitized = rtrim($sanitized, '_');
+        if ($sanitized === '' || !preg_match('/^[a-zA-Z_]/', $sanitized)) {
+            $sanitized = '_'.$sanitized;
+        }
+
+        if (strlen($sanitized) > self::OPEN_DXP_MAX_FIELD_NAME_LENGTH) {
+            $sanitized = rtrim(substr($sanitized, 0, self::OPEN_DXP_MAX_FIELD_NAME_LENGTH), '_');
+        }
+
+        return $sanitized !== '' ? $sanitized : '_';
+    }
+
+    public static function isValidOpenDxpFieldName(string $name): bool
+    {
+        return strlen($name) <= self::OPEN_DXP_MAX_FIELD_NAME_LENGTH
+            && preg_match(self::OPEN_DXP_VALID_FIELD_NAME_PATTERN, $name) === 1;
+    }
+
+    /**
+     * setName() with an identifier-safe value; keep the logical fieldName for mapping/DB keys.
+     */
+    public static function setFieldDefinitionName(Data $def, string $logicalName): void
+    {
+        $safeName = self::sanitizeOpenDxpFieldName($logicalName);
+        $def->setName($safeName);
+
+        if ($safeName !== $logicalName) {
+            self::logicalFieldNames()->offsetSet($def, $logicalName);
+        } elseif (self::$logicalFieldNames !== null && self::$logicalFieldNames->offsetExists($def)) {
+            self::$logicalFieldNames->offsetUnset($def);
+        }
+    }
+
+    /**
+     * Logical mapping fieldName (DB / {{ placeholders }}), which may differ from Data::getName().
+     */
+    public static function getLogicalFieldName(Data $def): string
+    {
+        if (self::$logicalFieldNames !== null && self::$logicalFieldNames->offsetExists($def)) {
+            return self::$logicalFieldNames->offsetGet($def);
+        }
+
+        return (string) $def->getName();
+    }
+
+    /**
+     * @return \WeakMap<Data, string>
+     */
+    private static function logicalFieldNames(): \WeakMap
+    {
+        return self::$logicalFieldNames ??= new \WeakMap();
+    }
+
+    /**
      * @param ClassDefinition|Definition|Asset|Concrete|AbstractData|null $class
      * @param $fieldName
      *
@@ -5056,13 +5133,13 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                     }
                 }
 
-                $def->setName($element->getName());
+                self::setFieldDefinitionName($def, $element->getName());
             }
         }
 
         if(in_array($field['fieldName'], ['__result_callback', '__result_action', '__init_action'], true) || strpos($field['fieldName'], '__virtual_') === 0) {
             $def = new Data\CalculatedValue();
-            $def->setName($field['fieldName']);
+            self::setFieldDefinitionName($def, $field['fieldName']);
             $def->setLocked(true);
         }
 
@@ -5159,7 +5236,7 @@ class Importer implements ImporterInterface, LoggerAwareInterface {
                     }
                 }
             }
-            $def->setName($field['fieldName']);
+            self::setFieldDefinitionName($def, $field['fieldName']);
         }
 
         if(method_exists($def, 'enrichFieldDefinition')) {

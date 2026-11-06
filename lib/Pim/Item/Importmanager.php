@@ -607,13 +607,14 @@ class Importmanager
 
                         foreach ($resultCallbackVariables as $variable) {
                             try {
-                                $virtualFieldDefinition = Importer::getFieldDefinition(null, '__virtual_'.$variable);
-                                $virtualMapping = @$helper->createMapping($virtualFieldDefinition, $dataport, [], false);
+                                $virtualFieldName = '__virtual_'.$variable;
+                                $virtualFieldDefinition = Importer::getFieldDefinition(null, $virtualFieldName);
+                                $virtualMapping = @$helper->createMapping($virtualFieldDefinition, $dataport, ['fieldName' => $virtualFieldName], false);
                                 if (!array_key_exists($variable, $virtualFieldFallbackCache)) {
-                                    $virtualMapping = @$helper->createMapping($virtualFieldDefinition, $dataport, [], false);
+                                    $virtualMapping = @$helper->createMapping($virtualFieldDefinition, $dataport, ['fieldName' => $virtualFieldName], false);
                                     $virtualFieldFallbackCache[$variable] = reset($virtualMapping)['example_value'] ?? null;
                                 }
-                                $virtualFieldFallbackCache[$virtualFieldDefinition->getName()] = reset($virtualMapping)['example_value'] ?? null;
+                                $virtualFieldFallbackCache[Importer::getLogicalFieldName($virtualFieldDefinition)] = reset($virtualMapping)['example_value'] ?? null;
                             } catch (\Throwable $e) {
                             }
                         }
@@ -905,10 +906,11 @@ class Importmanager
                     $helper->setLogger($this->logger);
 
                     foreach (array_unique($variables[1]) as $variable) {
-                        if (!array_key_exists('__virtual_'.$variable, $virtualFieldFallbackCache)) {
-                            $virtualFieldDefinition = Importer::getFieldDefinition(null, '__virtual_'.$variable);
-                            $virtualMapping = $helper->createMapping($virtualFieldDefinition, $dataport, [], false);
-                            $virtualFieldFallbackCache[$virtualFieldDefinition->getName()] = reset($virtualMapping)['example_value'] ?? null;
+                        $virtualFieldName = '__virtual_'.$variable;
+                        if (!array_key_exists($virtualFieldName, $virtualFieldFallbackCache)) {
+                            $virtualFieldDefinition = Importer::getFieldDefinition(null, $virtualFieldName);
+                            $virtualMapping = $helper->createMapping($virtualFieldDefinition, $dataport, ['fieldName' => $virtualFieldName], false);
+                            $virtualFieldFallbackCache[Importer::getLogicalFieldName($virtualFieldDefinition)] = reset($virtualMapping)['example_value'] ?? null;
                         }
                     }
                 }
@@ -1111,9 +1113,9 @@ class Importmanager
                         }
                         $virtualFieldDefinition = Importer::getFieldDefinition(null, $virtualFieldName);
                         if (!array_key_exists($variable, $virtualFieldFallbackCache)) {
-                            $virtualMapping = @$helper->createMapping($virtualFieldDefinition, $dataport, [], false);
+                            $virtualMapping = @$helper->createMapping($virtualFieldDefinition, $dataport, ['fieldName' => $virtualFieldName], false);
                             $virtualFieldFallbackCache[$variable] = reset($virtualMapping)['example_value'] ?? null;
-                            $importedRawDataItem['virtualFields'][$virtualFieldDefinition->getName()] = $virtualFieldFallbackCache[$variable];
+                            $importedRawDataItem['virtualFields'][Importer::getLogicalFieldName($virtualFieldDefinition)] = $virtualFieldFallbackCache[$variable];
                         }
                     } catch (\Throwable $e) {
                     }
