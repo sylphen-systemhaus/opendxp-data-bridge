@@ -263,6 +263,16 @@ class RenameDataBridgeIndexesCommand extends Command
 
 `str_replace('data_director', 'data_bridge', …)` covers `data_director_*`, `idx_data_director_*`, and `sylphen_data_director_*`. Existing target names and missing sources are skipped.
 
+## Pimcore\\Model\\ class names in asset/document dataports
+
+Asset and document dataports store PHP class names (e.g. `Pimcore\\Model\\Asset`) in `targetconfig` / `sourceconfig`. Data Director wrote the `Pimcore\\Model\\` prefix; OpenDXP uses `OpenDxp\\Model\\`. Migration `Version00000001` only rewrote `Blackbit\\DataDirectorBundle` → `Sylphen\\DataBridgeBundle`, so upgraded DBs can still throw `No class found for id Pimcore\\Model\\Asset` when opening a mapping.
+
+Migration `Version20261106120000` replaces the `Pimcore\\Model\\` prefix with `OpenDxp\\Model\\` in `sylphen_dd_dataport.sourceconfig` / `targetconfig` and `sylphen_dd_fieldmapping.calculation`. Runtime code in `ItemMoldBuilder` also maps that prefix on read, so mappings open even before the migration runs and after importing a Data Director JSON.
+
+```bash
+bin/console opendxp:bundle:install SylphenDataBridgeBundle
+```
+
 ## Virtual field names (OpenDXP ≥ 1.4.2) — since 1.1.0
 
 Migration `Version20261027120000` (ships in **1.1.0**) rewrites built-in virtual mapping `fieldName` values that are not valid identifiers (`delete element`, `Complete Object`, `Complete Document`) to `__delete_element`, `__complete_object`, `__complete_document`.

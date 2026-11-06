@@ -36,6 +36,31 @@ class ItemMoldBuilder
     }
 
     /**
+     * Map Data Director / Pimcore FQNs stored in dataport configs to OpenDXP.
+     * Asset/document dataports keep PHP class names in targetconfig.itemClass
+     * (e.g. Pimcore\Model\Asset); those classes do not exist on OpenDXP.
+     *
+     * @param mixed $classId
+     * @return mixed
+     */
+    public static function normalizeLegacyModelClassName($classId)
+    {
+        if (!is_string($classId) || $classId === '') {
+            return $classId;
+        }
+
+        if (str_starts_with($classId, 'Pimcore\\Model\\')) {
+            return 'OpenDxp\\Model\\' . substr($classId, strlen('Pimcore\\Model\\'));
+        }
+
+        if (str_starts_with($classId, '\\Pimcore\\Model\\')) {
+            return '\\OpenDxp\\Model\\' . substr($classId, strlen('\\Pimcore\\Model\\'));
+        }
+
+        return $classId;
+    }
+
+    /**
      * @param int $dataportId
      *
      * @return Concrete|Asset
@@ -100,6 +125,8 @@ class ItemMoldBuilder
      */
     public function getItemMoldByClassId($classId, $force = false)
     {
+        $classId = self::normalizeLegacyModelClassName($classId);
+
         if (!isset(self::$itemMoldsByClassId[$classId]) || $force) {
             self::$itemMoldsByClassId[$classId] = $this->getItemMoldByClassIdInternal($classId);
         }
@@ -131,8 +158,8 @@ class ItemMoldBuilder
     }
 
     private function getClassInternal($sourceClass) {
-        $classFqn = $sourceClass;
-        if (strpos($classFqn, '\\') !== false && class_exists($classFqn)) {
+        $classFqn = self::normalizeLegacyModelClassName($sourceClass);
+        if (is_string($classFqn) && strpos($classFqn, '\\') !== false && class_exists($classFqn)) {
             return $classFqn;
         }
         $classFqn = '\\OpenDxp\\Model\\DataObject\\'.ucfirst($sourceClass);
@@ -165,6 +192,8 @@ class ItemMoldBuilder
     }
 
     public function getClass($sourceClass) {
+        $sourceClass = self::normalizeLegacyModelClassName($sourceClass);
+
         if(!isset(self::$classes[$sourceClass])) {
             self::$classes[$sourceClass] = $this->getClassInternal($sourceClass);
         }
