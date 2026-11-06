@@ -341,8 +341,8 @@ class Helper
                 if (preg_match_all('/[\'"]?\{\{\s*(\S+?( +\S+?)*?)\s*\}\}[\'"]?/', $initAction['calculation'], $variables)) {
                     foreach (array_unique($variables[1]) as $variable) {
                         $virtualFieldDefinition = Importer::getFieldDefinition(null, '__virtual_'.$variable);
-                        $virtualMapping = $this->createMapping($virtualFieldDefinition, $dataport, [], false);
-                        $virtualFieldFallbackCache[$virtualFieldDefinition->getName()] = reset($virtualMapping)['example_value'] ?? null;
+                        $virtualMapping = $this->createMapping($virtualFieldDefinition, $dataport, ['fieldName' => '__virtual_'.$variable], false);
+                        $virtualFieldFallbackCache[Importer::getLogicalFieldName($virtualFieldDefinition)] = reset($virtualMapping)['example_value'] ?? null;
                     }
                 }
 
@@ -606,11 +606,15 @@ class Helper
                     }
                     $fieldDefinition->setTitle($title);
 
-                    // Normalize before setName so legacy space-containing names do not
-                    // throw between deploy and the one-shot fieldName migration.
-                    $fieldDefinition->setName(Importer::normalizeVirtualFieldName((string) $existingMapping['fieldName']));
+                    // Keep logical DB fieldName; sanitize only for OpenDXP Data::setName().
+                    Importer::setFieldDefinitionName(
+                        $fieldDefinition,
+                        Importer::normalizeVirtualFieldName((string) $existingMapping['fieldName'])
+                    );
 
-                    $mappingOptions = [];
+                    $mappingOptions = [
+                        'fieldName' => Importer::normalizeVirtualFieldName((string) $existingMapping['fieldName']),
+                    ];
                     if ($existingMapping['brickName']) {
                         $mappingOptions['brickName'] = $existingMapping['brickName'];
                     }
@@ -790,7 +794,11 @@ class Helper
 
         $this->importer->setDataport($dataport);
 
-        $fieldName = $def->getName();
+        // Prefer explicit logical fieldName (DB / {{ placeholders }}); Data::getName() may be sanitized for OpenDXP.
+        $fieldName = array_key_exists('fieldName', $mappingOptions)
+            ? (string) $mappingOptions['fieldName']
+            : Importer::getLogicalFieldName($def);
+        unset($mappingOptions['fieldName']);
 
         $key = $fieldName;
         if (!empty($mappingOptions['locale'])) {
@@ -1360,7 +1368,8 @@ class Helper
             foreach (array_unique($variables[1]) as $variable) {
                 $variableParts = explode('#', $variable);
                 if (empty($mappingTable->findOne(['dataportId = ?' => $dataport['id'], 'fieldName IN (?)' => ['__virtual_'.$variable, $variableParts[0]], 'locale = ?' => $variableParts[1] ?? '', 'brickName = ?' => '']))) {
-                    $virtualFieldDefinition = Importer::getFieldDefinition(null, '__virtual_'.$variable);
+                    $virtualFieldName = '__virtual_'.$variable;
+                    $virtualFieldDefinition = Importer::getFieldDefinition(null, $virtualFieldName);
                     $virtualFieldDefinition->setTitle($variable);
 
                     $rawItemField = $fieldTable->findOne(['dataportId = ?' => $dataport['id'], 'name = ?' => $variable]);
@@ -1382,10 +1391,10 @@ class Helper
                         $rawItemField = null;
                     }
 
-                    $virtualFieldMapping = $this->createMapping($virtualFieldDefinition, $dataport, ['field' => $rawItemField['fieldNo'] ?? null], $withPreview);
+                    $virtualFieldMapping = $this->createMapping($virtualFieldDefinition, $dataport, ['fieldName' => $virtualFieldName, 'field' => $rawItemField['fieldNo'] ?? null], $withPreview);
                     $mapping[] = $virtualFieldMapping;
 
-                    $virtualFields['__virtual_'.$variable] = $virtualFieldMapping['__virtual_'.$variable]['example_parsed']['result'];
+                    $virtualFields[$virtualFieldName] = $virtualFieldMapping[$virtualFieldName]['example_parsed']['result'];
                 }
             }
             $mapping = array_merge(...$mapping);
@@ -1449,7 +1458,9 @@ class Helper
                         $fieldDefinition = Importer::getFieldDefinition($itemMold, $dependentMapping['fieldName']);
                     }
 
-                    $dependentMappingOptions = [];
+                    $dependentMappingOptions = [
+                        'fieldName' => $dependentMapping['fieldName'],
+                    ];
                     if (!empty($dependentMapping['brickName'])) {
                         $dependentMappingOptions['brickName'] = $dependentMapping['brickName'];
                     }
@@ -3139,8 +3150,8 @@ $params[\'response\']->addContent(nl2br($output));',
 
             $classDefinition = $itemMold->getClass();
             foreach($classDefinition->getFieldDefinitions() as $fieldDefinition) {
-                if($fieldDefinition instanceof AbstractRelations && strtolower($fieldDefinition->getName()) === strtolower(str_replace('__virtual_', '', $def->getName()))) {
-                    $color = self::stringToColorCode($def->getName());
+                if($fieldDefinition instanceof AbstractRelations && strtolower($fieldDefinition->getName()) === strtolower(str_replace('__virtual_', '', Importer::getLogicalFieldName($def)))) {
+                    $color = self::stringToColorCode(Importer::getLogicalFieldName($def));
                     $contrastColor = self::getContrastColor($color);
                     $templates[] = [
                         'value' => '
@@ -3194,14 +3205,14 @@ return array_merge($nodes, $getNodes($params[\'value\'], $showGroupNodes ? $grou
                     break;
                 }
             }
-        } elseif ($def instanceof Data\CalculatedValue && !in_array($def->getName(), ['__result_action', '__result_callback', '__init_action'], true) && empty($targetConfig['itemClass'])) {
+        } elseif ($def instanceof Data\CalculatedValue && !in_array(Importer::getLogicalFieldName($def), ['__result_action', '__result_callback', '__init_action'], true) && empty($targetConfig['itemClass'])) {
             $templates[] = [
                 'value' => '// Enter id or name of dataport to be executed
-$dataportId = {{ '.str_replace('__virtual_', '', $def->getName()).' DEPENDENT DATAPORT ID }};
+$dataportId = {{ '.str_replace('__virtual_', '', Importer::getLogicalFieldName($def)).' DEPENDENT DATAPORT ID }};
 
 // provide parameters to use in dynamic import resource or in callback functions of dependent dataport
 // parameters should get returned as key-value array, e.g. `return [\'parameter\' => \'value\', \'otherParameter\' => 123]`
-$parameters = {{ '.str_replace('__virtual_', '', $def->getName()).' DEPENDENT DATAPORT PARAMETERS }} ?? [];
+$parameters = {{ '.str_replace('__virtual_', '', Importer::getLogicalFieldName($def)).' DEPENDENT DATAPORT PARAMETERS }} ?? [];
 
 if($dataportId && array_filter($parameters)) {
     $command = \'data-bridge:complete "\'.$dataportId.\'" --locale=\'.$params[\'request\']->getLocale().\' --user=\'.$params[\'context\'][\'user\'][\'id\'].\' --rm\'.($parameters?\' --force --parameters=\'.escapeshellarg(json_encode($parameters)):\'\');
@@ -3271,7 +3282,7 @@ return $converter->convert($params[\'value\'] ?? \'\');',
 return $params[\'value\'];',
                 'key' => $translator->trans('pim.mapping.calculatedValue.number_format', [], 'admin')
             ];
-        } elseif ($def instanceof Data\CalculatedValue && !in_array($def->getName(), ['__result_action', '__result_callback', '__init_action'], true) && !empty($targetConfig['itemClass'])) {
+        } elseif ($def instanceof Data\CalculatedValue && !in_array(Importer::getLogicalFieldName($def), ['__result_action', '__result_callback', '__init_action'], true) && !empty($targetConfig['itemClass'])) {
             $checks = '';
             $existingFields = RawItemField::getInstance()->find(array('dataportId = ?' => $dataportId), 'priority');
             $existingMappings = Fieldmapping::getInstance()->find(
