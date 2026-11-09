@@ -267,7 +267,7 @@ class RenameDataBridgeIndexesCommand extends Command
 
 Asset and document dataports store PHP class names (e.g. `Pimcore\\Model\\Asset`) in `targetconfig` / `sourceconfig`. Data Director wrote the `Pimcore\\Model\\` prefix; OpenDXP uses `OpenDxp\\Model\\`. Migration `Version00000001` only rewrote `Blackbit\\DataDirectorBundle` → `Sylphen\\DataBridgeBundle`, so upgraded DBs can still throw `No class found for id Pimcore\\Model\\Asset` when opening a mapping.
 
-Migration `Version20261106120000` replaces the `Pimcore\\Model\\` prefix with `OpenDxp\\Model\\` in `sylphen_dd_dataport.sourceconfig` / `targetconfig` and `sylphen_dd_fieldmapping.calculation`. Runtime code in `ItemMoldBuilder` also maps that prefix on read, so mappings open even before the migration runs and after importing a Data Director JSON.
+Migration `Version20261106120000` replaces the `Pimcore\\Model\\` prefix with `OpenDxp\\Model\\` in `sylphen_dd_dataport.sourceconfig` / `targetconfig` and `sylphen_dd_fieldmapping.calculation` (both JSON-escaped `\\\\` and plain `\\` forms). Runtime code maps the prefix when a dataport is loaded (`Dataport::enrich`) and again in `ItemMoldBuilder`, so mappings open even before the migration runs and after importing a Data Director JSON.
 
 ```bash
 bin/console opendxp:bundle:install SylphenDataBridgeBundle

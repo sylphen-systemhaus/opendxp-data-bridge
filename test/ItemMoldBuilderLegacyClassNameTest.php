@@ -32,6 +32,8 @@ class ItemMoldBuilderLegacyClassNameTest extends TestCase
             'null' => [null, null],
             'empty string' => ['', ''],
             'unrelated Pimcore ns' => ['Pimcore\\Bundle\\Foo', 'Pimcore\\Bundle\\Foo'],
+            // JSON decode already collapses \\\\ → \\; normalize still sees single-\ form
+            'document folder FQN' => ['Pimcore\\Model\\Document\\Folder', 'OpenDxp\\Model\\Document\\Folder'],
         ];
     }
 }
