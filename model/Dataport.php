@@ -120,7 +120,7 @@ class Dataport extends PimcoreDbRepository {
                 throw new JsonException('Invalid JSON');
             }
 
-            $dataport['sourceconfig'] = $sourceConfig;
+            $dataport['sourceconfig'] = self::normalizeLegacyModelClassNamesInConfig($sourceConfig);
         } catch(JsonException $e) {
         }
 
@@ -131,7 +131,7 @@ class Dataport extends PimcoreDbRepository {
                 throw new JsonException('Invalid JSON');
             }
 
-            $dataport['targetconfig'] = $targetConfig;
+            $dataport['targetconfig'] = self::normalizeLegacyModelClassNamesInConfig($targetConfig);
         } catch (JsonException $e) {
         }
 
@@ -606,5 +606,25 @@ class Dataport extends PimcoreDbRepository {
             }
         }
         return $data;
+    }
+
+    /**
+     * Map legacy Pimcore\Model\ FQNs in decoded source/target config (itemClass / sourceClass)
+     * so callers can use is_a() / class_exists() against OpenDXP classes.
+     */
+    private static function normalizeLegacyModelClassNamesInConfig($config)
+    {
+        if (!is_array($config)) {
+            return $config;
+        }
+
+        foreach (['itemClass', 'sourceClass'] as $key) {
+            if (!array_key_exists($key, $config)) {
+                continue;
+            }
+            $config[$key] = ItemMoldBuilder::normalizeLegacyModelClassName($config[$key]);
+        }
+
+        return $config;
     }
 }
