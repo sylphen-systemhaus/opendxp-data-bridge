@@ -121,7 +121,7 @@ Blackbit URL segments (`BlackbitDataDirector`, `BlackbitPim`, …) are **not sup
 
 - [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) — integrate into an OpenDXP project (submodule, path repo, `@dev`)
 - [docs/PACKAGIST.md](docs/PACKAGIST.md) — tagged releases and Packagist (maintainers)
-- [docs/UPGRADE.md](docs/UPGRADE.md) — migrate from Blackbit Data Director **3.10.4**; leftover `data_director_*` indexes; **1.1.0** virtual field rename (OpenDXP ≥ 1.4.2)
+- [docs/UPGRADE.md](docs/UPGRADE.md) — migrate from Blackbit Data Director **3.10.4**; version-specific notes (virtual fields, model prefixes, …)
 - **Feature handbook** (original Blackbit, including Data Query Selectors): [Data Director Docs](https://blackbitdigitalcommerce.github.io/pimcore-data-director/#data-query-selectors)
 - **Tutorial videos:** [YouTube playlist](https://www.youtube.com/playlist?list=PL4-QRNfdsdKIfzQIP-c9hRruXf0r48fjt)
 - **Sample data:** [`examples/`](examples/) — Blackbit-origin reference; see [examples/README.md](examples/README.md)
