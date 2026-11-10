@@ -398,7 +398,12 @@ class MappingconfigController {
 
                     $returnMappings[] = function() use ($fieldDefinition, $dataport, $attributeLanguage, $targetBrickField, $brickName) {
                         $this->helper->runInitFunction($dataport);
-                        $mapping = $this->helper->createMapping($fieldDefinition, $dataport, ['locale' => $attributeLanguage ?? '', 'targetBrickField' => $targetBrickField, 'brickName' => $brickName ?? '']);
+                        $mapping = $this->helper->createMapping($fieldDefinition, $dataport, [
+                            'fieldName' => Importer::getLogicalFieldName($fieldDefinition),
+                            'locale' => $attributeLanguage ?? '',
+                            'targetBrickField' => $targetBrickField,
+                            'brickName' => $brickName ?? '',
+                        ]);
                         $mapping = reset($mapping);
                         unset($mapping['example_value']);
                         return $mapping;
